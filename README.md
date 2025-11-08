@@ -1,4 +1,4 @@
-1. 최초 설정 (PC에 한 번만)
+1. 최초 설정 (PC에 한 번만, 윈도우는 안 해도 됨.)
 
 git config --global user.name "이름"
 
