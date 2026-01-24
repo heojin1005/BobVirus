@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/_Project/UI/USS/TitleView.uss?fileID=7433441132597879392&amp;guid=ed6a1dc2d35555a4ca75f883163ce0d8&amp;type=3#TitleView" />
+    <ui:VisualElement name="root" class="root">
+        <ui:Label text="Escape From Eternal ZombieCov" class="title" />
+        <ui:VisualElement class="menu">
+            <ui:Button name="btnNewGame" text="새 게임" class="btn" />
+            <ui:Button name="btnLoadGame" text="불러오기" class="btn" />
+            <ui:Button name="btnQuit" text="종료" class="btn" />
+        </ui:VisualElement>
+        <ui:Label name="lblHint" class="hint" />
+        <ui:VisualElement name="slotOverlay" class="overlay hidden">
+    <ui:VisualElement class="popup">
+        <ui:Label name="slotTitle" text="슬롯 선택" class="popupTitle" />
+
+        <ui:VisualElement name="slotList" class="slotList">
+            <!-- 슬롯 버튼은 코드에서 생성해도 되고, 4개 고정으로 만들어도 됨 -->
+        </ui:VisualElement>
+
+        <ui:VisualElement class="popupRow">
+            <ui:Button name="btnCloseSlots" text="닫기" class="btn small" />
+        </ui:VisualElement>
+
+        <ui:Label name="slotMessage" text="" class="popupMsg" />
+    </ui:VisualElement>
+</ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

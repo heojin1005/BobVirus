@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "GameInput",
+    "maps": [
+        {
+            "name": "Hub",
+            "id": "e3727b0b-17e9-46c4-a968-8a4c6cbc6e0c",
+            "actions": [
+                {
+                    "name": "Tap",
+                    "type": "Button",
+                    "id": "6e468587-70be-4189-8f55-fd7b249996fb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5aba140b-9f1b-43b7-a1cb-ea712e73bdf3",
+                    "path": "<Pointer>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
