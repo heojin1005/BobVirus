@@ -40,9 +40,14 @@ public class WorldTapInteractor : MonoBehaviour
         Vector2 wp2 = new Vector2(worldPos.x, worldPos.y);
 
         Collider2D hit = Physics2D.OverlapPoint(wp2);
-        if (hit == null) return;
+        if (hit == null) { Debug.Log("HIT: null"); return; }
+
+        Debug.Log($"HIT: {hit.name} / root={hit.transform.root.name}");
 
         var interactable = hit.GetComponentInParent<IInteractable>();
+        Debug.Log($"IInteractable: {(interactable == null ? "null" : interactable.GetType().Name)}");
+
         interactable?.Interact();
+
     }
 }
