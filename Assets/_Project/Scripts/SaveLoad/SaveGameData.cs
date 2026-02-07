@@ -16,6 +16,10 @@ public class SaveGameData
     public string currentMapId = "";      // 도전중 맵
     public HashSet<string> discoveredItems = new();   // 도감: 발견한 아이템
     public List<string> inventoryItems = new();       // 소지 아이템 ID 리스트(간단 버전)
+    public int helmet = 0; // 뚝배기
+    public int top = 0; // 상의
+    public int bottom = 0; // 하의
+    public int shoes = 0; // 신발
     public HashSet<string> rescuedNpcs = new();        // 구조된 NPC ID
     public int storyProgress = 1;
     public int test = 0;
