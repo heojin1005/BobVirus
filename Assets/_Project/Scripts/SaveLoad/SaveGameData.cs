@@ -18,6 +18,7 @@ public class SaveGameData
     public List<string> inventoryItems = new();       // 소지 아이템 ID 리스트(간단 버전)
     public HashSet<string> rescuedNpcs = new();        // 구조된 NPC ID
     public int storyProgress = 1;
+    public int test = 0;
 
     public static SaveGameData CreateDefault(int slotIndex)
     {
@@ -32,7 +33,8 @@ public class SaveGameData
             discoveredItems = new HashSet<string>(),
             inventoryItems = new List<string>(),
             rescuedNpcs = new HashSet<string>(),
-            storyProgress = 0
+            storyProgress = 0,
+            test = 0
         };
     }
 }

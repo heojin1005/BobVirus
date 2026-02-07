@@ -5,34 +5,25 @@ public class InteractionController : MonoBehaviour
 {
     public static InteractionController Instance { get; private set; }
 
-    [Header("Save")]
-    [SerializeField] private int currentSaveSlot = 0;
-
-    [Header("TEST (임시)")]
-    [SerializeField] private bool useDebugSaveData = true;
-    [SerializeField] private SaveGameData debugSaveData;
+    [Header("Save Source")]
+    [SerializeField] private SaveDataProvider saveDataProvider;
 
     private void Awake()
     {
         Instance = this;
 
-        // 테스트 편의: 디버그 데이터가 없으면 기본 생성
-        if (useDebugSaveData && debugSaveData == null)
-            debugSaveData = SaveGameData.CreateDefault(currentSaveSlot);
+        // 씬에 SaveDataProvider가 있으면 자동 연결(수동 할당도 가능)
+        if (saveDataProvider == null)
+            saveDataProvider = FindFirstObjectByType<SaveDataProvider>();
     }
 
     /// <summary>
-    /// 현재 슬롯의 SaveGameData를 가져오는 함수.
-    /// 지금은 테스트용(인스펙터) / 나중에 SaveManager 연결로 교체하면 됨.
+    /// 현재 슬롯/세션의 SaveGameData를 가져온다.
+    /// - SaveDataProvider가 디버그/실세이브 공급원을 결정
     /// </summary>
     private SaveGameData GetSaveData()
     {
-        if (useDebugSaveData) return debugSaveData;
-
-        // TODO: 네 실제 세이브 매니저로 교체
-        // return SaveManager.Instance.GetSlot(currentSaveSlot);
-
-        return null;
+        return saveDataProvider != null ? saveDataProvider.GetCurrentData() : null;
     }
 
     public void TryInteract(InteractionTarget target)
@@ -43,118 +34,82 @@ public class InteractionController : MonoBehaviour
         SaveGameData data = GetSaveData();
         int storyProgress = (data != null) ? data.storyProgress : 0;
 
-        // (선물 아이템 보유 여부도 나중에 data/inventory로 대체 가능)
-        bool hasGiftItem = false;
-
         // 2) 조건 검사 + 옵션 만들기
         List<InteractionOption> options = target.kind switch
         {
-            InteractionKind.Npc => BuildNpcOptions(target.targetId, storyProgress, hasGiftItem),
-            InteractionKind.Encyclopedia => BuildEncyclopediaOptions(),
-            InteractionKind.DeployTerminal => BuildDeployOptions(),
+            InteractionKind.Npc => NpcClickCount(target.targetId, data),
+            InteractionKind.Encyclopedia => EncyclopediaOpen(data),
             _ => BuildGenericOptions(target)
         };
 
-        // 3) 거부/허용 처리
+        int firstEnabled = -1;
         int enabledCount = 0;
-        int firstEnabledIndex = -1;
+
         for (int i = 0; i < options.Count; i++)
         {
             if (options[i].enabled)
             {
                 enabledCount++;
-                if (firstEnabledIndex < 0) firstEnabledIndex = i;
+                if (firstEnabled < 0) firstEnabled = i;
             }
         }
 
         if (enabledCount == 0)
         {
+            // 옵션이 아예 없거나 전부 disabled면 거부
+            // (reason이 있으면 더 친절하게 출력 가능)
             ShowToast("상호작용할 수 없음");
             return;
         }
 
-        // UI 없으니: 옵션 1개면 실행, 여러 개면 목록 출력 후 첫 enabled 실행(테스트용)
-        if (enabledCount == 1)
-        {
-            options[firstEnabledIndex].execute?.Invoke();
-            return;
-        }
-
-        Debug.Log($"[Interaction] Options for {target.kind}:{target.targetId} (storyProgress={storyProgress})");
-        for (int i = 0; i < options.Count; i++)
-        {
-            var opt = options[i];
-            Debug.Log($"  {i}. {opt.title} {(opt.enabled ? "" : $"(disabled: {opt.reason})")}");
-        }
-
-        options[firstEnabledIndex].execute?.Invoke();
+        // 지금은 선택 UI가 없으니 실행
+        options[firstEnabled].execute?.Invoke();
     }
 
-    /// <summary>
-    /// 핵심: storyProgress에 따라 NPC 옵션 분기
-    /// storyProgress == 0 -> "대화하기" 중심
-    /// storyProgress == 1 -> "선물 주기" 중심 (예시)
-    /// </summary>
-    private List<InteractionOption> BuildNpcOptions(string npcId, int storyProgress, bool hasGiftItem)
+    // private List<InteractionOption> 함수이름(변수...)
+    // var list = new List<InteractionOption>();
+    // list.Add(new InteractionOption("이름", () =>
+    //{
+    //실행할 코드
+    //}
+    //));
+    //return list;
+    private List<InteractionOption> NpcClickCount(string npcId, SaveGameData data)
     {
         var list = new List<InteractionOption>();
-
-        if (storyProgress == 0)
+        list.Add(new InteractionOption("클릭 카운트", () =>
         {
-            // 분기 A: 스토리 0이면 대화만(혹은 대화 우선)
-            list.Add(new InteractionOption("대화하기", () =>
+            if(data == null)
             {
-                Debug.Log($"[NPC:{npcId}] Talk (storyProgress={storyProgress})");
-            }));
-
-            // 원하면 선물은 아예 안 보여도 되고, disabled로 보여도 됨.
-            list.Add(new InteractionOption(
-                "선물 주기(잠김)",
-                () => Debug.Log($"[NPC:{npcId}] Give gift"),
-                enabled: false,
-                reason: "스토리 진행도 부족"
-            ));
-
-            return list;
-        }
-
-        if (storyProgress == 1)
-        {
-            // 분기 B: 스토리 1이면 "선물 주기"만 허용 (테스트용 확정 분기)
-            list.Add(new InteractionOption("선물 주기", () =>
-            {
-                Debug.Log($"[NPC:{npcId}] Gift (storyProgress={storyProgress})");
-            }, enabled: true));
-
-            return list; // ✅ Talk 옵션을 아예 추가하지 않음
-        }
-
-
-        // 나머지 진행도 처리(혹시 2 이상도 생기면)
-        list.Add(new InteractionOption("대화하기", () =>
-        {
-            Debug.Log($"[NPC:{npcId}] Talk (storyProgress={storyProgress})");
+                Debug.Log("[NPC] SaveData is null");
+                return;
+            }
+            data.test += 1;
+            Debug.Log($"[NPC:{npcId}] clickCount(test) = {data.test}");
         }));
-
         return list;
     }
-
-    private List<InteractionOption> BuildEncyclopediaOptions()
+    private List<InteractionOption> EncyclopediaOpen(SaveGameData data)
     {
-        return new List<InteractionOption>
+        var list = new List<InteractionOption>();
+        list.Add(new InteractionOption("도감 열기", () =>
         {
-            new InteractionOption("도감 열기", () => Debug.Log("[Encyclopedia] Open"))
-        };
-    }
-
-    private List<InteractionOption> BuildDeployOptions()
-    {
-        bool canDeploy = true;
-
-        return new List<InteractionOption>
-        {
-            new InteractionOption("출격 준비", () => Debug.Log("[Deploy] Open UI"), enabled: canDeploy, reason: canDeploy ? null : "조건 부족")
-        };
+            if(data == null)
+            {
+                Debug.Log("[NPC] SaveData is null");
+                return;
+            }
+            if(data.test >= 5)
+            {
+                Debug.Log($"test가 {data.test}이므로 사전이 사용 가능합니다.");
+            }
+            else if(data.test < 5)
+            {
+                Debug.Log($"test가 {data.test}이므로 사전이 사용 불가능합니다.");
+            }
+            GameManager.Instance.SaveNow();
+        }));
+        return list;
     }
 
     private List<InteractionOption> BuildGenericOptions(InteractionTarget target)
