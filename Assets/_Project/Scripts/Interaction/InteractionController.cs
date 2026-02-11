@@ -32,6 +32,7 @@ public class InteractionController : MonoBehaviour
 
         // 1) SaveData 읽기
         SaveGameData data = GetSaveData();
+        data.NormalizeInventory();
         int storyProgress = (data != null) ? data.storyProgress : 0;
 
         // 2) 조건 검사 + 옵션 만들기
