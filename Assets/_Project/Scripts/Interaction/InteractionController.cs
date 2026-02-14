@@ -33,6 +33,8 @@ public class InteractionController : MonoBehaviour
         // 1) SaveData 읽기
         SaveGameData data = GetSaveData();
         data.NormalizeInventory();
+        data.inventoryCapacity = 40;
+        Debug.Log($"현재 인벤토리가 {data.inventoryCapacity}입니다.");
         int storyProgress = (data != null) ? data.storyProgress : 0;
 
         // 2) 조건 검사 + 옵션 만들기

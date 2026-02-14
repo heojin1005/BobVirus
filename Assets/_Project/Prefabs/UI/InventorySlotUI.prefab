@@ -167,6 +167,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconImage: {fileID: 4478883457949244688}
   highlight: {fileID: 0}
+  longPressSeconds: 0.1
+  moveCancelThreshold: 10
 --- !u!1 &7692937124954988134
 GameObject:
   m_ObjectHideFlags: 0
