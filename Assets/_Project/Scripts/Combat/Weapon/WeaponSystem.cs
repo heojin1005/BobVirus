@@ -8,29 +8,17 @@ public class WeaponSystem : MonoBehaviour
     public WeaponData weaponData; // 데이터 파일 넣는 곳
     public Transform muzzlePoint; // 총구 위치 넣는 곳
 
-    [Header("Visuals")]
-    [SerializeField] private LineRenderer lineRenderer; // 총알 궤적 그리기용
-
     public event Action <int, int> OnAmmoChanged; // 현재 탄약, 최대 탄약
 
     private float nextFireTime;
     private int currentAmmo;
+    private float currentSpread;
     private bool isReloading = false;
 
 
     private void Awake()
     {
-        // 라인 렌더러가 없으면 자동으로 추가해주는 안전장치
-        if (lineRenderer == null)
-        {
-            lineRenderer = gameObject.AddComponent<LineRenderer>();
-            lineRenderer.startWidth = 0.05f;
-            lineRenderer.endWidth = 0.05f;
-            lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-            lineRenderer.startColor = Color.yellow;
-            lineRenderer.endColor = Color.clear;
-            lineRenderer.enabled = false;
-        }
+        
     }
 
     private void Start()
@@ -38,10 +26,30 @@ public class WeaponSystem : MonoBehaviour
         if (weaponData != null)
         {
             currentAmmo = weaponData.maxAmmo; // 초기 탄약 설정
+            currentSpread = weaponData.baseSpread; // 초기 탄 퍼짐 설정
             OnAmmoChanged?.Invoke(currentAmmo, weaponData.maxAmmo);
+
+            if (muzzlePoint != null)
+            {
+                muzzlePoint.localPosition = weaponData.muzzleOffset;
+            }
         }
     
     }
+
+    public void Update()
+    {
+        // 사격을 멈추면 탄 퍼짐이 서서히 회복됨
+        if (weaponData != null)
+        {
+            // Lerp를 사용하여 부드럽게 기본 값으로 돌아감
+            if (Time.time >= nextFireTime) // 사격 쿨타임이 끝난 후에만 회복 시작
+            {
+                currentSpread = Mathf.Lerp(currentSpread, weaponData.baseSpread, Time.deltaTime * weaponData.spreadRecovery);
+            }
+            
+        }
+    } 
 
     public void TryFire()
     {
@@ -68,26 +76,38 @@ public class WeaponSystem : MonoBehaviour
 
         NoiseManager.MakeNoise(transform.position, weaponData.noiseRange); // 소음 발생 알림
 
-        // 총구 방향(오른쪽)으로 레이캐스트 발사
-        Vector2 direction = muzzlePoint.right;
-        RaycastHit2D hit = Physics2D.Raycast(muzzlePoint.position, direction, weaponData.range, weaponData.targetLayers);
+        // 카메라 쉐이크 호출 (0.1초 동안 0.2의 강도)
+        if (CameraFollow.Instance != null) 
+            CameraFollow.Instance.Shake(0.1f, 0.2f);
 
-        // 맞은 위치 계산 (맞은 게 없으면 최대 사거리 끝점)
-        Vector2 targetPos = hit.collider != null ? hit.point : (Vector2)muzzlePoint.position + direction * weaponData.range;
 
-        // 3. 시각 효과 (총알 궤적 0.05초간 표시)
-        StartCoroutine(ShowTrail(targetPos));
+        // 1. 탄 퍼짐 각도 계산
+        float randomSpreadAngle = UnityEngine.Random.Range(-currentSpread, currentSpread);
+        Quaternion spreadRotation = Quaternion.Euler(0, 0, randomSpreadAngle);
 
-        // 4. 로그 출력
-        if (hit.collider != null)
+        // 2. 최종 발사 각도 (총구 각도 + 탄퍼짐)
+        // muzzlePoint.rotation에 spreadRotation을 더해줍니다.
+        Quaternion finalRotation = muzzlePoint.rotation * spreadRotation;
+
+        // 투사체 생성
+        if (weaponData.projectilePrefab != null)
         {
-            //Debug.Log($"[명중] {hit.collider.name}을 맞췄습니다!");
-            var target = hit.collider.GetComponent<IDamageable>();
-            if (target != null)
+            GameObject bulletObj = Instantiate(weaponData.projectilePrefab, muzzlePoint.position, finalRotation);
+            
+            // 투사체 초기화 (데미지, 레이어, 속도 전달)
+            Projectile projectile = bulletObj.GetComponent<Projectile>();
+            if (projectile != null)
             {
-                target.TakeDamage(weaponData.damage, hit.point, hit.normal);
+                projectile.Initialize(weaponData.damage, weaponData.targetLayers, weaponData.bulletSpeed, weaponData.bulletLifeTime);
             }
         }
+        else
+        {
+            Debug.LogError("총알 프리팹이 WeaponData에 할당되지 않았습니다!");
+        }
+
+        // 반동 적용
+        currentSpread = Mathf.Clamp(currentSpread + weaponData.spreadPerShot, weaponData.baseSpread, weaponData.maxSpread);
     }
 
     public IEnumerator Reload()
@@ -103,15 +123,14 @@ public class WeaponSystem : MonoBehaviour
         currentAmmo = weaponData.maxAmmo;
         isReloading = false;
         //Debug.Log("재장전 완료!");
+        currentSpread = weaponData.baseSpread; // 재장전 시 퍼짐 초기화
+
         OnAmmoChanged?.Invoke(currentAmmo, weaponData.maxAmmo);
     }
 
-    private IEnumerator ShowTrail(Vector2 targetPos)
+
+    public float GetCurrentSpread()
     {
-        lineRenderer.enabled = true;
-        lineRenderer.SetPosition(0, muzzlePoint.position);
-        lineRenderer.SetPosition(1, targetPos);
-        yield return new WaitForSeconds(0.05f); // 0.05초 뒤에 꺼짐
-        lineRenderer.enabled = false;
+        return currentSpread;
     }
 }

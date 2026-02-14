@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 mousePos;
     private bool isFiring;
 
+    private bool  isTriggerReady = true; // 단발 사격시 버튼을 뗐는지 체크용
+
     private void Awake()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
@@ -34,13 +36,13 @@ public class PlayerController : MonoBehaviour
         moveInput = value.Get<Vector2>();
     }
 
-    // Input System: Look (Mouse Position)
-    // * Input Action Map에서 Look 액션을 Value - Vector2 - Mouse Position으로 설정해야 함
+    /* Input System: Look (Mouse Position)
+       Input Action Map에서 Look 액션을 Value - Vector2 - Mouse Position으로 설정해야 함
     public void OnLook(InputValue value)
     {
         Vector2 screenPos = value.Get<Vector2>();
         mousePos = mainCam.ScreenToWorldPoint(screenPos);
-    }
+    }*/
 
     public void OnAttack(InputValue value)
     {
@@ -66,8 +68,20 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         HandleMovement();
+        HandleFootsteps();
+    }
 
-        // [추가] 발소리 로직
+    private void HandleMovement()
+    {
+        // MovePosition 대신 velocity 사용 -> 넉백/반동과 호환성 확보
+        rb.linearVelocity = moveInput * moveSpeed;
+    }
+
+    private void HandleFootsteps()
+    {
+        if (rb == null) return;
+
+        // 발소리 로직
         // 1. 실제로 움직이고 있는가? (속도가 0.1 이상)
         if (rb.linearVelocity.sqrMagnitude > 0.1f)
         {
@@ -81,15 +95,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleMovement()
-    {
-        // MovePosition 대신 velocity 사용 -> 넉백/반동과 호환성 확보
-        rb.linearVelocity = moveInput * moveSpeed;
-    }
-
     private void HandleAiming()
     {
         if (weaponPivot == null) return;
+
+        // [수정] 매 프레임 현재 마우스의 화면 좌표를 가져와서 월드 좌표로 변환
+        // Mouse.current가 null이 아닐 때만 실행
+        if (Mouse.current == null) return;
+    
+        Vector2 screenPos = Mouse.current.position.ReadValue();
+        mousePos = mainCam.ScreenToWorldPoint(screenPos);
 
         // 1. 마우스 방향 및 각도 계산
         Vector2 lookDir = (mousePos - (Vector2)weaponPivot.position).normalized;
@@ -138,12 +153,35 @@ public class PlayerController : MonoBehaviour
 
     private void HandleShooting()
     {
-        // 1. 마우스를 누르고 있고(isFiring)
-        // 2. 무기 시스템이 연결되어 있다면
-        if (isFiring && weaponSystem != null)
+        if (weaponSystem == null) return;
+        if (weaponSystem.weaponData == null) return;
+
+        bool isAuto = weaponSystem.weaponData.isAutomatic;
+
+        if (isFiring)
         {
-            // 무기한테 "쏴!" 명령 (쿨타임 체크는 WeaponSystem이 알아서 함)
-            weaponSystem.TryFire();
+            if (isAuto)
+            {
+                // 연사 모드: 버튼 누르고 있는 동안 계속 발사 시도
+                weaponSystem.TryFire();
+            }
+            else
+            {
+                // 단발 모드: 버튼을 눌렀다가 뗄 때 한 번 발사
+                if (isTriggerReady)
+                {
+                    weaponSystem.TryFire();
+                    isTriggerReady = false; // 다음 발사를 위해 버튼을 뗄 때까지 기다림
+                }
+            }
+        }
+        else
+        {
+            // 버튼이 떼어졌을 때 단발 모드에서 다시 발사할 수 있도록 준비
+            if (!isAuto)
+            {
+                isTriggerReady = true;
+            }
         }
     }
 }
