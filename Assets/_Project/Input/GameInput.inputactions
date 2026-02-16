@@ -1,0 +1,155 @@
+{
+    "version": 1,
+    "name": "GameInput",
+    "maps": [
+        {
+            "name": "Hub",
+            "id": "e3727b0b-17e9-46c4-a968-8a4c6cbc6e0c",
+            "actions": [
+                {
+                    "name": "Tap",
+                    "type": "Button",
+                    "id": "6e468587-70be-4189-8f55-fd7b249996fb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Point",
+                    "type": "Value",
+                    "id": "317bea8b-79f8-4d73-8e63-c8e47980b1e5",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5aba140b-9f1b-43b7-a1cb-ea712e73bdf3",
+                    "path": "<Pointer>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d9f24e0-7a55-400b-9e20-3880d35a2932",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Point",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Gameplay",
+            "id": "f38902e7-0f85-45a9-898f-bff21d555429",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "9f4bc490-007c-4d02-9a6d-25134dce82c2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "2D Vector",
+                    "id": "94ef71df-d4ca-4dca-a906-fcf91a48987f",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "941a982c-5160-4a57-a8fa-131097567148",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Left",
+                    "id": "e35101d8-ac54-400c-bffb-e582e5076510",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down",
+                    "id": "8593e37f-f3b5-4b66-a8d9-d59d51def0e8",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "08fe6e10-0410-4805-8b49-0e77faa8a2b6",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "97c2ec14-af16-4e5f-9a42-1de353ac2b15",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "fb072cb9-843b-4afe-9848-d331dc9fd0d2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "daed1600-1069-4969-a9f4-defcfd835df2",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

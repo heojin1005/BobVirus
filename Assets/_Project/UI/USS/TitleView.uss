@@ -1,0 +1,130 @@
+.root {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 24px;
+    padding-right: 24px;
+    background-color: rgb(18, 18, 22);
+}
+
+.title {
+    font-size: 44px;
+    -unity-font-style: bold;
+    color: rgb(245,245,245);
+    margin-bottom: 18px;
+}
+
+.menu {
+    width: 100%;
+    max-width: 460px;
+    flex-direction: column;
+    margin-top: 8px;
+}
+
+/* 공통 버튼 스타일 */
+.btn {
+    height: 68px;
+    margin-top: 14px;
+
+    /* 텍스트 */
+    font-size: 22px;
+    -unity-font-style: bold;
+    color: rgb(245,245,245);
+
+    /* 박스 */
+    background-color: rgb(46, 55, 70);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+
+    /* 안쪽 여백 */
+    padding-left: 18px;
+    padding-right: 18px;
+
+    /* 테두리/그림자 흉내 */
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgba(255,255,255,0.10);
+    border-right-color: rgba(255,255,255,0.10);
+    border-top-color: rgba(255,255,255,0.14);
+    border-bottom-color: rgba(0,0,0,0.35);
+}
+
+/* PC에서 hover */
+.btn:hover {
+    background-color: rgb(60, 72, 92);
+}
+
+/* 눌림 */
+.btn:active {
+    background-color: rgb(36, 45, 58);
+    translate: 0px 1px;
+}
+
+.hint {
+    margin-top: 18px;
+    font-size: 14px;
+    color: rgb(200,200,200);
+    opacity: 0.85;
+}
+.hidden { display: none; }
+
+.overlay {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.popup {
+    width: 92%;
+    max-width: 520px;
+    background-color: rgb(28,28,34);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 16px;
+    padding-bottom: 12px;
+}
+
+.popupTitle {
+    font-size: 22px;
+    -unity-font-style: bold;
+    color: rgb(245,245,245);
+    margin-bottom: 10px;
+}
+
+.slotList {
+    flex-direction: column;
+}
+
+.slotBtn {
+    height: 58px;
+    margin-top: 10px;
+    -unity-font-style: bold;
+}
+
+.popupRow {
+    margin-top: 14px;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.small { height: 44px; font-size: 16px; }
+
+.popupMsg {
+    margin-top: 10px;
+    font-size: 14px;
+    color: rgb(210,210,210);
+    opacity: 0.9;
+}

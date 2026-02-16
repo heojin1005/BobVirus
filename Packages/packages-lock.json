@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.h8man.2d.navmeshplus": {
+      "version": "https://github.com/h8man/NavMeshPlus.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "725349b17aad2dff5153a2ea66970028813fbeed"
+    },
     "com.unity.2d.animation": {
       "version": "10.2.1",
       "depth": 1,
@@ -187,6 +194,13 @@
     "com.unity.nuget.mono-cecil": {
       "version": "1.11.4",
       "depth": 3,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.2",
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
