@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class WorldTapInteractor : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class WorldTapInteractor : MonoBehaviour
     // ✅ Hub/Point 액션을 인스펙터에서 연결할 것
     [SerializeField] private InputActionReference pointAction;
 
+    [Header("Safety")]
+    [SerializeField] private bool ignoreWhenPointerOverUI = true;
+
     private void Awake()
     {
         if (cam == null) cam = Camera.main;
@@ -15,14 +19,11 @@ public class WorldTapInteractor : MonoBehaviour
 
     private void OnEnable()
     {
-        // PlayerInput이 Enable을 해주더라도, 안전하게 보장
         if (pointAction != null) pointAction.action.Enable();
     }
 
     private void OnDisable()
     {
-        // 다른 시스템에서 공유한다면 Disable 하지 않는 편이 더 안전할 수도 있음.
-        // 지금은 단독 사용 가정으로 비활성화해도 OK.
         if (pointAction != null) pointAction.action.Disable();
     }
 
@@ -33,7 +34,14 @@ public class WorldTapInteractor : MonoBehaviour
         if (cam == null) return;
         if (pointAction == null) return;
 
-        // ✅ Point 액션에서 스크린 좌표를 읽는다 (구식 Pointer.current 제거)
+        // ✅ UI 위 클릭/터치면 월드 상호작용 무시(안전망)
+        if (ignoreWhenPointerOverUI && EventSystem.current != null)
+        {
+            // 파라미터 없는 버전은 마우스/에디터에서 확실하게 먹음.
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+        }
+
         Vector2 screenPos = pointAction.action.ReadValue<Vector2>();
 
         Vector3 worldPos = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 0f));
@@ -48,6 +56,5 @@ public class WorldTapInteractor : MonoBehaviour
         Debug.Log($"IInteractable: {(interactable == null ? "null" : interactable.GetType().Name)}");
 
         interactable?.Interact();
-
     }
 }

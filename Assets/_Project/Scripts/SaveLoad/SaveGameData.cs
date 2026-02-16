@@ -16,13 +16,32 @@ public class SaveGameData
     public string currentMapId = "";      // 도전중 맵
     public HashSet<string> discoveredItems = new();   // 도감: 발견한 아이템
     public List<string> inventoryItems = new();       // 소지 아이템 ID 리스트(간단 버전)
+    public int inventoryCapacity = 20;
+    public string helmetId = ""; // 뚝배기
+    public string topId = ""; // 상의
+    public string bottomId = ""; // 하의
+    public string shoesId = ""; // 신발
     public HashSet<string> rescuedNpcs = new();        // 구조된 NPC ID
     public int storyProgress = 1;
     public int test = 0;
+    public void NormalizeInventory()
+    {
+        if (inventoryItems == null)
+            inventoryItems = new List<string>();
+
+        // 부족하면 빈칸 추가
+        while (inventoryItems.Count < inventoryCapacity)
+            inventoryItems.Add("");
+
+        // 넘치면 잘라냄 (정책에 따라 다르게 가능)
+        if (inventoryItems.Count > inventoryCapacity)
+            inventoryItems.RemoveRange(inventoryCapacity,
+                inventoryItems.Count - inventoryCapacity);
+    }
 
     public static SaveGameData CreateDefault(int slotIndex)
     {
-        return new SaveGameData
+        var data = new SaveGameData
         {
             version = 1,
             saveId = Guid.NewGuid().ToString("N"),
@@ -34,7 +53,14 @@ public class SaveGameData
             inventoryItems = new List<string>(),
             rescuedNpcs = new HashSet<string>(),
             storyProgress = 0,
-            test = 0
+            test = 0,
+            helmetId = "",
+            topId = "",
+            bottomId = "",
+            shoesId = "",
+            inventoryCapacity = 20
         };
+        data.NormalizeInventory();
+        return data;
     }
 }
