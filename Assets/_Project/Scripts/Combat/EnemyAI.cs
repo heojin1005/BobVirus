@@ -294,7 +294,7 @@ public class EnemyAI : MonoBehaviour
             // 소리난 쪽으로 이동하게 하거나, 바로 추적 상태로 전환
             // 여기서는 심플하게 바로 플레이어 추적 모드로 전환 (소리 = 플레이어 위치라 가정)
             noiseLocation = noisePos;
-            Debug.Log("소리 들음! 추적 시작");
+            //Debug.Log("소리 들음! 추적 시작"); 
             ChangeState(State.Investigate);
         }
     }
