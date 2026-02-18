@@ -33,14 +33,12 @@ public class InteractionController : MonoBehaviour
         // 1) SaveData 읽기
         SaveGameData data = GetSaveData();
         data.NormalizeInventory();
-        data.inventoryCapacity = 40;
-        Debug.Log($"현재 인벤토리가 {data.inventoryCapacity}입니다.");
         int storyProgress = (data != null) ? data.storyProgress : 0;
 
         // 2) 조건 검사 + 옵션 만들기
         List<InteractionOption> options = target.kind switch
         {
-            InteractionKind.Npc => NpcClickCount(target.targetId, data),
+            InteractionKind.Npc => NPCInteraction(target.targetId, data),
             InteractionKind.Encyclopedia => EncyclopediaOpen(data),
             _ => BuildGenericOptions(target)
         };
@@ -77,6 +75,38 @@ public class InteractionController : MonoBehaviour
     //}
     //));
     //return list;
+    private List<InteractionOption> NPCInteraction(string npcId, SaveGameData data)
+    {
+        var list = new List<InteractionOption>();
+        list.Add(new InteractionOption("NPC 클릭 확인", () =>
+        {
+            if(npcId != "NPC_Test")
+            {
+                Debug.Log("NPC ID가 잘못됐습니다.");
+                return;
+            }
+            string displayName = npcId;
+            NpcUIManager.Instance.OpenTopic(
+                npcId, displayName,
+                onTalk: () =>
+                {
+                    Debug.Log("Talk 선택");
+                    NpcUIManager.Instance.CloseAll();
+                },
+                onTrade: () =>
+                {
+                    Debug.Log("Trade 선택");
+                    NpcUIManager.Instance.CloseAll();
+                },
+                onQuest: () =>
+                {
+                    Debug.Log("Quest 선택");
+                    NpcUIManager.Instance.CloseAll();
+                }
+            );
+        }));
+        return list;
+    }
     private List<InteractionOption> NpcClickCount(string npcId, SaveGameData data)
     {
         var list = new List<InteractionOption>();
