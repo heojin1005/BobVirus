@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cebe35a97ddff784aa3e1fe436a6a289
+guid: d5741b4eebaa4424990cb5ec902eb520
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8526205970450117886
-    second: AroundDoor_sidewalk_0
+      213: 7251811578108828144
+    second: AroundDoor_woodFloor_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AroundDoor_sidewalk_0
+      name: AroundDoor_woodFloor_0
       rect:
         serializedVersion: 2
         x: 0
@@ -126,23 +126,20 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: -13}
-        - {x: 4, y: -13}
-        - {x: 4, y: -9}
-        - {x: 2, y: -7}
+      - - {x: 8, y: -7}
         - {x: -8, y: -7}
         - {x: -8, y: -16}
         - {x: 8, y: -16}
       tessellationDetail: 0
       bones: []
-      spriteID: ef47e76082b235670800000000000000
-      internalID: 8526205970450117886
+      spriteID: 0f9dd33653c93a460800000000000000
+      internalID: 7251811578108828144
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AroundDoor_sidewalk_1
+      name: AroundDoor_woodFloor_1
       rect:
         serializedVersion: 2
         x: 16
@@ -155,20 +152,20 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: -15}
-        - {x: -8, y: -15}
+      - - {x: 8, y: -7}
+        - {x: -8, y: -7}
         - {x: -8, y: -16}
         - {x: 8, y: -16}
       tessellationDetail: 0
       bones: []
-      spriteID: 8f97c3f6f0cb1094d8f023bedf3b8a79
-      internalID: -2068966765
+      spriteID: ca48ada10a396af44a03175d1c0692e3
+      internalID: 1522092777
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AroundDoor_sidewalk_2
+      name: AroundDoor_woodFloor_2
       rect:
         serializedVersion: 2
         x: 32
@@ -182,22 +179,19 @@ TextureImporter:
       outline: []
       physicsShape:
       - - {x: 8, y: -7}
-        - {x: -2, y: -7}
-        - {x: -4, y: -10}
-        - {x: -4, y: -14}
-        - {x: -8, y: -14}
+        - {x: -8, y: -7}
         - {x: -8, y: -16}
         - {x: 8, y: -16}
       tessellationDetail: 0
       bones: []
-      spriteID: 2b096da33bb14f64f9659501757f278d
-      internalID: 2079928165
+      spriteID: 2643d6eae7c76cc4ab5237b224eb4c55
+      internalID: -1358605836
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AroundDoor_sidewalk_3
+      name: AroundDoor_woodFloor_3
       rect:
         serializedVersion: 2
         x: 0
@@ -213,20 +207,17 @@ TextureImporter:
       - - {x: 8, y: 0}
         - {x: -8, y: 0}
         - {x: -8, y: -9}
-        - {x: 1, y: -9}
-        - {x: 4, y: -6}
-        - {x: 4, y: -2}
-        - {x: 8, y: -2}
+        - {x: 8, y: -9}
       tessellationDetail: 0
       bones: []
-      spriteID: 895561cecb45ae849b4c2190e5f546f3
-      internalID: 74253303
+      spriteID: a2719086428f51343a45e884f7cdc1b8
+      internalID: 931506422
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AroundDoor_sidewalk_4
+      name: AroundDoor_woodFloor_4
       rect:
         serializedVersion: 2
         x: 16
@@ -241,18 +232,18 @@ TextureImporter:
       physicsShape:
       - - {x: 8, y: 0}
         - {x: -8, y: 0}
-        - {x: -8, y: -1}
-        - {x: 8, y: -1}
+        - {x: -8, y: -9}
+        - {x: 8, y: -9}
       tessellationDetail: 0
       bones: []
-      spriteID: 6d35af7fa39d2674aa3380358b3bafe1
-      internalID: 1706345630
+      spriteID: 1c3cefae99ae4f44b93215912823e4e0
+      internalID: -3979055
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AroundDoor_sidewalk_5
+      name: AroundDoor_woodFloor_5
       rect:
         serializedVersion: 2
         x: 32
@@ -267,15 +258,12 @@ TextureImporter:
       physicsShape:
       - - {x: 8, y: 0}
         - {x: -8, y: 0}
-        - {x: -8, y: -2}
-        - {x: -4, y: -2}
-        - {x: -4, y: -6}
-        - {x: -1, y: -9}
+        - {x: -8, y: -9}
         - {x: 8, y: -9}
       tessellationDetail: 0
       bones: []
-      spriteID: 587b96cb91eb97f498232b964b888231
-      internalID: -279905783
+      spriteID: fc613a34d8b541b44b7b87653f8d3ed0
+      internalID: 251075689
       vertices: []
       indices: 
       edges: []
@@ -284,7 +272,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 898f1b67b9acb2843bb4e563786d1a63
+    spriteID: 4016ff4a1deef2440acd2352bd4bc44f
     internalID: 0
     vertices: []
     indices: 
@@ -294,12 +282,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      AroundDoor_sidewalk_0: 8526205970450117886
-      AroundDoor_sidewalk_1: -2068966765
-      AroundDoor_sidewalk_2: 2079928165
-      AroundDoor_sidewalk_3: 74253303
-      AroundDoor_sidewalk_4: 1706345630
-      AroundDoor_sidewalk_5: -279905783
+      AroundDoor_woodFloor_0: 7251811578108828144
+      AroundDoor_woodFloor_1: 1522092777
+      AroundDoor_woodFloor_2: -1358605836
+      AroundDoor_woodFloor_3: 931506422
+      AroundDoor_woodFloor_4: -3979055
+      AroundDoor_woodFloor_5: 251075689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

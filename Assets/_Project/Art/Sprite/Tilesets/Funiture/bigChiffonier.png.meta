@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 4d5594789d68f434a8adbc6380c2f9fe
+guid: 9d5ae7779f238ad4797cb92fc33279dc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5057575297935346170
-    second: onlyDoor_sidewalk_0
+      213: -2541178526553354406
+    second: bigChiffonier_0
+  - first:
+      213: 3254176938454510951
+    second: bigChiffonier_1
+  - first:
+      213: 6900642107323973502
+    second: bigChiffonier_2
+  - first:
+      213: 8836519900244708829
+    second: bigChiffonier_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,105 +122,105 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: onlyDoor_sidewalk_0
+      name: bigChiffonier_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 64
+        width: 32
+        height: 48
       alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: -16}
-        - {x: -8, y: -16}
-        - {x: -8, y: -17}
-        - {x: 8, y: -17}
+      - - {x: 7, y: 6}
+        - {x: -7, y: 6}
+        - {x: -7, y: -1}
+        - {x: 7, y: -1}
       tessellationDetail: 0
       bones: []
-      spriteID: af90a32ffed103640800000000000000
-      internalID: 5057575297935346170
+      spriteID: a5fcfe5089bebbcd0800000000000000
+      internalID: -2541178526553354406
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: onlyDoor_sidewalk_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.125}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: -16}
-        - {x: -8, y: -16}
-        - {x: -8, y: -17}
-        - {x: 8, y: -17}
-      tessellationDetail: 0
-      bones: []
-      spriteID: e30c36c64ad22aa4e9f5c3d2ee18f1ec
-      internalID: 2127089370
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: onlyDoor_sidewalk_2
+      name: bigChiffonier_1
       rect:
         serializedVersion: 2
         x: 32
         y: 0
-        width: 16
-        height: 64
+        width: 32
+        height: 48
       alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: -16}
-        - {x: -8, y: -16}
-        - {x: -8, y: -17}
-        - {x: 8, y: -17}
+      - - {x: -7, y: -2}
+        - {x: -15, y: -2}
+        - {x: -15, y: -15}
+        - {x: -7, y: -15}
       tessellationDetail: 0
       bones: []
-      spriteID: f7f721516289bd04687d149d40a167c1
-      internalID: 1574036847
+      spriteID: 76d69d42fa8292d20800000000000000
+      internalID: 3254176938454510951
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: onlyDoor_sidewalk_3
+      name: bigChiffonier_2
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 0
-        width: 16
-        height: 64
+        width: 32
+        height: 48
       alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 15, y: -2}
+        - {x: 7, y: -2}
+        - {x: 7, y: -15}
+        - {x: 15, y: -15}
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7ff5297f6104cf50800000000000000
+      internalID: 6900642107323973502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bigChiffonier_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape:
       - - {x: 8, y: -16}
-        - {x: -8, y: -16}
-        - {x: -8, y: -17}
-        - {x: 8, y: -17}
+        - {x: -6, y: -16}
+        - {x: -6, y: -23}
+        - {x: 8, y: -23}
       tessellationDetail: 0
       bones: []
-      spriteID: ae5c3ee4f908f65409f0f9b3978c3205
-      internalID: 279211084
+      spriteID: ddd81c80800a1aa70800000000000000
+      internalID: 8836519900244708829
       vertices: []
       indices: 
       edges: []
@@ -220,7 +229,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 37bff286d48f17f4b98c628c66b486c4
+    spriteID: beb9dfee4babf7e4c81cb06a43480197
     internalID: 0
     vertices: []
     indices: 
@@ -230,10 +239,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      onlyDoor_sidewalk_0: 5057575297935346170
-      onlyDoor_sidewalk_1: 2127089370
-      onlyDoor_sidewalk_2: 1574036847
-      onlyDoor_sidewalk_3: 279211084
+      bigChiffonier_0: -2541178526553354406
+      bigChiffonier_1: 3254176938454510951
+      bigChiffonier_2: 6900642107323973502
+      bigChiffonier_3: 8836519900244708829
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

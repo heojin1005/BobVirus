@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 10d04326747f4d845968119e4432c673
+guid: 4d5594789d68f434a8adbc6380c2f9fe
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2477536610285160926
-    second: onlyDoor_woodFloor_0
-  - first:
-      213: 7054742273599901065
-    second: onlyDoor_woodFloor_1
+      213: 5057575297935346170
+    second: onlyDoor_sidewalk_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,105 +113,209 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: onlyDoor_woodFloor_0
+      name: Door_pull_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -16}
+        - {x: -8, y: -16}
+        - {x: -8, y: -7}
+        - {x: 8, y: -7}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83a57e14ee5d43440b690a44c7af1d2a
+      internalID: 972340682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Door_pull_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -16}
+        - {x: -8, y: -16}
+        - {x: -8, y: -7}
+        - {x: 8, y: -7}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c67cd8f17e1debf4487f1e2089c75a62
+      internalID: 1608408839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Door_pull_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -16}
+        - {x: -8, y: -16}
+        - {x: -8, y: -7}
+        - {x: 8, y: -7}
+      tessellationDetail: 0
+      bones: []
+      spriteID: a50cf96a439956e40acefdce6a008885
+      internalID: -1932240176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Door_pull_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -16}
+        - {x: -8, y: -16}
+        - {x: -8, y: -7}
+        - {x: 8, y: -7}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66c302b67a22392439f1466777972a37
+      internalID: 1065702105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Door_pull_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 16
-        height: 64
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: -16}
-        - {x: -8, y: -16}
-        - {x: -8, y: -17}
-        - {x: 8, y: -17}
+      - - {x: 8, y: -9}
+        - {x: -8, y: -9}
+        - {x: -8, y: 0}
+        - {x: 8, y: 0}
       tessellationDetail: 0
       bones: []
-      spriteID: 2267de954950e9dd0800000000000000
-      internalID: -2477536610285160926
+      spriteID: b7ecefdd4e9eb634990a91074e7b0f52
+      internalID: -1122317782
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: onlyDoor_woodFloor_1
+      name: Door_pull_5
       rect:
         serializedVersion: 2
         x: 16
         y: 0
         width: 16
-        height: 64
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: -16}
-        - {x: -8, y: -16}
-        - {x: -8, y: -17}
-        - {x: 8, y: -17}
+      - - {x: 8, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -9}
+        - {x: 8, y: -9}
       tessellationDetail: 0
       bones: []
-      spriteID: 98d8adf58ba77e160800000000000000
-      internalID: 7054742273599901065
+      spriteID: eba5ce274990feb488fa4ec8169bd673
+      internalID: -933487237
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: onlyDoor_woodFloor_2
+      name: Door_pull_6
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 16
-        height: 64
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: -16}
-        - {x: -8, y: -16}
-        - {x: -8, y: -17}
-        - {x: 8, y: -17}
+      - - {x: 8, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -9}
+        - {x: 8, y: -9}
       tessellationDetail: 0
       bones: []
-      spriteID: fdf171e5ef077d04bb13419cf01edc89
-      internalID: 1943065029
+      spriteID: d329f716571f82c4e8612b446d19dcc3
+      internalID: -1610795748
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: onlyDoor_woodFloor_3
+      name: Door_pull_7
       rect:
         serializedVersion: 2
         x: 48
         y: 0
         width: 16
-        height: 64
+        height: 32
       alignment: 9
-      pivot: {x: 0.5, y: 0.125}
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: -16}
-        - {x: -8, y: -16}
-        - {x: -8, y: -17}
-        - {x: 8, y: -17}
+      - - {x: 8, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -9}
+        - {x: 8, y: -9}
       tessellationDetail: 0
       bones: []
-      spriteID: 2a2ae72f7a0dd1a449dec42aaaf3b27c
-      internalID: 608807715
+      spriteID: c684df67bc4e3df4db2fd313abbeda6d
+      internalID: -332995260
       vertices: []
       indices: 
       edges: []
@@ -223,7 +324,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 2cc92005caa16974fbed281fcd148cad
+    spriteID: 37bff286d48f17f4b98c628c66b486c4
     internalID: 0
     vertices: []
     indices: 
@@ -233,10 +334,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      onlyDoor_woodFloor_0: -2477536610285160926
-      onlyDoor_woodFloor_1: 7054742273599901065
-      onlyDoor_woodFloor_2: 1943065029
-      onlyDoor_woodFloor_3: 608807715
+      Door_pull_0: 972340682
+      Door_pull_1: 1608408839
+      Door_pull_2: -1932240176
+      Door_pull_3: 1065702105
+      Door_pull_4: -1122317782
+      Door_pull_5: -933487237
+      Door_pull_6: -1610795748
+      Door_pull_7: -332995260
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

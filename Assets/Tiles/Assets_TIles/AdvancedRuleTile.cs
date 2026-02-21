@@ -28,7 +28,7 @@ public class AdvancedRuleTile : RuleTile<AdvancedRuleTile.Neighbor>
             case Neighbor.This:
                 return tile == this || siblingTiles.Contains(tile);
             case Neighbor.NotThis:
-                return tile != this && !siblingTiles.Contains(tile);
+                return tile == null;
             case Neighbor.Specific1:
                 // 지정한 타일이 맞는지 확인
                 return targetTile1.Contains(tile);
