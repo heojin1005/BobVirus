@@ -58,7 +58,7 @@ public class EnemyAI : MonoBehaviour
         if (spriteRenderer) 
         {
             originalColor = spriteRenderer.color;
-            spriteRenderer.enabled = false; // 시작 시 은신 -> 테스트할땐 주석처리
+            //spriteRenderer.enabled = false; // 시작 시 은신 -> 테스트할땐 주석처리
         }
 
         startPos = transform.position;
@@ -173,20 +173,29 @@ public class EnemyAI : MonoBehaviour
     // 1-1 랜덤 위치 구하는 함수 (NavMesh 위에서 유효한 점 찾기)
     private Vector3 GetRandomPoint(Vector3 center, float range)
     {
-        for (int i = 0; i < 30; i++) // 최대 30번 시도
-        {
-            // 원 안의 랜덤 좌표 생성
-            Vector2 randomPos2D = UnityEngine.Random.insideUnitCircle * range;
-            Vector3 randomPos = center + new Vector3(randomPos2D.x, randomPos2D.y, 0);
+        for (int i = 0; i < 30; i++)
+    {
+        // 1. 랜덤 좌표 생성
+        Vector2 randomPos2D = UnityEngine.Random.insideUnitCircle * range;
+        Vector3 randomPos = center + new Vector3(randomPos2D.x, randomPos2D.y, 0);
 
-            // NavMesh 위의 갈 수 있는 곳인지 확인
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPos, out hit, 1.0f, NavMesh.AllAreas))
+        // 2. NavMesh 위 유효한 좌표인지 확인
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPos, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            // [핵심] 3. NavMesh.Raycast 사용
+            // "내 위치(center)에서 목표점(hit.position)까지 직선으로 갈 수 있는가?"
+            // 중간에 벽(NavMesh가 끊긴 곳)이 있으면 true를 반환하여 hit.mask에 걸림
+            
+            NavMeshHit rayHit;
+            // Raycast가 false를 반환해야 장애물이 없다는 뜻입니다.
+            if (!NavMesh.Raycast(center, hit.position, out rayHit, NavMesh.AllAreas))
             {
-                return hit.position; // 유효한 위치 반환
+                return hit.position; // 장애물 없이 직진 가능! 채택
             }
         }
-        return center; // 못 찾으면 그냥 제자리 반환
+    }
+    return center; // 실패 시 제자리
     }
     
     // 수색 상태: 소리 난 곳으로 가봄
@@ -285,7 +294,7 @@ public class EnemyAI : MonoBehaviour
             // 소리난 쪽으로 이동하게 하거나, 바로 추적 상태로 전환
             // 여기서는 심플하게 바로 플레이어 추적 모드로 전환 (소리 = 플레이어 위치라 가정)
             noiseLocation = noisePos;
-            Debug.Log("소리 들음! 추적 시작");
+            //Debug.Log("소리 들음! 추적 시작"); 
             ChangeState(State.Investigate);
         }
     }
