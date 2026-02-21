@@ -17,10 +17,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float footstepNoiseRange = 3f; // 발소리 반경 3미터
     [SerializeField] private float stepInterval = 0.5f;     // 0.5초마다 소리 발생
     private float nextStepTime = 0f;
-
     private Vector2 moveInput;
     private Vector2 mousePos;
     private bool isFiring;
+
+    private bool  isTriggerReady = true; // 단발 사격시 버튼을 뗐는지 체크용
+
+    private bool isFacingRight = true; // 처음에 오른쪽 보는 걸로 시작
 
     private void Awake()
     {
@@ -34,13 +37,13 @@ public class PlayerController : MonoBehaviour
         moveInput = value.Get<Vector2>();
     }
 
-    // Input System: Look (Mouse Position)
-    // * Input Action Map에서 Look 액션을 Value - Vector2 - Mouse Position으로 설정해야 함
+    /* Input System: Look (Mouse Position)
+       Input Action Map에서 Look 액션을 Value - Vector2 - Mouse Position으로 설정해야 함
     public void OnLook(InputValue value)
     {
         Vector2 screenPos = value.Get<Vector2>();
         mousePos = mainCam.ScreenToWorldPoint(screenPos);
-    }
+    }*/
 
     public void OnAttack(InputValue value)
     {
@@ -66,8 +69,20 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         HandleMovement();
+        HandleFootsteps();
+    }
 
-        // [추가] 발소리 로직
+    private void HandleMovement()
+    {
+        // MovePosition 대신 velocity 사용 -> 넉백/반동과 호환성 확보
+        rb.linearVelocity = moveInput * moveSpeed;
+    }
+
+    private void HandleFootsteps()
+    {
+        if (rb == null) return;
+
+        // 발소리 로직
         // 1. 실제로 움직이고 있는가? (속도가 0.1 이상)
         if (rb.linearVelocity.sqrMagnitude > 0.1f)
         {
@@ -81,69 +96,150 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleMovement()
-    {
-        // MovePosition 대신 velocity 사용 -> 넉백/반동과 호환성 확보
-        rb.linearVelocity = moveInput * moveSpeed;
-    }
-
     private void HandleAiming()
     {
         if (weaponPivot == null) return;
+        if (mainCam == null) mainCam = Camera.main;
 
-        // 1. 마우스 방향 및 각도 계산
-        Vector2 lookDir = (mousePos - (Vector2)weaponPivot.position).normalized;
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
-
-        // 2. 무기 피벗 회전 (Z축 기준)
-        weaponPivot.rotation = Quaternion.Euler(0, 0, angle);
-
-        // 3. 무기 뒤집기 (Y축 스케일 조정)
-        Vector3 scale = weaponPivot.localScale; // 무기의 현재 크기(Scale)를 가져옴
-
-        // 각도의 절댓값이 90보다 크면(왼쪽을 보고 있으면)
-        if (Mathf.Abs(angle) > 90)
+        // 1. 마우스 월드 좌표 갱신 (Z축 0으로 평면화)
+        if (Mouse.current != null)
         {
-            // Y축을 -1로 만들어서 뒤집음 (단, 기존 크기 비율은 유지)
-            scale.y = -1f * Mathf.Abs(scale.y); 
+            Vector2 screenPos = Mouse.current.position.ReadValue();
+            Vector3 worldPos = mainCam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 10f)); // 카메라 Z거리 보정
+            mousePos = new Vector2(worldPos.x, worldPos.y); 
+        }
+
+        // 2. [핵심] 떨림 방지 (Dead Zone Logic)
+        // 마우스와 내 몸의 X축 거리 차이
+        float xDiff = mousePos.x - transform.position.x;
+        float deadZone = 0.05f; // 화면 가운데 작은 사각형 영역 (0.05는 화면의 5% 정도로 조절 가능)
+
+        if (isFacingRight)
+        {
+            // 오른쪽 보는 중인데, 마우스가 왼쪽 데드존 밖으로 나갔다면? -> 왼쪽 보기
+            if (xDiff < -deadZone) isFacingRight = false;
         }
         else
         {
-            // 오른쪽을 보면 원래대로 돌림
-            scale.y = 1f * Mathf.Abs(scale.y);
+            // 왼쪽 보는 중인데, 마우스가 오른쪽 데드존 밖으로 나갔다면? -> 오른쪽 보기
+            if (xDiff > deadZone) isFacingRight = true;
         }
+        
+        // 이제부터 모든 로직은 isFacingRight 변수 하나만 믿고 갑니다.
+        bool isLookingLeft = !isFacingRight;
 
-        // 변경된 크기 적용
-        weaponPivot.localScale = scale;
+        // 3. 몸통 스프라이트 반전
+        if (bodySprite != null) bodySprite.flipX = isLookingLeft;
 
-        // 4. 몸통 좌우 반전
-        if (bodySprite != null)
+
+        // 4. 무기 회전 로직
+        // 공통: 마우스 방향 각도 계산
+        Vector2 lookDir = (mousePos - (Vector2)weaponPivot.position).normalized;
+    float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
+
+    // 데이터에서 크기(Scale) 가져오기 (없으면 1,1,1)
+    Vector3 baseScale = Vector3.one;
+    if (weaponSystem.weaponData != null) baseScale = weaponSystem.weaponData.spriteScale;
+
+    if (weaponSystem != null && weaponSystem.weaponData != null && 
+        (weaponSystem.weaponData.type == WeaponType.Melee || weaponSystem.weaponData.type == WeaponType.Throwable))
+    {
+        // [근접, 수류탄 로직]
+        if (weaponSystem.IsSwinging) return; // 공격 중엔 터치 X
+
+        float angleOffset = weaponSystem.weaponData.holdAngleOffset;
+        Vector3 posOffset = weaponSystem.weaponData.holdPosOffset;
+
+        if (isFacingRight)
         {
-            bodySprite.flipX = mousePos.x < transform.position.x;
+            // 오른쪽: 각도 더하기
+            weaponPivot.rotation = Quaternion.Euler(0, 0, angle + angleOffset);
+            weaponPivot.localPosition = new Vector3(posOffset.x, posOffset.y, 0);
+            
+            // [수정] 피벗은 크기 신경 안 씀. 오직 방향(정방향 1)만 담당
+            weaponPivot.localScale = Vector3.one; 
+        }
+        else
+        {
+            // 왼쪽: 각도 빼기
+            weaponPivot.rotation = Quaternion.Euler(0, 0, angle - angleOffset);
+            
+            // 위치 X 반전
+            weaponPivot.localPosition = new Vector3(-posOffset.x, posOffset.y, 0);
+            
+            // [수정] 피벗은 크기 신경 안 씀. 오직 방향(Y반전 -1)만 담당
+            weaponPivot.localScale = new Vector3(1, -1, 1); 
+        }
+    }
+    else 
+    {
+        // [총]
+        weaponPivot.rotation = Quaternion.Euler(0, 0, angle);
+        Vector3 posOffset = weaponSystem.weaponData.holdPosOffset;
+
+        if (isFacingRight)
+        {
+            // 오른쪽: 설정된 오프셋 그대로
+            weaponPivot.localPosition = new Vector3(posOffset.x, posOffset.y, 0);
+        }
+        else
+        {
+            // 왼쪽: X축 반전 (몸통 기준 대칭 이동)
+            weaponPivot.localPosition = new Vector3(-posOffset.x, posOffset.y, 0);
         }
 
+        // 3. 피벗 스케일: 방향(반전)만 담당
+        Vector3 pivotDirectionScale = Vector3.one;
+        if (isLookingLeft) pivotDirectionScale.y = -1f; // 왼쪽 볼 땐 Y반전으로 총이 뒤집히지 않게 함
+        weaponPivot.localScale = pivotDirectionScale;
+    }
+
+    // [핵심 추가] 실제 무기 크기(baseScale)는 그림(Renderer)에 직접 적용!
+    if (weaponRenderer != null)
+    {
+        weaponRenderer.transform.localScale = baseScale;
+    }
+
+        // 5. 레이어 정리
         if (weaponRenderer != null && bodySprite != null)
         {
-            if (bodySprite.flipX)
-            {
-                weaponRenderer.sortingOrder = bodySprite.sortingOrder - 1; // 몸통 뒤로
-            }
-            else
-            {
-                weaponRenderer.sortingOrder = bodySprite.sortingOrder + 1; // 몸통 앞으로
-            }
-            
+            // 근접무기는 몸에 가려지게, 아니면 뒤에/앞에 상황따라
+            bool isMelee = (weaponSystem.weaponData.type == WeaponType.Melee);
+            weaponRenderer.sortingOrder = bodySprite.sortingOrder + (isMelee ? -1 : (isLookingLeft ? -1 : 1));
         }
     }
 
     private void HandleShooting()
     {
-        // 1. 마우스를 누르고 있고(isFiring)
-        // 2. 무기 시스템이 연결되어 있다면
-        if (isFiring && weaponSystem != null)
+        if (weaponSystem == null) return;
+        if (weaponSystem.weaponData == null) return;
+
+        bool isAuto = weaponSystem.weaponData.isAutomatic;
+
+        if (isFiring)
         {
-            // 무기한테 "쏴!" 명령 (쿨타임 체크는 WeaponSystem이 알아서 함)
-            weaponSystem.TryFire();
+            if (isAuto)
+            {
+                // 연사 모드: 버튼 누르고 있는 동안 계속 발사 시도
+                weaponSystem.TryFire();
+            }
+            else
+            {
+                // 단발 모드: 버튼을 눌렀다가 뗄 때 한 번 발사
+                if (isTriggerReady)
+                {
+                    weaponSystem.TryFire();
+                    isTriggerReady = false; // 다음 발사를 위해 버튼을 뗄 때까지 기다림
+                }
+            }
+        }
+        else
+        {
+            // 버튼이 떼어졌을 때 단발 모드에서 다시 발사할 수 있도록 준비
+            if (!isAuto)
+            {
+                isTriggerReady = true;
+            }
         }
     }
 }
