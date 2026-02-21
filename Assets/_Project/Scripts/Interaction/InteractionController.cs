@@ -80,29 +80,13 @@ public class InteractionController : MonoBehaviour
         var list = new List<InteractionOption>();
         list.Add(new InteractionOption("NPC 클릭 확인", () =>
         {
-            if(npcId != "NPC_Test")
-            {
-                Debug.Log("NPC ID가 잘못됐습니다.");
-                return;
-            }
             string displayName = npcId;
             NpcUIManager.Instance.OpenTopic(
-                npcId, displayName,
-                onTalk: () =>
-                {
-                    Debug.Log("Talk 선택");
-                    NpcUIManager.Instance.CloseAll();
-                },
-                onTrade: () =>
-                {
-                    Debug.Log("Trade 선택");
-                    NpcUIManager.Instance.CloseAll();
-                },
-                onQuest: () =>
-                {
-                    Debug.Log("Quest 선택");
-                    NpcUIManager.Instance.CloseAll();
-                }
+                npcId,
+                displayName,
+                onTalk: () => NpcUIManager.Instance.StartTalk(npcId),
+                onTrade: () => Debug.Log("Trade"),
+                onQuest: () => NpcUIManager.Instance.StartQuest(npcId)
             );
         }));
         return list;
