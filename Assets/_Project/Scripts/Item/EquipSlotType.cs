@@ -4,5 +4,6 @@ public enum EquipSlotType
     Helmet = 1,
     Top = 2,
     Bottom = 3,
-    Shoes = 4
+    Shoes = 4,
+    Weapon = 5
 }

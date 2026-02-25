@@ -4,6 +4,9 @@ using UnityEngine.UIElements;
 
 public class TitleUIController : MonoBehaviour
 {
+    [Header("Scene Settings")]
+    [SerializeField] private string nextSceneName = "Main";
+
     private UIDocument doc;
     private VisualElement root;
 
@@ -114,7 +117,7 @@ public class TitleUIController : MonoBehaviour
                 slotMessage.text = "이 슬롯에는 저장 데이터가 없습니다.";
                 return;
             }
-            SceneLoader.Load("Hub_Main");
+            SceneLoader.Load(nextSceneName);
             return;
         }
 
@@ -128,6 +131,6 @@ public class TitleUIController : MonoBehaviour
         }
 
         GameManager.Instance.StartNewGame(slotIndex);
-        SceneLoader.Load("Hub_Main");
+        SceneLoader.Load(nextSceneName);
     }
 }

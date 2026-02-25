@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 // 반드시 이 네임스페이스가 있어야 합니다!
 using UnityEngine.InputSystem;
+using UnityEngine.AI;
+using NavMeshPlus.Components;
 
 public class DoorTileManager : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public class DoorTileManager : MonoBehaviour
     [SerializeField] private TileBase closingAnimTile;
 
     [SerializeField] private float animDuration = 0.4f;
+    [SerializeField] private NavMeshSurface surface2D;
 
     void Update()
     {
@@ -58,6 +61,12 @@ public class DoorTileManager : MonoBehaviour
         foreach (var pos in positions)
         {
             doorTilemap.SetTile(pos, finalTile);
+        }
+        yield return new WaitForEndOfFrame(); // 타일맵이 완전히 갱신된 후 NavMesh를 빌드하도록 보장
+
+        if (surface2D != null)
+        {
+            surface2D.BuildNavMesh(); // MavMesh 갱신
         }
     }
 
