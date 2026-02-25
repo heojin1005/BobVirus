@@ -6,7 +6,8 @@ public enum DialogueEffectType
     StoryProgressAdd,
     StoryProgressSet,
     TestAdd,
-    TestSet
+    TestSet,
+    TalkChange,
 }
 
 [Serializable]
@@ -35,6 +36,12 @@ public class DialogueEffect
 
             case DialogueEffectType.TestSet:
                 data.test = intValue;
+                break;
+            
+            case DialogueEffectType.TalkChange:
+                var o = data.EnsureNpcOverride("detective");
+                o.talkGraphId = "detectiveTalk2";
+                GameManager.Instance.SaveNow();
                 break;
         }
     }

@@ -7,8 +7,9 @@ public class WorldTapInteractor : MonoBehaviour
 {
     [SerializeField] private Camera cam;
 
-    // ✅ Hub/Point 액션을 인스펙터에서 연결할 것
-    [SerializeField] private InputActionReference pointAction;
+    // (더 이상 Point 액션을 통해 좌표를 읽지 않음)
+    // 남겨두고 싶으면 SerializeField 유지해도 되지만, 실제로는 사용하지 않음.
+    // [SerializeField] private InputActionReference pointAction;
 
     // UI Raycast 재사용 버퍼(가비지 줄이기)
     private static readonly List<RaycastResult> uiHits = new();
@@ -18,35 +19,29 @@ public class WorldTapInteractor : MonoBehaviour
         if (cam == null) cam = Camera.main;
     }
 
-    private void OnEnable()
-    {
-        // PlayerInput이 Enable을 해주더라도, 안전하게 보장
-        if (pointAction != null) pointAction.action.Enable();
-    }
-
-    private void OnDisable()
-    {
-        // 다른 시스템에서 공유한다면 Disable 하지 않는 편이 더 안전할 수도 있음.
-        // 지금은 단독 사용 가정으로 비활성화해도 OK.
-        if (pointAction != null) pointAction.action.Disable();
-    }
-
     // ✅ Send Messages: Tap 액션이 발생하면 호출됨
     public void OnTap(InputValue value)
     {
-        if (!value.isPressed) return;
+        // Tap 액션이 Press 계열이면 isPressed로 걸러도 되지만,
+        // 프로젝트마다 설정이 달라 간헐 이슈를 만들 수 있어서 "안전하게" 처리.
+        // (원하면 다시 if (!value.isPressed) return; 넣어도 됨)
         if (cam == null) return;
-        if (pointAction == null) return;
 
         // ✅ UI(예: NPC 패널/인벤 등)가 열려 있으면 월드 탭 차단
-        // PauseService가 프로젝트에 없거나 씬에 없으면 null일 수 있으니 방어
         if (PauseService.Instance != null && PauseService.Instance.IsPaused)
             return;
 
-        // ✅ Point 액션에서 스크린 좌표를 읽는다
-        Vector2 screenPos = pointAction.action.ReadValue<Vector2>();
+        // ✅ 현재 포인터(마우스/터치)의 스크린 좌표를 직접 읽는다
+        var pointer = Pointer.current;
+        if (pointer == null)
+        {
+            Debug.LogWarning("Pointer.current is null (no active pointer device).");
+            return;
+        }
 
-        // ✅ UI 위를 눌렀다면 월드 탭 무시 (IsPointerOverGameObject 경고/오작동 방지)
+        Vector2 screenPos = pointer.position.ReadValue();
+
+        // ✅ UI 위를 눌렀다면 월드 탭 무시
         if (IsPointerOverUI(screenPos))
             return;
 

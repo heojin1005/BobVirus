@@ -85,7 +85,7 @@ public class InteractionController : MonoBehaviour
                 npcId,
                 displayName,
                 onTalk: () => NpcUIManager.Instance.StartTalk(npcId),
-                onTrade: () => Debug.Log("Trade"),
+                onTrade: () => NpcUIManager.Instance.StartTrade(npcId),
                 onQuest: () => NpcUIManager.Instance.StartQuest(npcId)
             );
         }));
