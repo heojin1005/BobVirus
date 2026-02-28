@@ -51,7 +51,7 @@ public class SaveGameData
             clearedMaps = new List<string>(),
             currentMapId = "",
             discoveredItems = new HashSet<string>(),
-            inventoryItems = new List<string>(),
+            inventoryItems = new List<string> { "Rifle", "Grenade" },
             rescuedNpcs = new HashSet<string>(),
             storyProgress = 0,
             test = 0,

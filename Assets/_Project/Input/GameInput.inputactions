@@ -64,6 +64,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "1c35f337-bc89-4e31-a5b5-15e7a1770139",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Reload",
                     "type": "Button",
                     "id": "6d86364d-f069-4907-bc73-bfd73b02a8ee",
@@ -146,6 +155,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "662ae1ff-aa9f-4f06-b67d-98e1447d5294",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",

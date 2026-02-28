@@ -2,13 +2,14 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections;
 using System.Collections.Generic;
-// 반드시 이 네임스페이스가 있어야 합니다!
 using UnityEngine.InputSystem;
 using UnityEngine.AI;
 using NavMeshPlus.Components;
 
 public class DoorTileManager : MonoBehaviour
 {
+    public static DoorTileManager Instance { get; private set; }
+
     [SerializeField] private Tilemap doorTilemap;
 
     [SerializeField] private TileBase closedRuleTile;
@@ -20,33 +21,75 @@ public class DoorTileManager : MonoBehaviour
     [SerializeField] private float animDuration = 0.4f;
     [SerializeField] private NavMeshSurface surface2D;
 
-    void Update()
+
+    private void Awake()
     {
-        // Mouse.current를 사용하는 것이 새로운 Input System의 방식입니다.
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        if (Instance != null && Instance != this) 
+        { 
+            Destroy(gameObject);
+        }
+        else
         {
-            // 1. 마우스의 스크린 좌표를 가져옵니다.
-            Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+            Instance = this;
+        }
+    }
 
-            // 2. 카메라를 통해 월드 좌표로 변환합니다. (Z축 보정 필수)
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(mouseScreenPos.x, mouseScreenPos.y, -Camera.main.transform.position.z));
 
-            // 3. 타일맵 좌표로 변환합니다.
-            Vector3Int cellPos = doorTilemap.WorldToCell(mouseWorldPos);
-            TileBase clickedTile = doorTilemap.GetTile(cellPos);
+    public bool TryToggleNearbyDoor(Vector3 centerPos, float radius)
+    {
+        Vector3Int centerCell = doorTilemap.WorldToCell(centerPos);
+        int cellRadius = Mathf.CeilToInt(radius); // 1.5m 반경이면 주변 2칸 정도를 탐색
 
-            // 문 열기/닫기 로직
-            if (clickedTile == closedRuleTile)
+        float minDistance = float.MaxValue;
+        Vector3Int closestDoorCell = Vector3Int.zero;
+        TileBase closestDoorTile = null;
+        bool foundDoor = false;
+
+        // 플레이어 주변 타일(격자)을 모두 스캔합니다.
+        for (int x = -cellRadius; x <= cellRadius; x++)
+        {
+            for (int y = -cellRadius; y <= cellRadius; y++)
             {
-                List<Vector3Int> doorParts = GetConnectedDoorTiles(cellPos, closedRuleTile);
-                StartCoroutine(DoorRoutine(doorParts, openingAnimTile, openRuleTile));
-            }
-            else if (clickedTile == openRuleTile)
-            {
-                List<Vector3Int> doorParts = GetConnectedDoorTiles(cellPos, openRuleTile);
-                StartCoroutine(DoorRoutine(doorParts, closingAnimTile, closedRuleTile));
+                Vector3Int cellPos = centerCell + new Vector3Int(x, y, 0);
+                TileBase tile = doorTilemap.GetTile(cellPos);
+
+                // 해당 타일이 문(열림/닫힘)이라면?
+                if (tile == closedRuleTile || tile == openRuleTile)
+                {
+                    // 타일의 실제 월드 중심 좌표를 가져와 플레이어와의 거리를 잽니다.
+                    Vector3 cellWorldPos = doorTilemap.GetCellCenterWorld(cellPos);
+                    float dist = Vector2.Distance(centerPos, cellWorldPos);
+
+                    // 반경 안에 들어오고, 지금까지 찾은 문보다 더 가깝다면 갱신
+                    if (dist <= radius && dist < minDistance)
+                    {
+                        minDistance = dist;
+                        closestDoorCell = cellPos;
+                        closestDoorTile = tile;
+                        foundDoor = true;
+                    }
+                }
             }
         }
+
+        // 가장 가까운 문을 찾았다면 작동시킵니다.
+        if (foundDoor)
+        {
+            if (closestDoorTile == closedRuleTile)
+            {
+                List<Vector3Int> doorParts = GetConnectedDoorTiles(closestDoorCell, closedRuleTile);
+                StartCoroutine(DoorRoutine(doorParts, openingAnimTile, openRuleTile));
+                return true;
+            }
+            else if (closestDoorTile == openRuleTile)
+            {
+                List<Vector3Int> doorParts = GetConnectedDoorTiles(closestDoorCell, openRuleTile);
+                StartCoroutine(DoorRoutine(doorParts, closingAnimTile, closedRuleTile));
+                return true;
+            }
+        }
+
+        return false; // 주변에 문이 없음
     }
 
     IEnumerator DoorRoutine(List<Vector3Int> positions, TileBase animTile, TileBase finalTile)

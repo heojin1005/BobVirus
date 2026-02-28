@@ -1,7 +1,5 @@
-// Scripts/Player/PlayerEquipment.cs 신규 생성
 using UnityEngine;
-using UnityEngine.InputSystem; // 단축키 감지용
-
+using UnityEngine.InputSystem;
 public class PlayerEquipment : MonoBehaviour
 {
     [Header("References")]
