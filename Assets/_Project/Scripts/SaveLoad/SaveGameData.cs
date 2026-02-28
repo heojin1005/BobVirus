@@ -21,6 +21,7 @@ public class SaveGameData
     public string topId = ""; // 상의
     public string bottomId = ""; // 하의
     public string shoesId = ""; // 신발
+    public string weaponId = ""; // 무기
     public HashSet<string> rescuedNpcs = new();        // 구조된 NPC ID
     public int storyProgress = 1;
     public int test = 0;
@@ -50,7 +51,7 @@ public class SaveGameData
             clearedMaps = new List<string>(),
             currentMapId = "",
             discoveredItems = new HashSet<string>(),
-            inventoryItems = new List<string>(),
+            inventoryItems = new List<string> { "Rifle", "Grenade" },
             rescuedNpcs = new HashSet<string>(),
             storyProgress = 0,
             test = 0,
@@ -58,7 +59,8 @@ public class SaveGameData
             topId = "",
             bottomId = "",
             shoesId = "",
-            inventoryCapacity = 20
+            weaponId = "",
+            inventoryCapacity = 45
         };
         data.NormalizeInventory();
         return data;

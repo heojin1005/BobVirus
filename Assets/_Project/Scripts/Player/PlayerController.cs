@@ -135,77 +135,86 @@ public class PlayerController : MonoBehaviour
         // 4. 무기 회전 로직
         // 공통: 마우스 방향 각도 계산
         Vector2 lookDir = (mousePos - (Vector2)weaponPivot.position).normalized;
-    float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
 
-    // 데이터에서 크기(Scale) 가져오기 (없으면 1,1,1)
-    Vector3 baseScale = Vector3.one;
-    if (weaponSystem.weaponData != null) baseScale = weaponSystem.weaponData.spriteScale;
-
-    if (weaponSystem != null && weaponSystem.weaponData != null && 
-        (weaponSystem.weaponData.type == WeaponType.Melee || weaponSystem.weaponData.type == WeaponType.Throwable))
-    {
-        // [근접, 수류탄 로직]
-        if (weaponSystem.IsSwinging) return; // 공격 중엔 터치 X
-
-        float angleOffset = weaponSystem.weaponData.holdAngleOffset;
-        Vector3 posOffset = weaponSystem.weaponData.holdPosOffset;
-
-        if (isFacingRight)
+        if (weaponSystem == null || weaponSystem.weaponData == null)
         {
-            // 오른쪽: 각도 더하기
-            weaponPivot.rotation = Quaternion.Euler(0, 0, angle + angleOffset);
-            weaponPivot.localPosition = new Vector3(posOffset.x, posOffset.y, 0);
-            
-            // [수정] 피벗은 크기 신경 안 씀. 오직 방향(정방향 1)만 담당
-            weaponPivot.localScale = Vector3.one; 
-        }
-        else
-        {
-            // 왼쪽: 각도 빼기
-            weaponPivot.rotation = Quaternion.Euler(0, 0, angle - angleOffset);
-            
-            // 위치 X 반전
-            weaponPivot.localPosition = new Vector3(-posOffset.x, posOffset.y, 0);
-            
-            // [수정] 피벗은 크기 신경 안 씀. 오직 방향(Y반전 -1)만 담당
-            weaponPivot.localScale = new Vector3(1, -1, 1); 
-        }
-    }
-    else 
-    {
-        // [총]
-        weaponPivot.rotation = Quaternion.Euler(0, 0, angle);
-        Vector3 posOffset = weaponSystem.weaponData.holdPosOffset;
-
-        if (isFacingRight)
-        {
-            // 오른쪽: 설정된 오프셋 그대로
-            weaponPivot.localPosition = new Vector3(posOffset.x, posOffset.y, 0);
-        }
-        else
-        {
-            // 왼쪽: X축 반전 (몸통 기준 대칭 이동)
-            weaponPivot.localPosition = new Vector3(-posOffset.x, posOffset.y, 0);
+            weaponPivot.rotation = Quaternion.Euler(0, 0, angle);
+            Vector3 pivotDirectionScale = Vector3.one;
+            if (isLookingLeft) pivotDirectionScale.y = -1f;
+            weaponPivot.localScale = pivotDirectionScale;
+            return;
         }
 
-        // 3. 피벗 스케일: 방향(반전)만 담당
-        Vector3 pivotDirectionScale = Vector3.one;
-        if (isLookingLeft) pivotDirectionScale.y = -1f; // 왼쪽 볼 땐 Y반전으로 총이 뒤집히지 않게 함
-        weaponPivot.localScale = pivotDirectionScale;
-    }
+        // 데이터에서 크기(Scale) 가져오기 (없으면 1,1,1)
+        Vector3 baseScale = Vector3.one;
+        if (weaponSystem.weaponData != null) baseScale = weaponSystem.weaponData.spriteScale;
 
-    // [핵심 추가] 실제 무기 크기(baseScale)는 그림(Renderer)에 직접 적용!
-    if (weaponRenderer != null)
-    {
-        weaponRenderer.transform.localScale = baseScale;
-    }
+        if (weaponSystem != null && weaponSystem.weaponData != null && 
+            (weaponSystem.weaponData.type == WeaponType.Melee || weaponSystem.weaponData.type == WeaponType.Throwable))
+        {
+             // [근접, 수류탄 로직]
+            if (weaponSystem.IsSwinging) return; // 공격 중엔 터치 X
 
-        // 5. 레이어 정리
+            float angleOffset = weaponSystem.weaponData.holdAngleOffset;
+            Vector3 posOffset = weaponSystem.weaponData.holdPosOffset;
+
+            if (isFacingRight)
+            {
+                // 오른쪽: 각도 더하기
+                weaponPivot.rotation = Quaternion.Euler(0, 0, angle + angleOffset);
+                weaponPivot.localPosition = new Vector3(posOffset.x, posOffset.y, 0);
+
+                // [수정] 피벗은 크기 신경 안 씀. 오직 방향(정방향 1)만 담당
+                weaponPivot.localScale = Vector3.one; 
+            }
+            else
+            {
+                // 왼쪽: 각도 빼기
+                weaponPivot.rotation = Quaternion.Euler(0, 0, angle - angleOffset);
+
+                // 위치 X 반전
+                weaponPivot.localPosition = new Vector3(-posOffset.x, posOffset.y, 0);
+
+                // [수정] 피벗은 크기 신경 안 씀. 오직 방향(Y반전 -1)만 담당
+                weaponPivot.localScale = new Vector3(1, -1, 1); 
+            }
+        }
+        else 
+        {
+            // [총]
+            weaponPivot.rotation = Quaternion.Euler(0, 0, angle);
+            Vector3 posOffset = weaponSystem.weaponData.holdPosOffset;
+
+            if (isFacingRight)
+            {
+                // 오른쪽: 설정된 오프셋 그대로
+                weaponPivot.localPosition = new Vector3(posOffset.x, posOffset.y, 0);
+            }
+            else
+            {
+                // 왼쪽: X축 반전 (몸통 기준 대칭 이동)
+                weaponPivot.localPosition = new Vector3(-posOffset.x, posOffset.y, 0);
+            }
+
+            // 3. 피벗 스케일: 방향(반전)만 담당
+            Vector3 pivotDirectionScale = Vector3.one;
+            if (isLookingLeft) pivotDirectionScale.y = -1f; // 왼쪽 볼 땐 Y반전으로 총이 뒤집히지 않게 함
+            weaponPivot.localScale = pivotDirectionScale;
+        }
+
+        // 실제 무기 크기(baseScale)는 그림(Renderer)에 직접 적용!
+        if (weaponRenderer != null)
+        {
+            weaponRenderer.transform.localScale = baseScale;
+        }
+
+            // 5. 레이어 정리
         if (weaponRenderer != null && bodySprite != null)
         {
             // 근접무기는 몸에 가려지게, 아니면 뒤에/앞에 상황따라
-            bool isMelee = (weaponSystem.weaponData.type == WeaponType.Melee);
-            weaponRenderer.sortingOrder = bodySprite.sortingOrder + (isMelee ? -1 : (isLookingLeft ? -1 : 1));
+            //bool isMelee = (weaponSystem.weaponData.type == WeaponType.Melee);
+            //weaponRenderer.sortingOrder = bodySprite.sortingOrder + (isMelee ? -1 : (isLookingLeft ? -1 : 1));
         }
     }
 

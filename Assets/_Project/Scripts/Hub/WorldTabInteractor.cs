@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class WorldTapInteractor : MonoBehaviour
 {
     [SerializeField] private Camera cam;
-
-    // ✅ Hub/Point 액션을 인스펙터에서 연결할 것
-    [SerializeField] private InputActionReference pointAction;
 
     [Header("Safety")]
     [SerializeField] private bool ignoreWhenPointerOverUI = true;
@@ -17,44 +15,54 @@ public class WorldTapInteractor : MonoBehaviour
         if (cam == null) cam = Camera.main;
     }
 
-    private void OnEnable()
+    // [핵심 변경] OnTap(InputValue value) 콜백 함수를 삭제하고,
+    // Update문에서 마우스의 좌클릭을 물리적으로 직접 감지합니다.
+    private void Update()
     {
-        if (pointAction != null) pointAction.action.Enable();
-    }
+        if (Mouse.current == null) return;
 
-    private void OnDisable()
-    {
-        if (pointAction != null) pointAction.action.Disable();
-    }
-
-    // ✅ Send Messages: Tap 액션이 발생하면 호출됨
-    public void OnTap(InputValue value)
-    {
-        if (!value.isPressed) return;
-        if (cam == null) return;
-        if (pointAction == null) return;
-
-        // ✅ UI 위 클릭/터치면 월드 상호작용 무시(안전망)
-        if (ignoreWhenPointerOverUI && EventSystem.current != null)
+        // 마우스 왼쪽 버튼이 '이번 프레임에 눌렸을 때'만 실행 (가만히 있어도 100% 작동)
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            // 파라미터 없는 버전은 마우스/에디터에서 확실하게 먹음.
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
+            HandleWorldClick();
+        }
+    }
+
+    private void HandleWorldClick()
+    {
+        if (cam == null) return;
+
+        // UI 위를 클릭했다면 월드 상호작용 무시
+        if (ignoreWhenPointerOverUI && IsPointerOverUI())
+        {
+            return; 
         }
 
-        Vector2 screenPos = pointAction.action.ReadValue<Vector2>();
-
+        Vector2 screenPos = Mouse.current.position.ReadValue();
         Vector3 worldPos = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 0f));
         Vector2 wp2 = new Vector2(worldPos.x, worldPos.y);
 
         Collider2D hit = Physics2D.OverlapPoint(wp2);
-        if (hit == null) { Debug.Log("HIT: null"); return; }
-
-        Debug.Log($"HIT: {hit.name} / root={hit.transform.root.name}");
+        if (hit == null) return; 
 
         var interactable = hit.GetComponentInParent<IInteractable>();
-        Debug.Log($"IInteractable: {(interactable == null ? "null" : interactable.GetType().Name)}");
+        if (interactable != null)
+        {
+            interactable.Interact();
+        }
+    }
 
-        interactable?.Interact();
+    // UI 레이캐스트 안전망
+    private bool IsPointerOverUI()
+    {
+        if (EventSystem.current == null) return false;
+
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = Mouse.current.position.ReadValue();
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+        return results.Count > 0;
     }
 }

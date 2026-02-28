@@ -18,6 +18,10 @@ public class ItemDefinition : ScriptableObject
     public string displayName;
     [TextArea] public string description;
 
+    [Header("Weapon Specific")]
+    [Tooltip("무기 아이템이 되고싶은자는 나에게로")]
+    public WeaponData weaponData;
+
 #if UNITY_EDITOR
     private void OnValidate()
     {
