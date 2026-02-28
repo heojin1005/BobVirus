@@ -140,6 +140,8 @@ public class CombatHUD : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f); // 1초 대기 후
 
-        SceneLoader.Load("Main"); // 허브 씬 제작 전까지 일단 메인씬으로 재시작
+        SceneLoader.Load("Hub_main"); // 허브 씬 제작 전까지 일단 메인씬으로 재시작
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

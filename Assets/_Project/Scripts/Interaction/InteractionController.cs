@@ -33,14 +33,12 @@ public class InteractionController : MonoBehaviour
         // 1) SaveData 읽기
         SaveGameData data = GetSaveData();
         data.NormalizeInventory();
-        data.inventoryCapacity = 40;
-        Debug.Log($"현재 인벤토리가 {data.inventoryCapacity}입니다.");
         int storyProgress = (data != null) ? data.storyProgress : 0;
 
         // 2) 조건 검사 + 옵션 만들기
         List<InteractionOption> options = target.kind switch
         {
-            InteractionKind.Npc => NpcClickCount(target.targetId, data),
+            InteractionKind.Npc => NPCInteraction(target.targetId, data),
             InteractionKind.Encyclopedia => EncyclopediaOpen(data),
             _ => BuildGenericOptions(target)
         };
@@ -77,6 +75,22 @@ public class InteractionController : MonoBehaviour
     //}
     //));
     //return list;
+    private List<InteractionOption> NPCInteraction(string npcId, SaveGameData data)
+    {
+        var list = new List<InteractionOption>();
+        list.Add(new InteractionOption("NPC 클릭 확인", () =>
+        {
+            string displayName = npcId;
+            NpcUIManager.Instance.OpenTopic(
+                npcId,
+                displayName,
+                onTalk: () => NpcUIManager.Instance.StartTalk(npcId),
+                onTrade: () => NpcUIManager.Instance.StartTrade(npcId),
+                onQuest: () => NpcUIManager.Instance.StartQuest(npcId)
+            );
+        }));
+        return list;
+    }
     private List<InteractionOption> NpcClickCount(string npcId, SaveGameData data)
     {
         var list = new List<InteractionOption>();

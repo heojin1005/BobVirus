@@ -48,7 +48,13 @@ public class InventoryToggleController : MonoBehaviour
     private void Update()
     {
         if (!enableKeyboardToggle) return;
-
+        // ✅ 다른 UI(NPC 등)가 Pause를 걸어둔 상태면 인벤 "열기"는 막고,
+        // 이미 인벤이 열려있으면 "닫기"는 허용
+        if (PauseService.Instance != null && PauseService.Instance.IsPaused)
+        {
+            if (inventoryUI == null || !inventoryUI.IsOpen)
+                return;
+        }
         if (Keyboard.current != null && Keyboard.current[toggleKey].wasPressedThisFrame)
             Toggle();
     }
@@ -65,7 +71,10 @@ public class InventoryToggleController : MonoBehaviour
     public void OpenInventory()
     {
         if (inventoryUI == null) return;
-
+        // ✅ NPC 등 다른 UI가 pause 걸어둔 상태면 인벤 오픈 금지
+        if (PauseService.Instance != null && PauseService.Instance.IsPaused)
+            return;
+            
         inventoryUI.Open();
 
         if (pauseTimeWhenOpen)
