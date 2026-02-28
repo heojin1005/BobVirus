@@ -133,4 +133,8 @@ public class TitleUIController : MonoBehaviour
         GameManager.Instance.StartNewGame(slotIndex);
         SceneLoader.Load(nextSceneName);
     }
+    public void GoMain()
+{
+    SceneLoader.Load("Main");
+}
 }
