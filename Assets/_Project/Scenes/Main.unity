@@ -473,8 +473,6 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   hubActionMapName: Hub
   uiActionMapName: UI
-  worldTapInteractor: {fileID: 0}
-  disableWorldTapWhenOpen: 1
   enableKeyboardToggle: 1
   toggleKey: 19
   pauseTimeWhenOpen: 1
@@ -6808,7 +6806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 68291fda768c39f49987eefc5d758435, type: 2}
   muzzlePoint: {fileID: 1770589091}
-  weaponRenderer: {fileID: 3626916397498700004, guid: 0ef22d87d4f54f7468e7ddea780d311b, type: 3}
+  weaponRenderer: {fileID: 714798322}
 --- !u!114 &1140720720
 MonoBehaviour:
   m_ObjectHideFlags: 0

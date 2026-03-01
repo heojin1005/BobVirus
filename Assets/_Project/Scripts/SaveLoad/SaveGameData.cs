@@ -22,11 +22,9 @@ public class SaveGameData
     public string shoesId = "";
     public string weaponId = "";
 
-
     public HashSet<string> rescuedNpcs = new();
     public int storyProgress = 1;
     public int test = 0;
-
 
     // =========================
     // ✅ NPC Override Data
@@ -81,6 +79,86 @@ public class SaveGameData
     }
 
     // =========================
+    // ✅ Storage / Chest Data (NEW)
+    // =========================
+    [Serializable]
+    public class ContainerSaveData
+    {
+        public string containerKey;          // Dictionary key와 동일하게 넣어두면 디버깅에 편함
+        public int capacity = 20;
+        public List<string> items = new();
+
+        public void Normalize()
+        {
+            if (items == null) items = new List<string>();
+
+            for (int i = 0; i < items.Count; i++)
+                if (items[i] == null) items[i] = "";
+
+            while (items.Count < capacity)
+                items.Add("");
+
+            if (items.Count > capacity)
+                items.RemoveRange(capacity, items.Count - capacity);
+        }
+    }
+
+    /// <summary>
+    /// containerKey -> 저장된 창고 데이터
+    /// - 허브 저장용 창고: 여기(Dictionary)에 누적 저장
+    /// - 맵 파밍 상자도 "persistToSave = true"면 여기로 저장 가능
+    /// </summary>
+    public Dictionary<string, ContainerSaveData> containers = new();
+
+    /// <summary>
+    /// 저장된 컨테이너 가져오기(없으면 null)
+    /// </summary>
+    public ContainerSaveData GetContainer(string containerKey)
+    {
+        if (string.IsNullOrEmpty(containerKey)) return null;
+        if (containers == null) containers = new Dictionary<string, ContainerSaveData>();
+        containers.TryGetValue(containerKey, out var c);
+        return c;
+    }
+
+    /// <summary>
+    /// 컨테이너가 없으면 생성해서 반환.
+    /// '템플릿(초기 capacity/items)'을 넣어주면 최초 생성 때만 적용됨.
+    /// </summary>
+    public ContainerSaveData EnsureContainer(string containerKey, int defaultCapacity, List<string> defaultItemsOrNull)
+    {
+        if (string.IsNullOrEmpty(containerKey)) return null;
+        if (containers == null) containers = new Dictionary<string, ContainerSaveData>();
+
+        if (!containers.TryGetValue(containerKey, out var c) || c == null)
+        {
+            c = new ContainerSaveData();
+            c.containerKey = containerKey;
+            c.capacity = Math.Max(1, defaultCapacity);
+
+            c.items = defaultItemsOrNull != null ? new List<string>(defaultItemsOrNull) : new List<string>();
+            c.Normalize();
+
+            containers[containerKey] = c;
+        }
+        else
+        {
+            // 기존 데이터가 있더라도 안전하게 정규화
+            if (c.capacity <= 0) c.capacity = Math.Max(1, defaultCapacity);
+            c.Normalize();
+        }
+
+        return c;
+    }
+
+    public void RemoveContainer(string containerKey)
+    {
+        if (containers == null) return;
+        if (string.IsNullOrEmpty(containerKey)) return;
+        containers.Remove(containerKey);
+    }
+
+    // =========================
     // Existing
     // =========================
     public void NormalizeInventory()
@@ -117,8 +195,12 @@ public class SaveGameData
             shoesId = "",
             weaponId = "",
             inventoryCapacity = 45,
-            npcOverrides = new Dictionary<string, NpcOverrideData>()
+            npcOverrides = new Dictionary<string, NpcOverrideData>(),
+
+            // ✅ NEW
+            containers = new Dictionary<string, ContainerSaveData>()
         };
+
         data.NormalizeInventory();
         return data;
     }

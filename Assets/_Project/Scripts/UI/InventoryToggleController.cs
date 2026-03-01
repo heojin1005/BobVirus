@@ -12,10 +12,6 @@ public class InventoryToggleController : MonoBehaviour
     [SerializeField] private string hubActionMapName = "Hub";
     [SerializeField] private string uiActionMapName = "UI";
 
-    [Header("World Tap Block")]
-    [SerializeField] private WorldTapInteractor worldTapInteractor;
-    [SerializeField] private bool disableWorldTapWhenOpen = true;
-
     [Header("Keyboard Toggle (PC)")]
     [SerializeField] private bool enableKeyboardToggle = true;
     [SerializeField] private Key toggleKey = Key.E;
@@ -34,9 +30,6 @@ public class InventoryToggleController : MonoBehaviour
         if (playerInput == null)
             playerInput = FindFirstObjectByType<PlayerInput>();
 
-        if (worldTapInteractor == null)
-            worldTapInteractor = FindFirstObjectByType<WorldTapInteractor>();
-
         // 시작 시 닫힘 보장 + 허브 입력으로 고정
         if (inventoryUI != null && inventoryUI.IsOpen)
             inventoryUI.Close();
@@ -48,18 +41,11 @@ public class InventoryToggleController : MonoBehaviour
     private void Update()
     {
         if (!enableKeyboardToggle) return;
-        // ✅ 다른 UI(NPC 등)가 Pause를 걸어둔 상태면 인벤 "열기"는 막고,
-        // 이미 인벤이 열려있으면 "닫기"는 허용
-        if (PauseService.Instance != null && PauseService.Instance.IsPaused)
-        {
-            if (inventoryUI == null || !inventoryUI.IsOpen)
-                return;
-        }
+
         if (Keyboard.current != null && Keyboard.current[toggleKey].wasPressedThisFrame)
             Toggle();
     }
 
-    // UI 버튼에서 연결
     public void Toggle()
     {
         if (inventoryUI == null) return;
@@ -71,10 +57,7 @@ public class InventoryToggleController : MonoBehaviour
     public void OpenInventory()
     {
         if (inventoryUI == null) return;
-        // ✅ NPC 등 다른 UI가 pause 걸어둔 상태면 인벤 오픈 금지
-        if (PauseService.Instance != null && PauseService.Instance.IsPaused)
-            return;
-            
+
         inventoryUI.Open();
 
         if (pauseTimeWhenOpen)
@@ -100,16 +83,12 @@ public class InventoryToggleController : MonoBehaviour
 
     private void SwitchToUI()
     {
-        // 1) ActionMap 전환: Hub 입력 자체를 끈다 (OnTap 호출 방지의 핵심)
+        // ActionMap 전환만으로도 Hub 탭 입력은 안 들어오게 됨
         if (playerInput != null && !string.IsNullOrEmpty(uiActionMapName))
         {
             if (playerInput.currentActionMap == null || playerInput.currentActionMap.name != uiActionMapName)
                 playerInput.SwitchCurrentActionMap(uiActionMapName);
         }
-
-        // 2) 안전망: 월드 탭 스크립트 자체도 끈다
-        if (disableWorldTapWhenOpen && worldTapInteractor != null)
-            worldTapInteractor.enabled = false;
     }
 
     private void SwitchToHub()
@@ -119,8 +98,5 @@ public class InventoryToggleController : MonoBehaviour
             if (playerInput.currentActionMap == null || playerInput.currentActionMap.name != hubActionMapName)
                 playerInput.SwitchCurrentActionMap(hubActionMapName);
         }
-
-        if (worldTapInteractor != null)
-            worldTapInteractor.enabled = true;
     }
 }
