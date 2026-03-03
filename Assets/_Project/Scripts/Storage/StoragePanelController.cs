@@ -1,44 +1,38 @@
 using UnityEngine;
+using UI;
 
 public class StoragePanelController : MonoBehaviour
 {
-    public bool IsStorageOpen { get; private set; }
-
-    public StorageContainerInstance CurrentInstance { get; private set; }
-    public SaveGameData.ContainerSaveData CurrentData { get; private set; }
-
-    [Header("Optional: Auto close when Inventory closes")]
-    [SerializeField] private UI.InventoryUIController inventoryUI;
+    [Header("Refs")]
+    [SerializeField] private InventoryUIController inventoryUI;
 
     private void Awake()
     {
         if (inventoryUI == null)
-            inventoryUI = FindFirstObjectByType<UI.InventoryUIController>(FindObjectsInactive.Include);
-    }
-
-    private void Update()
-    {
-        // 인벤이 닫히면 창고도 같이 닫힘 처리
-        if (IsStorageOpen && inventoryUI != null && !inventoryUI.IsOpen)
-        {
-            CloseStorage();
-        }
+            inventoryUI = FindFirstObjectByType<InventoryUIController>(FindObjectsInactive.Include);
     }
 
     public void OpenStorage(StorageContainerInstance instance, SaveGameData.ContainerSaveData data)
     {
-        CurrentInstance = instance;
-        CurrentData = data;
-        IsStorageOpen = true;
+        if (inventoryUI == null)
+        {
+            Debug.LogError("[StoragePanelController] InventoryUIController not found.");
+            return;
+        }
 
-        Debug.Log($"[StoragePanel] OpenStorage - key={data.containerKey}, cap={data.capacity}, persist={instance.PersistToSave}, def={instance.Definition?.name}");
+        if (data == null)
+        {
+            Debug.LogError("[StoragePanelController] ContainerSaveData is null.");
+            return;
+        }
+
+        // ✅ 여기서 실제로 왼쪽 StorageWindow를 켜고 슬롯을 그리는 쪽으로 전달
+        inventoryUI.OpenStorage(data);
     }
 
     public void CloseStorage()
     {
-        Debug.Log("[StoragePanel] CloseStorage");
-        CurrentInstance = null;
-        CurrentData = null;
-        IsStorageOpen = false;
+        if (inventoryUI == null) return;
+        inventoryUI.CloseStorage();
     }
 }

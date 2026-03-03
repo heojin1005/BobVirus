@@ -209,7 +209,7 @@ public class NpcUIManager : MonoBehaviour
         // ✅ storePanel이 null이면 자동으로 씬에서 찾아보기(안전망)
         if (storePanel == null)
         {
-            storePanel = FindObjectOfType<NpcStorePanelUI>(true);
+            storePanel = FindFirstObjectByType<NpcStorePanelUI>(FindObjectsInactive.Include);
             Debug.LogWarning($"[Trade] storePanel was null -> auto find result: {(storePanel != null ? storePanel.name : "null")}");
         }
 

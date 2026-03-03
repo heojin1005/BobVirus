@@ -26,9 +26,18 @@ namespace UI
         [SerializeField] private RectTransform inventoryViewport;
         [Tooltip("드래그 중 포인터가 뷰포트 상/하단 이 픽셀 안으로 들어오면 오토 스크롤")]
         [SerializeField] private float edgeThresholdPx = 70f;
-        [Tooltip("오토 스크롤 속도(정규화 기준, 1=전체를 1초에 훑는 느낌). 0.4~1.2 추천")]
+        [Tooltip("오토 스크롤 속도(정규화 기준). 0.4~1.2 추천")]
         [SerializeField] private float autoScrollSpeed = 0.85f;
         [SerializeField] private bool enableAutoScroll = true;
+
+        [Header("Storage UI (Left)")]
+        [SerializeField] private GameObject storagePanelRoot;     // 왼쪽 패널 루트
+        [SerializeField] private Transform storageGridRoot;        // StorageScrollView/Viewport/Content
+        [SerializeField] private StorageSlotUI storageSlotPrefab;  // StorageSlotUI 프리팹
+
+        [Header("Storage Scroll (AutoScroll)")]
+        [SerializeField] private ScrollRect storageScrollRect;
+        [SerializeField] private RectTransform storageViewport;
 
         [Header("Equip Slots (4)")]
         [SerializeField] private EquipSlotUI helmetSlot;
@@ -45,16 +54,20 @@ namespace UI
         [SerializeField] private bool saveAfterEachMove = false;
 
         private readonly List<InventorySlotUI> slots = new();
-        private SaveGameData data;
+        private readonly List<StorageSlotUI> storageSlots = new();
 
-        // ✅ 토글/외부에서 현재 열림 상태 확인용
+        private SaveGameData data;                           // 플레이어 세이브
+        private SaveGameData.ContainerSaveData storageData;   // 현재 열려있는 창고
+
         public bool IsOpen => panelRoot != null && panelRoot.activeSelf;
+        public bool IsStorageOpen => storagePanelRoot != null && storagePanelRoot.activeSelf && storageData != null;
 
         // Drag state
-        private enum DragSourceType { None, Inventory, Equip }
+        private enum DragSourceType { None, Inventory, Storage, Equip }
         private DragSourceType dragSource = DragSourceType.None;
 
         private int fromInv = -1;
+        private int fromStorage = -1;
         private EquipSlotType fromEquip = EquipSlotType.None;
 
         private bool dragging = false;
@@ -79,23 +92,28 @@ namespace UI
             bottomSlot?.Bind(this);
             shoesSlot?.Bind(this);
 
-            // ✅ ScrollRect/Viewport 자동 탐색(인스펙터 미할당 대비)
             if (inventoryScrollRect == null && inventoryGridRoot != null)
                 inventoryScrollRect = inventoryGridRoot.GetComponentInParent<ScrollRect>();
-
             if (inventoryViewport == null && inventoryScrollRect != null)
                 inventoryViewport = inventoryScrollRect.viewport;
 
-            // ✅ 자동으로 열지 않음 (토글 방식)
-            // Open();
+            if (storageScrollRect == null && storageGridRoot != null)
+                storageScrollRect = storageGridRoot.GetComponentInParent<ScrollRect>();
+            if (storageViewport == null && storageScrollRect != null)
+                storageViewport = storageScrollRect.viewport;
+
+            if (storagePanelRoot != null)
+                storagePanelRoot.SetActive(false);
         }
 
         private void Update()
         {
-            // ✅ 드래그 중 오토 스크롤 (TimeScale=0이므로 unscaledDeltaTime 사용)
             if (enableAutoScroll && dragging)
             {
-                TryAutoScroll(lastPointerScreenPos, lastPressEventCamera);
+                TryAutoScroll(inventoryScrollRect, inventoryViewport, lastPointerScreenPos, lastPressEventCamera);
+
+                if (IsStorageOpen)
+                    TryAutoScroll(storageScrollRect, storageViewport, lastPointerScreenPos, lastPressEventCamera);
             }
         }
 
@@ -111,25 +129,52 @@ namespace UI
             }
 
             data.NormalizeInventory();
-            EnsureSlots(data.inventoryCapacity);
+            EnsureInventorySlots(data.inventoryCapacity);
             RefreshAll();
         }
 
         public void Close()
         {
+            // 인벤 닫히면 창고도 닫힘 처리
+            CloseStorage();
             panelRoot?.SetActive(false);
         }
 
-        /// <summary>
-        /// 외부(예: InventoryToggleController)에서 인벤 닫기 직전에 호출하면 됨.
-        /// </summary>
         public void SaveNow()
         {
             if (GameManager.Instance != null)
                 GameManager.Instance.SaveNow();
         }
 
-        private void EnsureSlots(int capacity)
+        // =========================
+        // Storage API (StoragePanelController가 호출)
+        // =========================
+        public void OpenStorage(SaveGameData.ContainerSaveData containerData)
+        {
+            if (containerData == null)
+            {
+                Debug.LogError("[InventoryUI] OpenStorage called with null data");
+                return;
+            }
+
+            storageData = containerData;
+            storageData.Normalize();
+
+            if (storagePanelRoot != null)
+                storagePanelRoot.SetActive(true);
+
+            EnsureStorageSlots(storageData.capacity);
+            RefreshStorage();
+        }
+
+        public void CloseStorage()
+        {
+            storageData = null;
+            if (storagePanelRoot != null)
+                storagePanelRoot.SetActive(false);
+        }
+
+        private void EnsureInventorySlots(int capacity)
         {
             while (slots.Count < capacity)
             {
@@ -142,6 +187,27 @@ namespace UI
 
             for (int i = 0; i < capacity; i++)
                 slots[i].Bind(i, this);
+        }
+
+        private void EnsureStorageSlots(int capacity)
+        {
+            if (storageGridRoot == null || storageSlotPrefab == null)
+            {
+                Debug.LogError("[InventoryUI] Storage grid/prefab is not assigned.");
+                return;
+            }
+
+            while (storageSlots.Count < capacity)
+            {
+                var slot = Instantiate(storageSlotPrefab, storageGridRoot);
+                storageSlots.Add(slot);
+            }
+
+            for (int i = 0; i < storageSlots.Count; i++)
+                storageSlots[i].gameObject.SetActive(i < capacity);
+
+            for (int i = 0; i < capacity; i++)
+                storageSlots[i].Bind(i, this);
         }
 
         private void RefreshAll()
@@ -166,6 +232,23 @@ namespace UI
             topSlot?.SetHighlight(false);
             bottomSlot?.SetHighlight(false);
             shoesSlot?.SetHighlight(false);
+
+            if (IsStorageOpen)
+                RefreshStorage();
+        }
+
+        private void RefreshStorage()
+        {
+            if (!IsStorageOpen || storageData == null) return;
+
+            storageData.Normalize();
+
+            for (int i = 0; i < storageData.capacity; i++)
+            {
+                string id = storageData.items[i];
+                storageSlots[i].SetIcon(string.IsNullOrEmpty(id) ? null : itemDatabase.GetIconOrDefault(id));
+                storageSlots[i].SetHighlight(false);
+            }
         }
 
         // =========================
@@ -174,16 +257,10 @@ namespace UI
         private void SaveNowIfEnabled()
         {
             if (!saveAfterEachMove) return;
-
             if (GameManager.Instance != null)
                 GameManager.Instance.SaveNow();
         }
 
-        /// <summary>
-        /// 데이터 변경이 실제로 일어난 "성공 케이스"에서만 호출.
-        /// - 기본 정책: UI만 갱신 (저장은 닫을 때 1회)
-        /// - 옵션: saveAfterEachMove=true면 이동 성공 때마다 저장
-        /// </summary>
         private void CommitChange()
         {
             RefreshAll();
@@ -200,8 +277,19 @@ namespace UI
             string id = GetInv(index);
             if (string.IsNullOrEmpty(id)) return;
 
-            StartDragging(DragSourceType.Inventory, index, EquipSlotType.None, itemDatabase.GetIconOrDefault(id), eventData);
+            StartDragging(DragSourceType.Inventory, index, -1, EquipSlotType.None, itemDatabase.GetIconOrDefault(id), eventData);
             slots[index].SetHighlight(true);
+        }
+
+        public void BeginDragFromStorage(int index, PointerEventData eventData)
+        {
+            if (!IsStorageOpen || storageData == null) return;
+
+            string id = GetStorage(index);
+            if (string.IsNullOrEmpty(id)) return;
+
+            StartDragging(DragSourceType.Storage, -1, index, EquipSlotType.None, itemDatabase.GetIconOrDefault(id), eventData);
+            storageSlots[index].SetHighlight(true);
         }
 
         public void BeginDragFromEquip(EquipSlotType slot, PointerEventData eventData)
@@ -211,11 +299,11 @@ namespace UI
             string id = GetEquip(slot);
             if (string.IsNullOrEmpty(id)) return;
 
-            StartDragging(DragSourceType.Equip, -1, slot, itemDatabase.GetIconOrDefault(id), eventData);
+            StartDragging(DragSourceType.Equip, -1, -1, slot, itemDatabase.GetIconOrDefault(id), eventData);
             GetEquipUI(slot)?.SetHighlight(true);
         }
 
-        private void StartDragging(DragSourceType src, int inv, EquipSlotType equip, Sprite sprite, PointerEventData eventData)
+        private void StartDragging(DragSourceType src, int inv, int stor, EquipSlotType equip, Sprite sprite, PointerEventData eventData)
         {
             if (endDragCo != null) StopCoroutine(endDragCo);
 
@@ -224,9 +312,9 @@ namespace UI
 
             dragSource = src;
             fromInv = inv;
+            fromStorage = stor;
             fromEquip = equip;
 
-            // 오토스크롤용 포인터 상태 업데이트
             lastPointerScreenPos = eventData.position;
             lastPressEventCamera = eventData.pressEventCamera;
 
@@ -237,7 +325,6 @@ namespace UI
         {
             if (!dragging || ghostRt == null || dragLayer == null) return;
 
-            // ✅ 오토스크롤용 포인터 상태 업데이트
             lastPointerScreenPos = eventData.position;
             lastPressEventCamera = eventData.pressEventCamera;
 
@@ -248,7 +335,6 @@ namespace UI
             }
         }
 
-        // ✅ EndDrag는 즉시 Cleanup하지 않고 1프레임 늦게 정리(드롭 이벤트 보장)
         public void EndDrag(PointerEventData eventData)
         {
             if (!dragging) return;
@@ -264,60 +350,15 @@ namespace UI
         }
 
         // =========================
-        // AutoScroll
-        // =========================
-        private void TryAutoScroll(Vector2 pointerScreenPos, Camera eventCamera)
-        {
-            if (inventoryScrollRect == null || inventoryViewport == null) return;
-            if (!inventoryScrollRect.vertical) return;
-
-            // 콘텐츠가 뷰포트보다 작으면 스크롤 필요 없음
-            if (inventoryScrollRect.content == null) return;
-            var content = inventoryScrollRect.content;
-            if (content.rect.height <= inventoryViewport.rect.height + 0.01f) return;
-
-            // 포인터 위치를 뷰포트 로컬 좌표로 변환
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                inventoryViewport, pointerScreenPos, eventCamera, out var local))
-            {
-                return;
-            }
-
-            var rect = inventoryViewport.rect;
-
-            float dt = Time.unscaledDeltaTime;
-            if (dt <= 0f) return;
-
-            float topEdge = rect.yMax - edgeThresholdPx;
-            float bottomEdge = rect.yMin + edgeThresholdPx;
-
-            float dir = 0f;
-
-            // 위쪽 가까우면 위로 스크롤(= normalizedPosition 증가)
-            if (local.y >= topEdge) dir = +1f;
-            // 아래쪽 가까우면 아래로 스크롤(= normalizedPosition 감소)
-            else if (local.y <= bottomEdge) dir = -1f;
-
-            if (dir == 0f) return;
-
-            // normalized 기준 속도
-            float delta = autoScrollSpeed * dt * dir;
-
-            inventoryScrollRect.verticalNormalizedPosition =
-                Mathf.Clamp01(inventoryScrollRect.verticalNormalizedPosition + delta);
-        }
-
-        // =========================
         // Drop Targets
         // =========================
         public void DropToInventory(int toIndex)
         {
             if (!dragging || data == null) return;
             if (dropConsumed) return;
-
             dropConsumed = true;
 
-            // Inventory -> Inventory : Swap
+            // Inventory -> Inventory swap
             if (dragSource == DragSourceType.Inventory)
             {
                 if (fromInv != toIndex)
@@ -329,19 +370,38 @@ namespace UI
                 return;
             }
 
-            // Equip -> Inventory : unequip or swap(if possible)
-            if (dragSource == DragSourceType.Equip)
+            // Storage -> Inventory move/swap
+            if (dragSource == DragSourceType.Storage && IsStorageOpen && storageData != null)
             {
-                string equipId = GetEquip(fromEquip);
-                if (string.IsNullOrEmpty(equipId))
+                string fromId = GetStorage(fromStorage);
+                if (string.IsNullOrEmpty(fromId)) { CleanupDrag(); return; }
+
+                string toId = GetInv(toIndex);
+
+                if (string.IsNullOrEmpty(toId))
                 {
+                    SetInv(toIndex, fromId);
+                    SetStorage(fromStorage, "");
+                    CommitChange();
                     CleanupDrag();
                     return;
                 }
 
+                SetInv(toIndex, fromId);
+                SetStorage(fromStorage, toId);
+                CommitChange();
+                CleanupDrag();
+                return;
+            }
+
+            // Equip -> Inventory (기존 정책 유지)
+            if (dragSource == DragSourceType.Equip)
+            {
+                string equipId = GetEquip(fromEquip);
+                if (string.IsNullOrEmpty(equipId)) { CleanupDrag(); return; }
+
                 string invId = GetInv(toIndex);
 
-                // 빈 칸이면 그냥 해제
                 if (string.IsNullOrEmpty(invId))
                 {
                     SetInv(toIndex, equipId);
@@ -351,7 +411,6 @@ namespace UI
                     return;
                 }
 
-                // 스왑: invId가 원래 equip 슬롯에 들어갈 수 있어야 함
                 if (CanEquip(invId, fromEquip))
                 {
                     SetInv(toIndex, equipId);
@@ -366,28 +425,65 @@ namespace UI
             CleanupDrag();
         }
 
+        public void DropToStorage(int toIndex)
+        {
+            if (!dragging) return;
+            if (dropConsumed) return;
+            if (!IsStorageOpen || storageData == null) { CleanupDrag(); return; }
+            dropConsumed = true;
+
+            // Storage -> Storage swap
+            if (dragSource == DragSourceType.Storage)
+            {
+                if (fromStorage != toIndex)
+                {
+                    SwapStorage(fromStorage, toIndex);
+                    CommitChange();
+                }
+                CleanupDrag();
+                return;
+            }
+
+            // Inventory -> Storage move/swap
+            if (dragSource == DragSourceType.Inventory)
+            {
+                string fromId = GetInv(fromInv);
+                if (string.IsNullOrEmpty(fromId)) { CleanupDrag(); return; }
+
+                string toId = GetStorage(toIndex);
+
+                if (string.IsNullOrEmpty(toId))
+                {
+                    SetStorage(toIndex, fromId);
+                    SetInv(fromInv, "");
+                    CommitChange();
+                    CleanupDrag();
+                    return;
+                }
+
+                SetStorage(toIndex, fromId);
+                SetInv(fromInv, toId);
+                CommitChange();
+                CleanupDrag();
+                return;
+            }
+
+            // Equip -> Storage (원하면 다음 단계에서 허용 가능)
+            CleanupDrag();
+        }
+
         public void DropToEquip(EquipSlotType toSlot)
         {
             if (!dragging || data == null) return;
             if (dropConsumed) return;
-
             dropConsumed = true;
 
-            // Inventory -> Equip : equip or swap with currently equipped
+            // Inventory -> Equip
             if (dragSource == DragSourceType.Inventory)
             {
                 string fromId = GetInv(fromInv);
-                if (string.IsNullOrEmpty(fromId))
-                {
-                    CleanupDrag();
-                    return;
-                }
-
-                if (!CanEquip(fromId, toSlot))
-                {
-                    CleanupDrag();
-                    return;
-                }
+                if (string.IsNullOrEmpty(fromId)) { CleanupDrag(); return; }
+                if (!CanEquip(fromId, toSlot)) { CleanupDrag(); return; }
 
                 string equippedId = GetEquip(toSlot);
 
@@ -399,31 +495,17 @@ namespace UI
                 return;
             }
 
-            // Equip -> Equip : move/swap (only if compatible)
+            // Equip -> Equip
             if (dragSource == DragSourceType.Equip)
             {
-                if (fromEquip == toSlot)
-                {
-                    CleanupDrag();
-                    return;
-                }
+                if (fromEquip == toSlot) { CleanupDrag(); return; }
 
                 string fromId = GetEquip(fromEquip);
-                if (string.IsNullOrEmpty(fromId))
-                {
-                    CleanupDrag();
-                    return;
-                }
-
-                if (!CanEquip(fromId, toSlot))
-                {
-                    CleanupDrag();
-                    return;
-                }
+                if (string.IsNullOrEmpty(fromId)) { CleanupDrag(); return; }
+                if (!CanEquip(fromId, toSlot)) { CleanupDrag(); return; }
 
                 string toId = GetEquip(toSlot);
 
-                // 대상 비었으면 이동
                 if (string.IsNullOrEmpty(toId))
                 {
                     SetEquip(toSlot, fromId);
@@ -433,7 +515,6 @@ namespace UI
                     return;
                 }
 
-                // 서로 호환될 때만 스왑
                 if (CanEquip(toId, fromEquip))
                 {
                     SetEquip(toSlot, fromId);
@@ -447,6 +528,46 @@ namespace UI
 
             CleanupDrag();
         }
+
+        // =========================
+        // AutoScroll
+        // =========================
+        private void TryAutoScroll(ScrollRect sr, RectTransform viewport, Vector2 pointerScreenPos, Camera eventCamera)
+{
+    if (sr == null || viewport == null) return;
+    if (!sr.vertical) return;
+    if (sr.content == null) return;
+
+    var content = sr.content;
+    if (content.rect.height <= viewport.rect.height + 0.01f) return;
+
+    if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+        viewport, pointerScreenPos, eventCamera, out var local))
+        return;
+
+    // ✅ 핵심: 포인터가 이 viewport 안에 있을 때만 오토스크롤
+    var rect = viewport.rect;
+    bool inside =
+        local.x >= rect.xMin && local.x <= rect.xMax &&
+        local.y >= rect.yMin && local.y <= rect.yMax;
+
+    if (!inside) return;
+
+    float dt = Time.unscaledDeltaTime;
+    if (dt <= 0f) return;
+
+    float topEdge = rect.yMax - edgeThresholdPx;
+    float bottomEdge = rect.yMin + edgeThresholdPx;
+
+    float dir = 0f;
+    if (local.y >= topEdge) dir = +1f;
+    else if (local.y <= bottomEdge) dir = -1f;
+
+    if (dir == 0f) return;
+
+    float delta = autoScrollSpeed * dt * dir;
+    sr.verticalNormalizedPosition = Mathf.Clamp01(sr.verticalNormalizedPosition + delta);
+}
 
         // =========================
         // Data helpers
@@ -471,6 +592,28 @@ namespace UI
             if (a < 0 || b < 0) return;
             if (a >= data.inventoryCapacity || b >= data.inventoryCapacity) return;
             (data.inventoryItems[a], data.inventoryItems[b]) = (data.inventoryItems[b], data.inventoryItems[a]);
+        }
+
+        private string GetStorage(int index)
+        {
+            if (storageData == null) return "";
+            if (index < 0 || index >= storageData.capacity) return "";
+            return storageData.items[index] ?? "";
+        }
+
+        private void SetStorage(int index, string id)
+        {
+            if (storageData == null) return;
+            if (index < 0 || index >= storageData.capacity) return;
+            storageData.items[index] = id ?? "";
+        }
+
+        private void SwapStorage(int a, int b)
+        {
+            if (storageData == null) return;
+            if (a < 0 || b < 0) return;
+            if (a >= storageData.capacity || b >= storageData.capacity) return;
+            (storageData.items[a], storageData.items[b]) = (storageData.items[b], storageData.items[a]);
         }
 
         private string GetEquip(EquipSlotType slot)
@@ -538,7 +681,7 @@ namespace UI
             ghostRt.sizeDelta = dragIconSize;
 
             var cg = go.GetComponent<CanvasGroup>();
-            cg.blocksRaycasts = false; // 드롭 타겟이 레이캐스트 받게
+            cg.blocksRaycasts = false;
             cg.alpha = 0.9f;
 
             ghostImage = go.GetComponent<Image>();
@@ -558,17 +701,21 @@ namespace UI
 
         private void CleanupDrag()
         {
-            // 하이라이트 원복
             if (fromInv >= 0 && fromInv < slots.Count)
                 slots[fromInv].SetHighlight(false);
+
+            if (fromStorage >= 0 && fromStorage < storageSlots.Count)
+                storageSlots[fromStorage].SetHighlight(false);
 
             if (fromEquip != EquipSlotType.None)
                 GetEquipUI(fromEquip)?.SetHighlight(false);
 
             dragging = false;
             dropConsumed = false;
+
             dragSource = DragSourceType.None;
             fromInv = -1;
+            fromStorage = -1;
             fromEquip = EquipSlotType.None;
 
             CleanupGhost();
