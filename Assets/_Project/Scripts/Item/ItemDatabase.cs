@@ -62,6 +62,20 @@ public class ItemDatabase : ScriptableObject
 
         return EquipSlotType.None;
     }
+    public int GetMaxStackOrDefault(string id, int fallback = 1)
+    {
+        if (fallback < 1) fallback = 1;
+
+        if (TryGet(id, out var def))
+            return Mathf.Max(1, def.maxStack);
+
+        return fallback;
+    }
+
+    public bool IsStackable(string id)
+    {
+        return GetMaxStackOrDefault(id, 1) > 1;
+    }
 
 #if UNITY_EDITOR
     private void OnValidate()

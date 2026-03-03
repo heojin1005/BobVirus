@@ -46,7 +46,6 @@ public class StorageContainerInstance : MonoBehaviour
             EditorUtility.SetDirty(this);
         }
 #else
-        // 빌드에서는 OnValidate가 거의 의미 없지만, 방어용으로 둠
         if (string.IsNullOrWhiteSpace(containerKey))
             containerKey = Guid.NewGuid().ToString("N");
 #endif
@@ -69,7 +68,6 @@ public class StorageContainerInstance : MonoBehaviour
                 return null;
             }
 
-            // 런타임에서도 키 비면 생성(에디터에서 못 만들었을 수 있으니)
             if (string.IsNullOrWhiteSpace(containerKey))
                 containerKey = Guid.NewGuid().ToString("N");
 
@@ -84,7 +82,7 @@ public class StorageContainerInstance : MonoBehaviour
             {
                 containerKey = $"runtime_{GetInstanceID()}",
                 capacity = Mathf.Max(1, definition.initialCapacity),
-                items = definition.BuildNormalizedInitialItems()
+                slots = BuildInitialSlotsFromTemplate(definition.BuildNormalizedInitialItems())
             };
             runtimeData.Normalize();
         }
@@ -94,6 +92,21 @@ public class StorageContainerInstance : MonoBehaviour
         }
 
         return runtimeData;
+    }
+
+    private static List<SaveGameData.ItemSlotData> BuildInitialSlotsFromTemplate(List<string> template)
+    {
+        var slots = new List<SaveGameData.ItemSlotData>();
+        if (template == null) return slots;
+
+        for (int i = 0; i < template.Count; i++)
+        {
+            var id = template[i] ?? "";
+            slots.Add(string.IsNullOrEmpty(id)
+                ? new SaveGameData.ItemSlotData("", 0)
+                : new SaveGameData.ItemSlotData(id, 1));
+        }
+        return slots;
     }
 
     [ContextMenu("Generate Container Key")]

@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 [Serializable]
 public class SaveGameData
 {
-    public int version = 1;
+    // ✅ 세이브 데이터 스키마 버전
+    // v1: inventoryItems(List<string>), ContainerSaveData.items(List<string>)
+    // v2: inventorySlots(List<ItemSlotData>), ContainerSaveData.slots(List<ItemSlotData>)
+    public int version = 2;
 
     public string saveId;
     public long savedAtUnix;
@@ -13,7 +17,33 @@ public class SaveGameData
     public List<string> clearedMaps = new();
     public string currentMapId = "";
     public HashSet<string> discoveredItems = new();
-    public List<string> inventoryItems = new();
+
+    // =========================
+    // ✅ Inventory Slots (v2)
+    // =========================
+    [Serializable]
+    public class ItemSlotData
+    {
+        public string id = "";
+        public int count = 0;
+
+        public ItemSlotData() { }
+        public ItemSlotData(string id, int count)
+        {
+            this.id = id ?? "";
+            this.count = count;
+        }
+
+        public bool IsEmpty => string.IsNullOrEmpty(id) || count <= 0;
+    }
+
+    public List<ItemSlotData> inventorySlots = new();
+
+    // ✅ v1 legacy field (기존 세이브 로드용)
+    // - 새 코드에서는 사용하지 말 것.
+    [JsonProperty("inventoryItems", NullValueHandling = NullValueHandling.Ignore)]
+    public List<string> inventoryItemsLegacy = null;
+
     public int inventoryCapacity = 20;
 
     public string helmetId = "";
@@ -79,40 +109,63 @@ public class SaveGameData
     }
 
     // =========================
-    // ✅ Storage / Chest Data (NEW)
+    // ✅ Storage / Chest Data
     // =========================
     [Serializable]
     public class ContainerSaveData
     {
         public string containerKey;          // Dictionary key와 동일하게 넣어두면 디버깅에 편함
         public int capacity = 20;
-        public List<string> items = new();
+
+        // ✅ v2
+        public List<ItemSlotData> slots = new();
+
+        // ✅ v1 legacy field (기존 세이브 로드용)
+        [JsonProperty("items", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> itemsLegacy = null;
 
         public void Normalize()
         {
-            if (items == null) items = new List<string>();
+            if (slots == null) slots = new List<ItemSlotData>();
 
-            for (int i = 0; i < items.Count; i++)
-                if (items[i] == null) items[i] = "";
+            // ✅ v1 -> v2 마이그레이션 (컨테이너)
+            if (slots.Count == 0 && itemsLegacy != null && itemsLegacy.Count > 0)
+            {
+                slots.Clear();
+                for (int i = 0; i < itemsLegacy.Count; i++)
+                {
+                    var id = itemsLegacy[i] ?? "";
+                    slots.Add(string.IsNullOrEmpty(id) ? new ItemSlotData("", 0) : new ItemSlotData(id, 1));
+                }
+                itemsLegacy = null;
+            }
 
-            while (items.Count < capacity)
-                items.Add("");
+            // ✅ 불변식 정리: (id=="" -> count=0), (count<=0 -> id="")
+            for (int i = 0; i < slots.Count; i++)
+            {
+                if (slots[i] == null) { slots[i] = new ItemSlotData("", 0); continue; }
 
-            if (items.Count > capacity)
-                items.RemoveRange(capacity, items.Count - capacity);
+                slots[i].id ??= "";
+                if (string.IsNullOrEmpty(slots[i].id) || slots[i].count <= 0)
+                {
+                    slots[i].id = "";
+                    slots[i].count = 0;
+                }
+            }
+
+            while (slots.Count < capacity)
+                slots.Add(new ItemSlotData("", 0));
+
+            if (slots.Count > capacity)
+                slots.RemoveRange(capacity, slots.Count - capacity);
         }
     }
 
     /// <summary>
     /// containerKey -> 저장된 창고 데이터
-    /// - 허브 저장용 창고: 여기(Dictionary)에 누적 저장
-    /// - 맵 파밍 상자도 "persistToSave = true"면 여기로 저장 가능
     /// </summary>
     public Dictionary<string, ContainerSaveData> containers = new();
 
-    /// <summary>
-    /// 저장된 컨테이너 가져오기(없으면 null)
-    /// </summary>
     public ContainerSaveData GetContainer(string containerKey)
     {
         if (string.IsNullOrEmpty(containerKey)) return null;
@@ -136,14 +189,22 @@ public class SaveGameData
             c.containerKey = containerKey;
             c.capacity = Math.Max(1, defaultCapacity);
 
-            c.items = defaultItemsOrNull != null ? new List<string>(defaultItemsOrNull) : new List<string>();
+            // 템플릿(문자열 리스트)을 v2 슬롯 구조로 변환
+            c.slots = new List<ItemSlotData>();
+            if (defaultItemsOrNull != null)
+            {
+                for (int i = 0; i < defaultItemsOrNull.Count; i++)
+                {
+                    var id = defaultItemsOrNull[i] ?? "";
+                    c.slots.Add(string.IsNullOrEmpty(id) ? new ItemSlotData("", 0) : new ItemSlotData(id, 1));
+                }
+            }
             c.Normalize();
 
             containers[containerKey] = c;
         }
         else
         {
-            // 기존 데이터가 있더라도 안전하게 정규화
             if (c.capacity <= 0) c.capacity = Math.Max(1, defaultCapacity);
             c.Normalize();
         }
@@ -159,45 +220,78 @@ public class SaveGameData
     }
 
     // =========================
-    // Existing
+    // Inventory Normalize (v2)
     // =========================
     public void NormalizeInventory()
     {
-        if (inventoryItems == null)
-            inventoryItems = new List<string>();
+        if (inventorySlots == null)
+            inventorySlots = new List<ItemSlotData>();
 
-        while (inventoryItems.Count < inventoryCapacity)
-            inventoryItems.Add("");
+        // ✅ v1 -> v2 마이그레이션 (인벤)
+        if (inventorySlots.Count == 0 && inventoryItemsLegacy != null && inventoryItemsLegacy.Count > 0)
+        {
+            inventorySlots.Clear();
+            for (int i = 0; i < inventoryItemsLegacy.Count; i++)
+            {
+                var id = inventoryItemsLegacy[i] ?? "";
+                inventorySlots.Add(string.IsNullOrEmpty(id) ? new ItemSlotData("", 0) : new ItemSlotData(id, 1));
+            }
+            inventoryItemsLegacy = null;
+        }
 
-        if (inventoryItems.Count > inventoryCapacity)
-            inventoryItems.RemoveRange(inventoryCapacity,
-                inventoryItems.Count - inventoryCapacity);
+        // ✅ 불변식 정리
+        for (int i = 0; i < inventorySlots.Count; i++)
+        {
+            if (inventorySlots[i] == null) { inventorySlots[i] = new ItemSlotData("", 0); continue; }
+
+            inventorySlots[i].id ??= "";
+            if (string.IsNullOrEmpty(inventorySlots[i].id) || inventorySlots[i].count <= 0)
+            {
+                inventorySlots[i].id = "";
+                inventorySlots[i].count = 0;
+            }
+        }
+
+        while (inventorySlots.Count < inventoryCapacity)
+            inventorySlots.Add(new ItemSlotData("", 0));
+
+        if (inventorySlots.Count > inventoryCapacity)
+            inventorySlots.RemoveRange(inventoryCapacity, inventorySlots.Count - inventoryCapacity);
     }
 
     public static SaveGameData CreateDefault(int slotIndex)
     {
         var data = new SaveGameData
         {
-            version = 1,
+            version = 2,
             saveId = Guid.NewGuid().ToString("N"),
             savedAtUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             displayName = $"슬롯 {slotIndex + 1}",
             clearedMaps = new List<string>(),
             currentMapId = "",
             discoveredItems = new HashSet<string>(),
-            inventoryItems = new List<string> { "Rifle", "Grenade" },
+
+            inventorySlots = new List<ItemSlotData>
+            {
+                new ItemSlotData("Rifle", 1),
+                new ItemSlotData("Grenade", 1),
+                new ItemSlotData("Small_Potion", 3),
+                new ItemSlotData("Small_Potion", 3)
+            },
+
             rescuedNpcs = new HashSet<string>(),
             storyProgress = 0,
             test = 0,
+
             helmetId = "",
             topId = "",
             bottomId = "",
             shoesId = "",
             weaponId = "",
+
             inventoryCapacity = 45,
             npcOverrides = new Dictionary<string, NpcOverrideData>(),
 
-            // ✅ NEW
             containers = new Dictionary<string, ContainerSaveData>()
         };
 
