@@ -2800,7 +2800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce57f1f00cac6a14ea5207e10ff62dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryToggle: {fileID: 1399111392}
+  inventoryToggle: {fileID: 1515193106}
   toggle: 1
 --- !u!114 &523060085
 MonoBehaviour:
@@ -4790,7 +4790,7 @@ PrefabInstance:
     - target: {fileID: 8629008135929314611, guid: 04f2d409f81fe914fbf5a9ec30fc3ca1, type: 3}
       propertyPath: inventoryToggle
       value: 
-      objectReference: {fileID: 1399111392}
+      objectReference: {fileID: 0}
     - target: {fileID: 8629008135929314611, guid: 04f2d409f81fe914fbf5a9ec30fc3ca1, type: 3}
       propertyPath: saveDataProvider
       value: 
@@ -6155,7 +6155,7 @@ PrefabInstance:
     - target: {fileID: 8629008135929314611, guid: 04f2d409f81fe914fbf5a9ec30fc3ca1, type: 3}
       propertyPath: inventoryToggle
       value: 
-      objectReference: {fileID: 1399111392}
+      objectReference: {fileID: 0}
     - target: {fileID: 8629008135929314611, guid: 04f2d409f81fe914fbf5a9ec30fc3ca1, type: 3}
       propertyPath: saveDataProvider
       value: 
@@ -6708,7 +6708,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1399111392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: InventoryToggleController, Assembly-CSharp
         m_MethodName: CloseInventory
         m_Mode: 1
@@ -7567,89 +7567,6 @@ MonoBehaviour:
   m_Spacing: {x: 7.5, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 10
---- !u!1 &1399111388
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1399111390}
-  - component: {fileID: 1399111389}
-  - component: {fileID: 1399111392}
-  m_Layer: 0
-  m_Name: InputHub
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1399111389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399111388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 79b138c1a37d19a42806b756546d22fd, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Hub
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 1645130280}
---- !u!4 &1399111390
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399111388}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1619761, y: 0.042534962, z: -9.979524}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1399111392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399111388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b5c4fcd12beb14f9539b2c7d4edef5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 478281103}
-  playerInput: {fileID: 1399111389}
-  hubActionMapName: Hub
-  uiActionMapName: UI
-  enableKeyboardToggle: 0
-  toggleKey: 0
-  pauseTimeWhenOpen: 1
-  saveOnClose: 1
 --- !u!1 &1427835685
 GameObject:
   m_ObjectHideFlags: 0
@@ -8153,6 +8070,7 @@ GameObject:
   - component: {fileID: 1515193103}
   - component: {fileID: 1515193104}
   - component: {fileID: 1515193105}
+  - component: {fileID: 1515193106}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
@@ -8369,6 +8287,26 @@ MonoBehaviour:
   textColor: {r: 1, g: 1, b: 1, a: 1}
   fontSize: 28
   fadeDuration: 0.5
+--- !u!114 &1515193106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1515193097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b5c4fcd12beb14f9539b2c7d4edef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryUI: {fileID: 478281103}
+  playerInput: {fileID: 1515193102}
+  hubActionMapName: Gameplay
+  uiActionMapName: UI
+  enableKeyboardToggle: 1
+  toggleKey: 19
+  pauseTimeWhenOpen: 1
+  saveOnClose: 1
 --- !u!1 &1620219718
 GameObject:
   m_ObjectHideFlags: 0
@@ -9889,7 +9827,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1399111392}
+      - m_Target: {fileID: 1515193106}
         m_TargetAssemblyTypeName: InventoryToggleController, Assembly-CSharp
         m_MethodName: CloseInventory
         m_Mode: 1
@@ -11915,7 +11853,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1645130281}
-  - {fileID: 1399111390}
   - {fileID: 216358644}
   - {fileID: 1515193101}
   - {fileID: 1944183526}

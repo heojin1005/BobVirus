@@ -9,7 +9,7 @@ public class InventoryToggleController : MonoBehaviour
 
     [Header("Input Switching (PlayerInput)")]
     [SerializeField] private PlayerInput playerInput;
-    [SerializeField] private string hubActionMapName = "Hub";
+    [SerializeField] private string hubActionMapName = "Gameplay";
     [SerializeField] private string uiActionMapName = "UI";
 
     [Header("Keyboard Toggle (PC)")]
