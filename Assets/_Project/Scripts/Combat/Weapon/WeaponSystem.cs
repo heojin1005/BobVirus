@@ -32,7 +32,6 @@ public class WeaponSystem : MonoBehaviour
         {
             InitializeWeapon();
         }
-    
     }
 
     public void InitializeWeapon()

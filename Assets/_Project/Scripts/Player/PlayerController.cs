@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     // Input System: Move (WASD)
     public void OnMove(InputValue value)
     {
+        Debug.Log("<color=yellow>키보드 입력 들어옴!</color> 값: " + value.Get<Vector2>());
         moveInput = value.Get<Vector2>();
     }
 

@@ -30,7 +30,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHp -= amount;
-        Debug.Log($"[플레이어 피격] 남은 체력: {currentHp}");
+        //Debug.Log($"[플레이어 피격] 남은 체력: {currentHp}");
 
         // UI 갱신 알림
         OnHealthChanged?.Invoke(currentHp, maxHp);
