@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 9d5ae7779f238ad4797cb92fc33279dc
+guid: fe1eef329156a6541b1f7dbb7617b145
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2541178526553354406
-    second: bigChiffonier_0
+      213: 3234012225191850980
+    second: chiffonier_0
   - first:
-      213: 3254176938454510951
-    second: bigChiffonier_1
+      213: -8186622499011027891
+    second: chiffonier_1
   - first:
-      213: 6900642107323973502
-    second: bigChiffonier_2
+      213: 2808145567728030394
+    second: chiffonier_2
   - first:
-      213: 8836519900244708829
-    second: bigChiffonier_3
+      213: 343703047537251892
+    second: chiffonier_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -122,7 +122,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bigChiffonier_0
+      name: chiffonier_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,14 +141,14 @@ TextureImporter:
         - {x: 7, y: -1}
       tessellationDetail: 0
       bones: []
-      spriteID: a5fcfe5089bebbcd0800000000000000
-      internalID: -2541178526553354406
+      spriteID: 4e3b4d9fbf481ec20800000000000000
+      internalID: 3234012225191850980
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bigChiffonier_1
+      name: chiffonier_1
       rect:
         serializedVersion: 2
         x: 32
@@ -167,14 +167,14 @@ TextureImporter:
         - {x: -7, y: -15}
       tessellationDetail: 0
       bones: []
-      spriteID: 76d69d42fa8292d20800000000000000
-      internalID: 3254176938454510951
+      spriteID: d4c1a343636436e80800000000000000
+      internalID: -8186622499011027891
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bigChiffonier_2
+      name: chiffonier_2
       rect:
         serializedVersion: 2
         x: 64
@@ -193,14 +193,14 @@ TextureImporter:
         - {x: 15, y: -15}
       tessellationDetail: 0
       bones: []
-      spriteID: e7ff5297f6104cf50800000000000000
-      internalID: 6900642107323973502
+      spriteID: ab25402048988f620800000000000000
+      internalID: 2808145567728030394
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bigChiffonier_3
+      name: chiffonier_3
       rect:
         serializedVersion: 2
         x: 96
@@ -219,8 +219,8 @@ TextureImporter:
         - {x: 7, y: -23}
       tessellationDetail: 0
       bones: []
-      spriteID: ddd81c80800a1aa70800000000000000
-      internalID: 8836519900244708829
+      spriteID: 4365da8c91415c400800000000000000
+      internalID: 343703047537251892
       vertices: []
       indices: 
       edges: []
@@ -229,7 +229,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: beb9dfee4babf7e4c81cb06a43480197
+    spriteID: 1d671505bb995e44283139b44eef4c3f
     internalID: 0
     vertices: []
     indices: 
@@ -239,10 +239,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bigChiffonier_0: -2541178526553354406
-      bigChiffonier_1: 3254176938454510951
-      bigChiffonier_2: 6900642107323973502
-      bigChiffonier_3: 8836519900244708829
+      chiffonier_0: 3234012225191850980
+      chiffonier_1: -8186622499011027891
+      chiffonier_2: 2808145567728030394
+      chiffonier_3: 343703047537251892
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
