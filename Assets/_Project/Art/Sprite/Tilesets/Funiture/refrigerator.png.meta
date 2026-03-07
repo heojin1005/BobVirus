@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 1d5ed89266fda1942b4fea6a77fd7a9a
+guid: d9b0a84faa96ba54ab491882def0a899
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -618476622946698980
-    second: woodfloor_0
+      213: -2855260617875010520
+    second: refrigerator_0
+  - first:
+      213: 9171821087801546426
+    second: refrigerator_1
+  - first:
+      213: -54739929117288466
+    second: refrigerator_2
+  - first:
+      213: -527921690199736989
+    second: refrigerator_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +122,105 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: woodfloor_0
+      name: refrigerator_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 7, y: 6}
+        - {x: -7, y: 6}
+        - {x: -7, y: -8}
+        - {x: 7, y: -8}
+      tessellationDetail: 0
       bones: []
-      spriteID: c19f06bc9caba67f0800000000000000
-      internalID: -618476622946698980
+      spriteID: 82cc56a88931068d0800000000000000
+      internalID: -2855260617875010520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: refrigerator_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 0, y: -1}
+        - {x: -15, y: -1}
+        - {x: -15, y: -15}
+        - {x: 0, y: -15}
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab619d95faad84f70800000000000000
+      internalID: 9171821087801546426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: refrigerator_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 15, y: -1}
+        - {x: 0, y: -1}
+        - {x: 0, y: -15}
+        - {x: 15, y: -15}
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee71fe113568d3ff0800000000000000
+      internalID: -54739929117288466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: refrigerator_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 7, y: -9}
+        - {x: -7, y: -9}
+        - {x: -7, y: -23}
+        - {x: 7, y: -23}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36dbb6215027ca8f0800000000000000
+      internalID: -527921690199736989
       vertices: []
       indices: 
       edges: []
@@ -138,7 +229,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e1e24a1838b4f374dac98cbaa25e90e1
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +239,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      woodfloor_0: -618476622946698980
+      refrigerator_0: -2855260617875010520
+      refrigerator_1: 9171821087801546426
+      refrigerator_2: -54739929117288466
+      refrigerator_3: -527921690199736989
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
