@@ -87,6 +87,11 @@ private void Awake()
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            //if (owner != null && !owner.IsSlotInputReady)
+            //{
+            //    eventData.Use();
+            //    return;
+            //}
             if (owner != null && owner.IsHoldingPayloadDrag)
             {
                 owner.DropToStorage(Index);
@@ -114,8 +119,8 @@ private void Awake()
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            pointerDown = false;
-            StopLongPress();
+            //pointerDown = false;
+            //StopLongPress();
         }
 
                 private IEnumerator LongPressRoutine()

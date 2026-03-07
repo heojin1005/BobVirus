@@ -51,11 +51,18 @@ namespace UI
 
         [Header("Split UI")]
         [SerializeField] private SplitDragPanel splitDragPanel;
+        [SerializeField] private DiscardConfirmPanel discardConfirmPanel;
+
+        private bool discardPromptOpen = false;
+        private bool pendingDiscardFromPayload = false;
 
         // ✅ payload 드래그 핵심 상태
         private string dragItemId = "";
         private int dragCount = 0;
         private bool holdDragAfterSplit = false;
+
+        private float slotInputReadyTime = 0f;
+        public bool IsSlotInputReady => Time.unscaledTime >= slotInputReadyTime;
 
         [Header("Saving")]
         [Tooltip("ON이면 아이템 이동/장착/스왑이 성공할 때마다 즉시 SaveNow()를 호출합니다. (권장: OFF, 닫을 때 1회 저장)")]
@@ -142,6 +149,13 @@ namespace UI
             data.NormalizeInventory();
             EnsureInventorySlots(data.inventoryCapacity);
             RefreshAll();
+            Canvas.ForceUpdateCanvases();
+            if (inventoryGridRoot is RectTransform invRt)
+                LayoutRebuilder.ForceRebuildLayoutImmediate(invRt);
+
+            if (inventoryViewport != null)
+                LayoutRebuilder.ForceRebuildLayoutImmediate(inventoryViewport);
+            slotInputReadyTime = Time.unscaledTime + 0.15f;
         }
 
         public void Close()
@@ -175,6 +189,13 @@ namespace UI
 
             EnsureStorageSlots(storageData.capacity);
             RefreshStorage();
+            Canvas.ForceUpdateCanvases();
+            if (storageGridRoot is RectTransform storRt)
+                LayoutRebuilder.ForceRebuildLayoutImmediate(storRt);
+
+            if (storageViewport != null)
+                LayoutRebuilder.ForceRebuildLayoutImmediate(storageViewport);
+            
         }
 
         public void CloseStorage()
@@ -486,7 +507,17 @@ namespace UI
         private IEnumerator EndDragNextFrame()
         {
             yield return null;
-            if (dragging) CleanupDrag();
+
+            if (!dragging) yield break;
+
+            // 유효한 Drop 타겟이 없었음 = 허공 드롭
+            if (!dropConsumed)
+            {
+                OpenDiscardConfirmForCurrentDrag();
+                yield break;
+            }
+
+            CleanupDrag();
         }
 
         // =========================
@@ -1208,7 +1239,89 @@ namespace UI
             dragCount = 0;
             holdDragAfterSplit = false;
 
+            discardPromptOpen = false;
+            pendingDiscardFromPayload = false;
             CleanupGhost();
+        }
+        //버리기 함수들
+        private void OpenDiscardConfirmForCurrentDrag()
+        {
+            if (discardConfirmPanel == null)
+            {
+                // 확인창이 없으면 안전하게 원복/정리
+                CancelCurrentDragAndRestore();
+                return;
+            }
+
+            if (discardPromptOpen) return;
+            discardPromptOpen = true;
+
+            pendingDiscardFromPayload = holdDragAfterSplit;
+
+            string message = (dragCount > 1)
+                ? $"{dragCount} item drop?"
+                : "item drop?";
+
+            discardConfirmPanel.Show(
+                message,
+                onConfirm: ConfirmDiscardCurrentDrag,
+                onCancel: CancelDiscardCurrentDrag
+            );
+        }
+
+        private void ConfirmDiscardCurrentDrag()
+        {
+            discardPromptOpen = false;
+
+            // payload 드래그는 이미 원본 슬롯에서 차감된 상태이므로
+            // 여기서는 그냥 버리기 확정 = 복구 안 하고 종료
+            if (pendingDiscardFromPayload)
+            {
+                CleanupDrag();
+                return;
+            }
+
+            // 일반 드래그는 실제 원본 슬롯에서 제거해야 함
+            if (dragSource == DragSourceType.Inventory)
+            {
+                var from = GetInvSlot(fromInv);
+                if (from != null)
+                    ClearSlot(from);
+            }
+            else if (dragSource == DragSourceType.Storage)
+            {
+                var from = GetStorageSlot(fromStorage);
+                if (from != null)
+                    ClearSlot(from);
+            }
+            else if (dragSource == DragSourceType.Equip)
+            {
+                SetEquip(fromEquip, "");
+            }
+
+            CommitChange();
+            CleanupDrag();
+        }
+
+        private void CancelDiscardCurrentDrag()
+        {
+            discardPromptOpen = false;
+            CancelCurrentDragAndRestore();
+        }
+
+        private void CancelCurrentDragAndRestore()
+        {
+            // payload 드래그는 이미 원본 슬롯에서 빠져 있으므로 복구 필요
+            if (holdDragAfterSplit)
+            {
+                ReturnPayloadRemainToSource(dragCount);
+                CommitChange();
+                CleanupDrag();
+                return;
+            }
+
+            // 일반 드래그는 아직 원본 슬롯 데이터가 살아 있으므로 그냥 정리만 하면 됨
+            CleanupDrag();
         }
     }
 }

@@ -101,6 +101,11 @@ namespace UI
                 eventData.Use();
                 return;
             }
+            //if (owner != null && !owner.IsSlotInputReady)
+            //{
+            //    eventData.Use();
+            //    return;
+            //}
             pointerDown = true;
             forwardingToScroll = false;
             longPressReady = false;
@@ -125,19 +130,17 @@ namespace UI
         public void OnPointerExit(PointerEventData eventData)
         {
             // 손가락/마우스가 슬롯 밖으로 나가면 롱프레스 취소
-            pointerDown = false;
-            StopLongPress();
+            //pointerDown = false;
+            //StopLongPress();
         }
 
         private IEnumerator LongPressRoutine()
         {
             // 1) 짧은 롱프레스(기존): 드래그 가능 상태 준비
             yield return new WaitForSecondsRealtime(longPressSeconds);
-
             if (!pointerDown) { longPressCo = null; yield break; }
 
             longPressReady = true;
-
             // 2) 긴 롱프레스(추가): Split UI 자동 오픈 (움직이지 않아도 뜸)
             float extra = splitPressSeconds - longPressSeconds;
             if (extra > 0f)
@@ -165,7 +168,6 @@ namespace UI
             splitOpened = true;
             pointerDown = false;   // 이후 드래그/스크롤 트리거 방지
             longPressReady = false;
-
             owner?.TryOpenSplitFromInventory(Index);
 
             longPressCo = null;

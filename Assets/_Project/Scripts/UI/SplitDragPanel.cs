@@ -20,7 +20,6 @@ public class SplitDragPanel : MonoBehaviour
         if (confirmButton != null) confirmButton.onClick.AddListener(Confirm);
         if (cancelButton != null) cancelButton.onClick.AddListener(Cancel);
         if (slider != null) slider.onValueChanged.AddListener(_ => RefreshText());
-        HideImmediate();
     }
 
     public void Show(int currentCount, Action<int> onConfirm, Action onCancel)

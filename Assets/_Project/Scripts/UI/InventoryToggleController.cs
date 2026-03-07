@@ -57,13 +57,12 @@ public class InventoryToggleController : MonoBehaviour
     public void OpenInventory()
     {
         if (inventoryUI == null) return;
-
+        SwitchToUI();
         inventoryUI.Open();
 
         if (pauseTimeWhenOpen)
             Time.timeScale = 0f;
-
-        SwitchToUI();
+        Debug.Log($"[InventoryToggle] OpenInventory | time={Time.unscaledTime:F3}");
     }
 
     public void CloseInventory()
