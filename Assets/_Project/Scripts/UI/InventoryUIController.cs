@@ -300,6 +300,11 @@ namespace UI
 
         private void CommitChange()
         {
+            if (data != null)
+    {
+        data.NormalizeInventory();
+        EnsureInventorySlots(data.inventoryCapacity);
+    }
             RefreshAll();
             SaveNowIfEnabled();
         }
@@ -1322,6 +1327,263 @@ namespace UI
 
             // 일반 드래그는 아직 원본 슬롯 데이터가 살아 있으므로 그냥 정리만 하면 됨
             CleanupDrag();
+        }
+                // =========================
+        // Inventory Trade / Transaction
+        // =========================
+
+        /// <summary>
+        /// 플레이어 인벤에서 회수 아이템을 n개 회수할 수 있는지 검사하고,
+        /// 가능할 경우 지급 아이템을 m개 넣을 수 있는지도 검사한 뒤,
+        /// 둘 다 가능하면 실제로 반영한다.
+        /// 
+        /// 실패:
+        /// - 1단계(회수 검사) 실패: false
+        /// - 2단계(지급 검사) 실패: false
+        /// 성공:
+        /// - 회수/지급 반영 후 true
+        /// </summary>
+        public bool TryTradeInventoryItems(string takeItemId, int takeCount, string giveItemId, int giveCount)
+        {
+            if (data == null)
+            {
+                data = saveDataProvider != null ? saveDataProvider.GetCurrentData() : null;
+            }
+
+            if (data == null)
+            {
+                Debug.LogError("[InventoryTrade] failed: save data is null.");
+                return false;
+            }
+
+            data.NormalizeInventory();
+
+            if (string.IsNullOrEmpty(takeItemId))
+            {
+                Debug.LogError("[InventoryTrade] failed at step 1: takeItemId is empty.");
+                return false;
+            }
+
+            if (takeCount <= 0)
+            {
+                Debug.LogError("[InventoryTrade] failed at step 1: takeCount must be > 0.");
+                return false;
+            }
+
+            if (giveCount < 0)
+            {
+                Debug.LogError("[InventoryTrade] failed at step 2: giveCount must be >= 0.");
+                return false;
+            }
+
+            if (giveCount > 0 && string.IsNullOrEmpty(giveItemId))
+            {
+                Debug.LogError("[InventoryTrade] failed at step 2: giveItemId is empty.");
+                return false;
+            }
+
+            int takeMaxStack = itemDatabase != null ? itemDatabase.GetMaxStackOrDefault(takeItemId, 1) : 1;
+            if (takeCount > takeMaxStack)
+            {
+                Debug.LogError($"[InventoryTrade] failed at step 1: takeCount({takeCount}) > maxStack({takeMaxStack}) for {takeItemId}.");
+                return false;
+            }
+
+            if (giveCount > 0)
+            {
+                int giveMaxStack = itemDatabase != null ? itemDatabase.GetMaxStackOrDefault(giveItemId, 1) : 1;
+                if (giveCount > giveMaxStack)
+                {
+                    Debug.LogError($"[InventoryTrade] failed at step 2: giveCount({giveCount}) > maxStack({giveMaxStack}) for {giveItemId}.");
+                    return false;
+                }
+            }
+
+            if (!CanRemoveFromInventory(takeItemId, takeCount))
+            {
+                Debug.LogWarning($"[InventoryTrade] failed at step 1: cannot remove {takeCount} x {takeItemId} from inventory.");
+                return false;
+            }
+
+            if (giveCount > 0 && !CanAddToInventory(giveItemId, giveCount))
+            {
+                Debug.LogWarning($"[InventoryTrade] failed at step 2: cannot add {giveCount} x {giveItemId} to inventory.");
+                return false;
+            }
+
+            bool removed = RemoveFromInventory(takeItemId, takeCount);
+            if (!removed)
+            {
+                Debug.LogError($"[InventoryTrade] failed unexpectedly after step 1 check: remove execution failed for {takeCount} x {takeItemId}.");
+                return false;
+            }
+
+            if (giveCount > 0)
+            {
+                bool added = AddToInventory(giveItemId, giveCount);
+                if (!added)
+                {
+                    Debug.LogError($"[InventoryTrade] failed unexpectedly after step 2 check: add execution failed for {giveCount} x {giveItemId}.");
+                    return false;
+                }
+
+                CommitChange();
+                Debug.Log($"[InventoryTrade] success: removed {takeCount} x {takeItemId}, added {giveCount} x {giveItemId}.");
+            }
+            else
+            {
+                CommitChange();
+                Debug.Log($"[InventoryTrade] success: removed {takeCount} x {takeItemId}, no reward item given.");
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 해당 아이템을 count개 회수 가능한지 총합으로 검사
+        /// </summary>
+        private bool CanRemoveFromInventory(string itemId, int count)
+        {
+            if (data == null || string.IsNullOrEmpty(itemId) || count <= 0)
+                return false;
+
+            int total = 0;
+
+            for (int i = 0; i < data.inventoryCapacity; i++)
+            {
+                var slot = GetInvSlot(i);
+                if (slot == null) continue;
+                if (slot.id != itemId) continue;
+                if (slot.count <= 0) continue;
+
+                total += slot.count;
+                if (total >= count)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 실제로 itemId를 count개 회수
+        /// 앞에서 CanRemoveFromInventory가 true였다는 전제에서 사용
+        /// </summary>
+        private bool RemoveFromInventory(string itemId, int count)
+        {
+            if (!CanRemoveFromInventory(itemId, count))
+                return false;
+
+            int remain = count;
+
+            for (int i = 0; i < data.inventoryCapacity; i++)
+            {
+                var slot = GetInvSlot(i);
+                if (slot == null) continue;
+                if (slot.id != itemId) continue;
+                if (slot.count <= 0) continue;
+
+                int remove = Mathf.Min(slot.count, remain);
+                slot.count -= remove;
+                remain -= remove;
+
+                if (slot.count <= 0)
+                    ClearSlot(slot);
+
+                if (remain <= 0)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// itemId를 count개 지급할 수 있는지 검사
+        /// 규칙:
+        /// 1) 빈 슬롯이 하나라도 있으면 true
+        /// 2) 빈 슬롯이 없어도 동일 아이템 슬롯들의 남은 적층 가능량 합이 count 이상이면 true
+        /// </summary>
+        private bool CanAddToInventory(string itemId, int count)
+        {
+            if (data == null || string.IsNullOrEmpty(itemId) || count <= 0)
+                return false;
+
+            int maxStack = itemDatabase != null ? itemDatabase.GetMaxStackOrDefault(itemId, 1) : 1;
+            maxStack = Mathf.Max(1, maxStack);
+
+            bool hasEmptySlot = false;
+            int stackableSpace = 0;
+
+            for (int i = 0; i < data.inventoryCapacity; i++)
+            {
+                var slot = GetInvSlot(i);
+
+                if (IsEmpty(slot))
+                {
+                    hasEmptySlot = true;
+                    break; // 요구사항대로 빈 슬롯 하나라도 있으면 바로 가능
+                }
+
+                if (slot.id == itemId)
+                {
+                    int space = maxStack - slot.count;
+                    if (space > 0)
+                        stackableSpace += space;
+                }
+            }
+
+            if (hasEmptySlot)
+                return true;
+
+            return stackableSpace >= count;
+        }
+
+        /// <summary>
+        /// 실제로 itemId를 count개 지급
+        /// 우선 기존 동일 아이템 슬롯에 중첩하고, 남으면 빈 슬롯에 새로 생성
+        /// </summary>
+        private bool AddToInventory(string itemId, int count)
+        {
+            if (!CanAddToInventory(itemId, count))
+                return false;
+
+            int remain = count;
+            int maxStack = itemDatabase != null ? itemDatabase.GetMaxStackOrDefault(itemId, 1) : 1;
+            maxStack = Mathf.Max(1, maxStack);
+
+            // 1) 기존 같은 아이템 슬롯에 먼저 중첩
+            for (int i = 0; i < data.inventoryCapacity; i++)
+            {
+                if (remain <= 0) break;
+
+                var slot = GetInvSlot(i);
+                if (slot == null) continue;
+                if (IsEmpty(slot)) continue;
+                if (slot.id != itemId) continue;
+
+                int space = maxStack - slot.count;
+                if (space <= 0) continue;
+
+                int add = Mathf.Min(space, remain);
+                slot.count += add;
+                remain -= add;
+            }
+
+            // 2) 남은 수량은 빈 슬롯에 새로 생성
+            for (int i = 0; i < data.inventoryCapacity; i++)
+            {
+                if (remain <= 0) break;
+
+                var slot = GetInvSlot(i);
+                if (slot == null) continue;
+                if (!IsEmpty(slot)) continue;
+
+                int add = Mathf.Min(maxStack, remain);
+                slot.id = itemId;
+                slot.count = add;
+                remain -= add;
+            }
+
+            return remain <= 0;
         }
     }
 }

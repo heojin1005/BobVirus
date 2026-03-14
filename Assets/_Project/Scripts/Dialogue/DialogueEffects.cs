@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // 대화 이후 실행할 함수 내역이다.
@@ -10,6 +11,7 @@ public enum DialogueEffectType
     TestSet,
     TalkChange,
     QuestChange,
+    StoreAdd,
     ShowDebug,
 }
 
@@ -36,6 +38,14 @@ public class DialogueEffect
 
     [Header("바꿀 퀘스트 노드 이름")]
     public string QuestNode;
+
+    [Header("Store Add Params")]
+    public string storeTakeItemId;
+    public int storeTakeCount = 1;
+
+    public string storeGiveItemId;
+    public int storeGiveCount = 1;
+
     public void Apply(SaveGameData data)
     {
         if (data == null) return;
@@ -70,9 +80,100 @@ public class DialogueEffect
             {
                 var o = data.EnsureNpcOverride(objectName);
                 o.questGraphId = QuestNode;
-                GameManager.Instance.SaveNow();       
-                break; 
+                GameManager.Instance.SaveNow();
+                break;
             }
+
+            case DialogueEffectType.StoreAdd:
+            {
+                if (string.IsNullOrEmpty(objectName))
+                {
+                    Debug.LogWarning("StoreAdd: objectName is empty.");
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(storeTakeItemId))
+                {
+                    Debug.LogWarning("StoreAdd: storeTakeItemId is empty.");
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(storeGiveItemId))
+                {
+                    Debug.LogWarning("StoreAdd: storeGiveItemId is empty.");
+                    return;
+                }
+
+                var o = data.EnsureNpcOverride(objectName);
+                if (o == null)
+                {
+                    Debug.LogWarning($"StoreAdd: failed to get override for npc '{objectName}'.");
+                    return;
+                }
+
+                List<SaveGameData.NpcStoreEntryData> merged = null;
+
+                // 이미 override가 있으면 그걸 기준으로 추가
+                if (o.storeList != null && o.storeList.Count > 0)
+                {
+                    merged = new List<SaveGameData.NpcStoreEntryData>(o.storeList);
+                }
+                else
+                {
+                    // override가 없으면 기본 storeList를 복사해서 시작
+                    merged = new List<SaveGameData.NpcStoreEntryData>();
+
+                    var npcDb = Resources.FindObjectsOfTypeAll<NpcDatabaseSO>();
+                    if (npcDb != null)
+                    {
+                        foreach (var db in npcDb)
+                        {
+                            if (db == null || db.npcs == null) continue;
+
+                            foreach (var npc in db.npcs)
+                            {
+                                if (npc == null) continue;
+                                if (npc.npcId != objectName) continue;
+
+                                if (npc.storeList != null)
+                                {
+                                    foreach (var row in npc.storeList)
+                                    {
+                                        if (row == null) continue;
+
+                                        merged.Add(new SaveGameData.NpcStoreEntryData
+                                        {
+                                            takeItemId = row.takeItemId,
+                                            takeCount = row.takeCount,
+                                            giveItemId = row.giveItemId,
+                                            giveCount = row.giveCount,
+                                            buttonLabel = row.buttonLabel
+                                        });
+                                    }
+                                }
+                                goto STORE_FOUND;
+                            }
+                        }
+                    }
+
+                STORE_FOUND:
+                    ;
+                }
+
+                merged.Add(new SaveGameData.NpcStoreEntryData
+                {
+                    takeItemId = storeTakeItemId,
+                    takeCount = Mathf.Max(1, storeTakeCount),
+                    giveItemId = storeGiveItemId,
+                    giveCount = Mathf.Max(1, storeGiveCount),
+                    buttonLabel = "change"
+                });
+
+                o.storeList = merged;
+                GameManager.Instance.SaveNow();
+                break;
+            }
+
             case DialogueEffectType.ShowDebug:
             {
                 if (string.IsNullOrEmpty(debugObject))
@@ -80,18 +181,21 @@ public class DialogueEffect
                     Debug.LogWarning("ShowDebug: debugObject is empty.");
                     return;
                 }
+
                 GameObject target = GameObject.Find(debugObject);
                 if (target == null)
                 {
                     Debug.LogWarning($"ShowDebug: GameObject '{debugObject}' not found.");
                     return;
                 }
+
                 var label = target.GetComponent<WorldDebugLabel>();
                 if (label == null)
                 {
                     Debug.LogWarning($"ShowDebug: WorldDebugLabel not found on '{debugObject}'.");
                     return;
                 }
+
                 label.Show(
                     string.IsNullOrEmpty(stringValue) ? "(Debug)" : stringValue,
                     2f

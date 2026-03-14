@@ -1,4 +1,3 @@
-// NpcDefinitionSO.cs
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +5,13 @@ using UnityEngine;
 [Serializable]
 public class NpcStoreEntry
 {
-    public string itemId;   // ItemDatabase에서 찾는 ID
-    public int price;       // 나중에 구매 로직 붙일 때 사용 (일단 UI 표시용)
+    public string takeItemId;
+    public int takeCount = 1;
+
+    public string giveItemId;
+    public int giveCount = 1;
+
+    public string buttonLabel = "교환";
 }
 
 [CreateAssetMenu(menuName = "Game/NPC/Npc Definition")]
