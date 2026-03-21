@@ -38,7 +38,7 @@ public class InteractionController : MonoBehaviour
         // 2) 조건 검사 + 옵션 만들기
         List<InteractionOption> options = target.kind switch
         {
-            InteractionKind.Npc => NPCInteraction(target.targetId, data),
+            InteractionKind.Npc => NPCInteraction(target, data),
             InteractionKind.Encyclopedia => EncyclopediaOpen(data),
             _ => BuildGenericOptions(target)
         };
@@ -75,20 +75,39 @@ public class InteractionController : MonoBehaviour
     //}
     //));
     //return list;
-    private List<InteractionOption> NPCInteraction(string npcId, SaveGameData data)
+    private List<InteractionOption> NPCInteraction(InteractionTarget target, SaveGameData data)
     {
         var list = new List<InteractionOption>();
-        list.Add(new InteractionOption("NPC 클릭 확인", () =>
+        string npcId = target.targetId;
+
+        list.Add(new InteractionOption("NPC 상호작용", () =>
         {
-            string displayName = npcId;
-            NpcUIManager.Instance.OpenTopic(
-                npcId,
-                displayName,
-                onTalk: () => NpcUIManager.Instance.StartTalk(npcId),
-                onTrade: () => NpcUIManager.Instance.StartTrade(npcId),
-                onQuest: () => NpcUIManager.Instance.StartQuest(npcId)
-            );
+            switch (target.npcDirectAction)
+            {
+                case NpcDirectAction.Talk:
+                    NpcUIManager.Instance.StartTalk(npcId);
+                    break;
+
+                case NpcDirectAction.Trade:
+                    NpcUIManager.Instance.StartTrade(npcId);
+                    break;
+
+                case NpcDirectAction.Quest:
+                    NpcUIManager.Instance.StartQuest(npcId);
+                    break;
+
+                default:
+                    NpcUIManager.Instance.OpenTopic(
+                        npcId,
+                        npcId,
+                        onTalk: () => NpcUIManager.Instance.StartTalk(npcId),
+                        onTrade: () => NpcUIManager.Instance.StartTrade(npcId),
+                        onQuest: () => NpcUIManager.Instance.StartQuest(npcId)
+                    );
+                    break;
+            }
         }));
+
         return list;
     }
     private List<InteractionOption> NpcClickCount(string npcId, SaveGameData data)

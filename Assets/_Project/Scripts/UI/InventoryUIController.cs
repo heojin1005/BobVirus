@@ -52,6 +52,8 @@ namespace UI
         [Header("Split UI")]
         [SerializeField] private SplitDragPanel splitDragPanel;
         [SerializeField] private DiscardConfirmPanel discardConfirmPanel;
+        [Header("Discard Area")]
+        [SerializeField] private RectTransform discardOutsideRect; // 예: Dimmer
 
         private bool discardPromptOpen = false;
         private bool pendingDiscardFromPayload = false;
@@ -160,8 +162,23 @@ namespace UI
 
         public void Close()
         {
+            CancelPendingSplitDragOnClose();
             CloseStorage();
             panelRoot?.SetActive(false);
+        }
+        private void CancelPendingSplitDragOnClose()
+        {
+            if (!dragging) return;
+            if (!holdDragAfterSplit) return;
+
+            // 분할 payload는 원본 슬롯에서 이미 빠져 있으므로 닫을 때 원복
+            ReturnPayloadRemainToSource(dragCount);
+
+            // 화면/슬롯 상태 갱신
+            CommitChange();
+
+            // 드래그 상태 정리
+            CleanupDrag();
         }
 
         public void SaveNow()
@@ -505,6 +522,12 @@ namespace UI
             // ✅ split-confirm 드래그는 포인터를 떼도 유지되어야 함
             if (holdDragAfterSplit) return;
 
+            if (eventData != null)
+            {
+                lastPointerScreenPos = eventData.position;
+                lastPressEventCamera = eventData.pressEventCamera;
+            }
+
             if (endDragCo != null) StopCoroutine(endDragCo);
             endDragCo = StartCoroutine(EndDragNextFrame());
         }
@@ -515,14 +538,38 @@ namespace UI
 
             if (!dragging) yield break;
 
-            // 유효한 Drop 타겟이 없었음 = 허공 드롭
+            // 유효한 Drop 타겟이 없었음
             if (!dropConsumed)
             {
-                OpenDiscardConfirmForCurrentDrag();
+                bool outside = IsPointerOutsideDiscardRect(lastPointerScreenPos, lastPressEventCamera);
+
+                if (outside)
+                {
+                    // Dimmer 바깥 = 버리기
+                    OpenDiscardConfirmForCurrentDrag();
+                }
+                else
+                {
+                    // Dimmer 안쪽 빈 공간 = 버리기 아님, 원복
+                    CancelCurrentDragAndRestore();
+                }
+
                 yield break;
             }
 
             CleanupDrag();
+        }
+
+        private bool IsPointerOutsideDiscardRect(Vector2 screenPos, Camera eventCamera)
+        {
+            if (discardOutsideRect == null)
+                return true; // 미지정이면 기존처럼 바깥 취급
+
+            return !RectTransformUtility.RectangleContainsScreenPoint(
+                discardOutsideRect,
+                screenPos,
+                eventCamera
+            );
         }
 
         // =========================

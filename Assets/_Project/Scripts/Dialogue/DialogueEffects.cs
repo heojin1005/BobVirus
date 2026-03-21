@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UI;
 
 // 대화 이후 실행할 함수 내역이다.
 public enum DialogueEffectType
@@ -13,6 +14,7 @@ public enum DialogueEffectType
     QuestChange,
     StoreAdd,
     ShowDebug,
+    Give,
 }
 
 [Serializable]
@@ -20,31 +22,37 @@ public class DialogueEffect
 {
     public DialogueEffectType type;
 
-    [Header("Int Param (Story/Test 등)")]
+    [Header("Int Param (Story/Test 등)")] //storyprogressadd, storyprogressset에서 사용
     public int intValue;
 
-    [Header("Debug Message")]
+    [Header("Debug Message")] //showdebug에서 사용
     [TextArea]
     public string stringValue;
 
-    [Header("Target Object Name (WorldDebugLabel이 붙어있는 오브젝트 이름)")]
+    [Header("Target Object Name (WorldDebugLabel이 붙어있는 오브젝트 이름)")] //showdebug에서 사용
     public string debugObject;
 
-    [Header("노드를 바꿔 줄 대상 이름")]
+    [Header("노드를 바꿔 줄 대상 이름")] //talkchange, questchange에서 사용
     public string objectName;
 
-    [Header("바꿀 대화 노드 이름")]
+    [Header("바꿀 대화 노드 이름")] //talkchange에서 사용
     public string NodeName;
 
-    [Header("바꿀 퀘스트 노드 이름")]
+    [Header("바꿀 퀘스트 노드 이름")] //questchange에서 사용
     public string QuestNode;
 
-    [Header("Store Add Params")]
+    [Header("Store Add Params")] //storeadd에서 사용
     public string storeTakeItemId;
     public int storeTakeCount = 1;
 
     public string storeGiveItemId;
     public int storeGiveCount = 1;
+    [Header("아이템 교환(대화 혹은 퀘스트에서)")] //give에서 사용
+    public InventoryUIController inventoryUI;
+    public string takeItemId;
+    public int takeCount = 1;
+    public string giveItemId;
+    public int giveCount = 1;
 
     public void Apply(SaveGameData data)
     {
@@ -202,6 +210,10 @@ public class DialogueEffect
                 );
                 break;
             }
+            case DialogueEffectType.Give:
+                {
+                    break;
+                }
         }
     }
 }
