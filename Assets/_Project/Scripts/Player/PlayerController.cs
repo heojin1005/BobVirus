@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     // Input System: Move (WASD)
     public void OnMove(InputValue value)
     {
-        Debug.Log("<color=yellow>키보드 입력 들어옴!</color> 값: " + value.Get<Vector2>());
+        //Debug.Log("<color=yellow>키보드 입력 들어옴!</color> 값: " + value.Get<Vector2>());
         moveInput = value.Get<Vector2>();
     }
 
@@ -154,31 +154,39 @@ public class PlayerController : MonoBehaviour
         if (weaponSystem != null && weaponSystem.weaponData != null && 
             (weaponSystem.weaponData.type == WeaponType.Melee || weaponSystem.weaponData.type == WeaponType.Throwable))
         {
-             // [근접, 수류탄 로직]
-            if (weaponSystem.IsSwinging) return; // 공격 중엔 터치 X
-
             float angleOffset = weaponSystem.weaponData.holdAngleOffset;
             Vector3 posOffset = weaponSystem.weaponData.holdPosOffset;
 
+            // 1. [논리] 피벗(WeaponPivot)과 총구는 마우스를 향해 정상적으로 조준합니다.
             if (isFacingRight)
             {
-                // 오른쪽: 각도 더하기
                 weaponPivot.rotation = Quaternion.Euler(0, 0, angle + angleOffset);
                 weaponPivot.localPosition = new Vector3(posOffset.x, posOffset.y, 0);
-
-                // [수정] 피벗은 크기 신경 안 씀. 오직 방향(정방향 1)만 담당
                 weaponPivot.localScale = Vector3.one; 
             }
             else
             {
-                // 왼쪽: 각도 빼기
                 weaponPivot.rotation = Quaternion.Euler(0, 0, angle - angleOffset);
-
-                // 위치 X 반전
                 weaponPivot.localPosition = new Vector3(-posOffset.x, posOffset.y, 0);
-
-                // [수정] 피벗은 크기 신경 안 씀. 오직 방향(Y반전 -1)만 담당
                 weaponPivot.localScale = new Vector3(1, -1, 1); 
+            }
+
+            // 2. [시각] 스프라이트(방망이 이미지)만 210도 까딱까딱 돌려줍니다!
+            if (weaponRenderer != null && weaponRenderer.transform.parent != null)
+            {
+                // 회전시킬 대상(SpritePivot)을 명확히 잡습니다.
+                Transform spritePivot = weaponRenderer.transform.parent;
+
+                if (weaponSystem.weaponData.type == WeaponType.Melee && weaponSystem.IsAltSwing)
+                {
+                    // 역방향: 부모를 -210도로 회전
+                    spritePivot.localRotation = Quaternion.Euler(0, 0, -210f);
+                }
+                else
+                {
+                    // 정방향: 동일한 대상(부모)을 다시 0도로 복구!
+                    spritePivot.localRotation = Quaternion.Euler(0, 0, 0f);
+                }
             }
         }
         else 

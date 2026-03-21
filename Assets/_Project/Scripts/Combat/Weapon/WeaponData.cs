@@ -14,6 +14,7 @@ public class WeaponData : ScriptableObject
     public WeaponType type;            // 무기 타입
     public string weaponName = "Weapon";
     public GameObject projectilePrefab; // 총알, 근접 이펙트, 수류탄 등
+    public GameObject altProjectilePrefab; // (옵션) 대체 발사체 (예: 근접 무기 휘두를 때 다른 이펙트)
     public LayerMask targetLayers;      // 타격 가능한 레이어
 
     [Header("Combat Stats")]

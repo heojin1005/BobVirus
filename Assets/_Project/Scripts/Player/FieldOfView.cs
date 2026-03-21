@@ -51,59 +51,58 @@ public class FieldOfView : MonoBehaviour
 
     void FindVisibleTargets()
     {
-        // 1. [초기화] 저번에 보였던 애들 싹 끄기 (일단 안 보임 처리)
+        // 1. 저번에 보였던 애들 싹 끄기
         foreach (var r in lastFrameVisibleRenderers)
         {
             if (r != null) r.enabled = false;
         }
         lastFrameVisibleRenderers.Clear();
 
-        // 2. 최대 사거리(FarRadius) 안의 모든 적 탐색
         Collider2D[] targetsInRadius = Physics2D.OverlapCircleAll(transform.position, farRadius, targetMask);
 
-        for (int i = 0; i < targetsInRadius.Length; i++)
+        foreach (var col in targetsInRadius)
         {
-            Transform target = targetsInRadius[i].transform;
-            SpriteRenderer targetRenderer = target.GetComponentInChildren<SpriteRenderer>();
-            
-            if (targetRenderer == null) continue;
+            Transform target = col.transform;
+            SpriteRenderer sr = target.GetComponentInChildren<SpriteRenderer>();
+            if (sr == null) continue;
 
-            // 3. [핵심] 판정 로직 동기화
-            // 메쉬 그릴 때랑 똑같은 계산법으로 "여기가 보이는 위치인가?" 확인
-            if (IsPointInView(target.position))
+            // 2. [물리 검사] 벽에 가려졌는지는 오직 '발밑' 기준으로 딱 1번만 검사!
+            Vector3 feetPos = target.position;
+            Vector3 dirToFeet = (feetPos - transform.position).normalized;
+            float dstToFeet = Vector3.Distance(transform.position, feetPos);
+
+            if (Physics2D.Raycast(transform.position, dirToFeet, dstToFeet, obstacleMask))
             {
-                // 보여야 하는 위치라면 켜기
-                targetRenderer.enabled = true;
-                lastFrameVisibleRenderers.Add(targetRenderer);
+                continue; // 벽에 가려지면 무조건 안 보임 (통과)
             }
-            // else: 위에서 이미 다 꺼뒀으므로, 여기서 안 걸리면 자연스럽게 꺼진 상태 유지
+
+            // 3. [시야 검사] 스프라이트의 진짜 '발, 가슴, 머리' 3개의 점 좌표 추출
+            Vector3 topPos = new Vector3(sr.bounds.center.x, sr.bounds.max.y, 0); // 머리
+            Vector3 centerPos = sr.bounds.center; // 가슴
+
+            // 4. 셋 중 하나라도 부채꼴 안에 걸치면 켜기! (상하좌우 완벽한 대칭 체감)
+            if (IsPointInCone(feetPos) || IsPointInCone(centerPos) || IsPointInCone(topPos))
+            {
+                sr.enabled = true;
+                lastFrameVisibleRenderers.Add(sr);
+            }
         }
     }
 
-    // [중요] 메쉬 그리는 로직과 판정 로직을 하나로 통일함
-    bool IsPointInView(Vector3 targetPos)
+    // 부채꼴 범위 안에 점이 있는지 순수하게 수학적으로만 검사하는 함수
+    bool IsPointInCone(Vector3 targetPos)
     {
-        Vector3 dirToTarget = (targetPos - transform.position).normalized;
         float dstToTarget = Vector3.Distance(transform.position, targetPos);
+        if (dstToTarget > farRadius) return false;
+        if (dstToTarget <= nearRadius) return true; // 근접 360도 반경
 
-        // 1. 타겟 방향의 각도를 구함 (Global Angle)
-        // Atan2는 -180 ~ 180도를 반환하며 Right(X축)가 0도
+        Vector3 dirToTarget = (targetPos - transform.position).normalized;
         float angleToTarget = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg;
+        float myRotation = transform.eulerAngles.z;
+        
+        float angleDiff = Mathf.DeltaAngle(angleToTarget, myRotation);
 
-        // 2. 그 각도에서의 허용 사거리(Radius)를 가져옴
-        // (메쉬 그릴 때 쓰는 함수 재활용)
-        float visibleRadiusAtAngle = GetRadiusForAngle(angleToTarget);
-
-        // 3. 거리가 허용 사거리 이내인가?
-        if (dstToTarget <= visibleRadiusAtAngle)
-        {
-            // 4. 벽에 가려지지 않았는가?
-            if (!Physics2D.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
-            {
-                return true;
-            }
-        }
-        return false;
+        return Mathf.Abs(angleDiff) < farAngle / 2;
     }
 
     // 각도에 따른 사거리 반환 (메쉬와 로직의 공통 기준)

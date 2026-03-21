@@ -119,6 +119,7 @@ public class EnemyAI : MonoBehaviour
             case State.Idle:
                 agent.ResetPath();
                 agent.speed = patrolSpeed; // 느리게 걷기
+                startPos = transform.position; // 배회 기준점 갱신 (도착한 곳에서 다시 배회) -> 원래 위치로 고정하고 싶으면 이 줄 제거
                 currentWaitTime = Random.Range(minWanderWaitTime, maxWanderWaitTime);
                 WaitTimer = 0f;
                 break;

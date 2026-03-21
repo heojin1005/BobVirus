@@ -38,13 +38,13 @@ public class PlayerEquipment : MonoBehaviour
         // 인벤토리 칸수를 넘어가면 무시
         if (data == null || slotIndex >= data.inventoryCapacity) return; 
 
-        string itemId = data.inventoryItems[slotIndex]; // 해당 칸에 있는 아이템 ID
+        string itemId = data.inventorySlots[slotIndex].id; // 해당 칸에 있는 아이템 ID
 
         // 빈 칸을 눌렀을 경우 (선택: 맨손으로 만들고 싶다면 아래 로직 활성화)
         if (string.IsNullOrEmpty(itemId))
         {
-            // data.weaponId = "";
-            // UpdateWeaponEquipment();
+            data.weaponId = "";
+            UpdateWeaponEquipment();
             return;
         }
 

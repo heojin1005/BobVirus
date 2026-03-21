@@ -23,7 +23,12 @@ public class TestDummy : MonoBehaviour, IDamageable
     public void TakeDamage(float amount, Vector2 hitPoint, Vector2 hitNormal)
     {
         currentHp -= amount;
-        //Debug.Log($"[샌드백] 으악! {amount} 데미지! (남은 체력: {currentHp}/{maxHp})");
+        //Debug.Log($"[샌드백] {amount} 데미지! (남은 체력: {currentHp}/{maxHp})");
+
+        if (BloodManager.Instance != null)
+        {
+            BloodManager.Instance.SpawnBlood(hitPoint, hitNormal);
+        }
 
         // 시각 효과: 맞으면 잠깐 빨간색으로 번쩍임
         if (spriteRenderer != null)

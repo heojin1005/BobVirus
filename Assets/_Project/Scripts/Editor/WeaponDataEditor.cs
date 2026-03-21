@@ -7,7 +7,7 @@ using UnityEditor; // 에디터 기능 사용을 위해 필수
 public class WeaponDataEditor : Editor
 {
     // 1. 프로퍼티 변수 선언
-    SerializedProperty type, weaponName, projectilePrefab, targetLayers;
+    SerializedProperty type, weaponName, projectilePrefab, altProjectilePrefab, targetLayers;
     SerializedProperty damage, fireRate, noiseRange, maxRange;
     SerializedProperty weaponSprite, spriteScale, holdPosOffset, holdAngleOffset, muzzleOffset;
     
@@ -27,6 +27,7 @@ public class WeaponDataEditor : Editor
         type = serializedObject.FindProperty("type");
         weaponName = serializedObject.FindProperty("weaponName");
         projectilePrefab = serializedObject.FindProperty("projectilePrefab");
+        altProjectilePrefab = serializedObject.FindProperty("altProjectilePrefab");
         targetLayers = serializedObject.FindProperty("targetLayers");
 
         damage = serializedObject.FindProperty("damage");
@@ -76,6 +77,7 @@ public class WeaponDataEditor : Editor
         EditorGUILayout.PropertyField(type);
         EditorGUILayout.PropertyField(weaponName);
         EditorGUILayout.PropertyField(projectilePrefab);
+        EditorGUILayout.PropertyField(altProjectilePrefab);
         EditorGUILayout.PropertyField(targetLayers);
 
         EditorGUILayout.Space(10);

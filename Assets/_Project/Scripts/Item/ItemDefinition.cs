@@ -13,6 +13,10 @@ public class ItemDefinition : ScriptableObject
     [Header("Equip Rules")]
     [Tooltip("장착 불가 아이템은 None")]
     public EquipSlotType equipSlot = EquipSlotType.None;
+    [Header("Stack Rules")]
+    [Tooltip("한 슬롯에 적층 가능한 최대 개수. 기본 1 (장비/무기), 소모품은 20~99 등")]
+    [Min(1)]
+    public int maxStack = 1;
 
     [Header("Optional Display Info")]
     public string displayName;

@@ -4,6 +4,11 @@ using System;
 
 public class WeaponSystem : MonoBehaviour
 {
+    [Header("Melee Polish")] // [추가] 타격감 관련 변수
+    [SerializeField] private TrailRenderer meleeTrail; // 검기 이펙트
+    [SerializeField] private float hitStopDuration = 0.05f; // 역경직 시간
+
+
     [Header("Settings")]
     public WeaponData weaponData; // 데이터 파일 넣는 곳
     public Transform muzzlePoint; // 총구 위치 넣는 곳
@@ -15,11 +20,13 @@ public class WeaponSystem : MonoBehaviour
     private int currentAmmo;
     private float currentSpread;
     private bool isReloading = false;
+    
 
     
     public bool IsCurrentModeAuto { get; private set; } // 현재 발사 모드 저장 (외부 접근용) -> 연발단발 전환할때 쓰는건데 아직 안만듦
 
     public bool IsSwinging { get; private set; } // 공격 중인지 여부 (근접 무기 스윙 모션 체크, 외부 접근용)
+    public bool IsAltSwing { get; private set; } // 휘두르기 모션 체크
 
     private void Awake()
     {
@@ -174,28 +181,56 @@ public class WeaponSystem : MonoBehaviour
     private IEnumerator SwingMelee()
     {
         IsSwinging = true;
+        IsAltSwing = !IsAltSwing;
+
+        if (meleeTrail != null) meleeTrail.emitting = true;
 
         // 1. 소리 & 카메라 쉐이크
         NoiseManager.MakeNoise(transform.position, weaponData.noiseRange);
         if (CameraFollow.Instance != null) CameraFollow.Instance.Shake(0.05f, 0.1f);
-
-        // 2. [시각 효과] 휘두르는 이펙트 생성 (칼 자체가 돌아가는 것보다 훨씬 타격감 좋음)
-        // 이펙트가 "슉!" 하고 나타났다 사라짐
-        if (weaponData.projectilePrefab != null) // 근접무기는 이펙트 프리팹을 여기에 넣음
-        {
-            Instantiate(weaponData.projectilePrefab, muzzlePoint.position, muzzlePoint.rotation);
-        }
-
-        // 3. [딜레이] 칼을 휘두르는 모션 시간만큼 잠깐 대기 (0.1초)
-        // 이 시간이 있어야 "휘두르고 -> 맞았다" 느낌이 남
-        yield return new WaitForSeconds(0.1f); 
 
         // 무기가 45도 들려있든 말든, 판정은 마우스 쪽으로 부채꼴을 그려야 함
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(UnityEngine.InputSystem.Mouse.current.position.ReadValue());
         mousePos.z = 0;
         Vector2 aimDir = (mousePos - transform.position).normalized; // 플레이어 -> 마우스 방향
 
+        // 2. [시각 효과] 휘두르는 이펙트 생성 (칼 자체가 돌아가는 것보다 훨씬 타격감 좋음)
+        // 이펙트가 "슉!" 하고 나타났다 사라짐
+        GameObject prefabToSpawn = weaponData.projectilePrefab; // 기본은 1타 이펙트
+        
+        // 만약 2타(역방향) 차례이고, 데이터에 2타용 프리팹이 들어있다면? 그것으로 교체!
+        if (!IsAltSwing && weaponData.altProjectilePrefab != null)
+        {
+            prefabToSpawn = weaponData.altProjectilePrefab;
+        }
+
+        // 결정된 프리팹(prefabToSpawn)으로 이펙트 생성!
+        if (prefabToSpawn != null) 
+        {
+            // 정직하게 마우스 방향으로 각도 세팅
+            float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+            Quaternion slashRotation = Quaternion.Euler(0, 0, angle);
+
+            // 복잡한 계산 없이 그냥 muzzlePoint.position에서 생성!
+            GameObject slashObj = Instantiate(prefabToSpawn, muzzlePoint.position, slashRotation);
+            
+            // 검기 크기 및 왼쪽 볼 때 상하(Y) 반전
+            Vector3 finalScale = weaponData.spriteScale;
+            if (aimDir.x < 0)
+            {
+                finalScale.y *= -1f; 
+            }
+            slashObj.transform.localScale = finalScale;        
+        }
+        // 3. [딜레이] 칼을 휘두르는 모션 시간만큼 잠깐 대기 (0.1초)
+        // 이 시간이 있어야 "휘두르고 -> 맞았다" 느낌이 남
+        yield return new WaitForSeconds(0.1f); 
+
+        
+
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(muzzlePoint.position, weaponData.attackRadius, weaponData.targetLayers);
+
+        bool hasHit = false; // 적중 여부 체크용 플래그
 
         foreach (var hit in hitColliders)
         {
@@ -209,10 +244,29 @@ public class WeaponSystem : MonoBehaviour
                 {
                     // 넉백도 마우스 방향으로
                     target.TakeDamage(weaponData.damage, hit.transform.position, aimDir);
+                    hasHit = true; // 적중 성공!
                 }
             }
         }
+
+        if (hasHit)
+        {
+            // 0.05초 동안 게임이 멈춤 (타격감 극대화)
+            StartCoroutine(HitStopRoutine(0.05f)); 
+        }
+        if (meleeTrail != null) meleeTrail.emitting = false;
+
         IsSwinging = false;
+    }
+
+    private IEnumerator HitStopRoutine(float duration)
+    {
+        Time.timeScale = 0.05f; // 시간을 거의 멈춤 (0.0으로 하면 애니메이션이 아예 끊길 수 있어 0.05 추천)
+        
+        // TimeScale이 0에 가깝기 때문에 WaitForSecondsRealtime을 써야 합니다!
+        yield return new WaitForSecondsRealtime(duration); 
+        
+        Time.timeScale = 1f; // 시간 원래대로 복구
     }
     
     // 기즈모로 공격 범위 확인 (디버그용)
