@@ -212,6 +212,30 @@ public class DialogueEffect
             }
             case DialogueEffectType.Give:
                 {
+                    if (inventoryUI == null)
+                    inventoryUI = UnityEngine.Object.FindFirstObjectByType<InventoryUIController>(FindObjectsInactive.Include);
+                    if (inventoryUI == null)
+                    {
+                        
+                        Debug.LogError("[InventoryTradeButton] inventoryUI is null.");
+                        return;
+                    }
+
+                    bool success = inventoryUI.TryTradeInventoryItems(
+                        takeItemId,
+                        takeCount,
+                        giveItemId,
+                        giveCount
+                    );
+
+                    if (!success)
+                    {
+                        Debug.LogWarning($"[InventoryTradeButton] trade failed: {takeItemId} x{takeCount} -> {giveItemId} x{giveCount}");
+                        return;
+                    }
+
+                    Debug.Log($"[InventoryTradeButton] trade success: {takeItemId} x{takeCount} -> {giveItemId} x{giveCount}");
+                
                     break;
                 }
         }
