@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="settingsButtonRoot" class="settings-button-root">
+        <ui:Button name="btnOpenSettings" text="⚙" class="settings-open-btn" />
+    </ui:VisualElement>
+</ui:UXML>

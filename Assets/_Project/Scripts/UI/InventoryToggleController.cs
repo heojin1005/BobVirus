@@ -42,6 +42,9 @@ public class InventoryToggleController : MonoBehaviour
     {
         if (!enableKeyboardToggle) return;
 
+        if (SettingsOverlayController.BlocksInput)
+        return;
+
         if (Keyboard.current != null && Keyboard.current[toggleKey].wasPressedThisFrame)
             Toggle();
     }

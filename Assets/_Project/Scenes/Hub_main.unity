@@ -853,7 +853,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ToMain
+  m_text: 'ToMain
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1257,6 +1259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   kind: 0
   targetId: detective
+  npcDirectAction: 0
 --- !u!1 &364471375
 GameObject:
   m_ObjectHideFlags: 0
@@ -3555,6 +3558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   kind: 1
   targetId: encyclopedia_Test
+  npcDirectAction: 0
 --- !u!61 &1433327907
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4411,19 +4415,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2289933706970600755, guid: efbab48f9f96198469a06d7b62476d8d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 3806424064184428036, guid: efbab48f9f96198469a06d7b62476d8d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 5116238348964452708, guid: efbab48f9f96198469a06d7b62476d8d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 8651561767231921937, guid: efbab48f9f96198469a06d7b62476d8d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efbab48f9f96198469a06d7b62476d8d, type: 3}
 --- !u!114 &1558600440 stripped
 MonoBehaviour:

@@ -45,6 +45,7 @@ public class GlobalTutorialBootstrap : MonoBehaviour
             //GameManager.Instance.MarkTutorialCompleted();
 
             SceneManager.LoadScene(tutorialSceneName);
+            
         }
     }
 }
