@@ -170,6 +170,7 @@ MonoBehaviour:
   countText: {fileID: 8227802950951583027}
   highlight: {fileID: 0}
   longPressSeconds: 0.1
+  splitPressSeconds: 1
   moveCancelThreshold: 10
 --- !u!1 &7692937124954988134
 GameObject:

@@ -9,12 +9,10 @@ public class PlayerInteractor : MonoBehaviour
 
     public void OnInteract(InputValue value)
     {
+        if (SettingsOverlayController.BlocksInput)
+        return; //입력 막기
         if (!value.isPressed)
             return;
-
-        if (SettingsOverlayController.BlocksInput)
-            return;
-
         PerformInteraction();
     }
 

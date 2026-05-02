@@ -9,7 +9,15 @@ public class SettingsOverlayController : MonoBehaviour
 
     private const string PauseReason = "SETTINGS_UI";
 
+    [Header("Style")]
     [SerializeField] private StyleSheet settingsStyleSheet;
+
+    [Header("uGUI Input Blocker")]
+    [SerializeField] private GameObject uguiInputBlockerCanvas;
+
+    [Header("Close Other UI On Open")]
+    [SerializeField] private bool closeNpcUIOnOpen = true;
+    [SerializeField] private bool closeInventoryOnOpen = true;
 
     private UIDocument uiDocument;
 
@@ -35,6 +43,7 @@ public class SettingsOverlayController : MonoBehaviour
     private bool isBound;
 
     public bool IsOpen => isOpen;
+
     public static bool BlocksInput => Instance != null && Instance.IsOpen;
 
     private void Awake()
@@ -58,6 +67,9 @@ public class SettingsOverlayController : MonoBehaviour
             return;
         }
 
+        if (uguiInputBlockerCanvas != null)
+            uguiInputBlockerCanvas.SetActive(false);
+
         ApplyStyleSheet(root);
         BindUI(root);
         ForceClosedVisual();
@@ -70,8 +82,10 @@ public class SettingsOverlayController : MonoBehaviour
 
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            if (isOpen) CloseSettings();
-            else OpenSettings();
+            if (isOpen)
+                CloseSettings();
+            else
+                OpenSettings();
         }
     }
 
@@ -81,6 +95,12 @@ public class SettingsOverlayController : MonoBehaviour
             Instance = null;
 
         UnbindCallbacks();
+
+        if (uguiInputBlockerCanvas != null)
+            uguiInputBlockerCanvas.SetActive(false);
+
+        if (isOpen && PauseService.Instance != null)
+            PauseService.Instance.Pop(PauseReason);
     }
 
     private void ApplyStyleSheet(VisualElement root)
@@ -140,19 +160,12 @@ public class SettingsOverlayController : MonoBehaviour
             return;
         }
 
-        // 문서 루트 자체는 입력 무시
         root.pickingMode = PickingMode.Ignore;
         overlayRoot.pickingMode = PickingMode.Ignore;
 
-        // 실제 오버레이는 열렸을 때 전체화면 클릭을 먹어서 뒤 UI 차단
         settingsOverlay.pickingMode = PickingMode.Position;
         settingsMainPanel.pickingMode = PickingMode.Position;
         soundPanel.pickingMode = PickingMode.Position;
-
-        // 배경 클릭이 뒤로 전파되지 않게 막음
-        settingsOverlay.RegisterCallback<PointerDownEvent>(evt => evt.StopPropagation());
-        settingsOverlay.RegisterCallback<PointerUpEvent>(evt => evt.StopPropagation());
-        settingsOverlay.RegisterCallback<ClickEvent>(evt => evt.StopPropagation());
 
         btnCloseSettings.clicked += CloseSettings;
         btnOpenSound.clicked += ShowSoundPanel;
@@ -171,14 +184,28 @@ public class SettingsOverlayController : MonoBehaviour
         if (!isBound)
             return;
 
-        btnCloseSettings.clicked -= CloseSettings;
-        btnOpenSound.clicked -= ShowSoundPanel;
-        btnCloseSound.clicked -= CloseSettings;
-        btnBackFromSound.clicked -= ShowMainPanel;
+        if (btnCloseSettings != null)
+            btnCloseSettings.clicked -= CloseSettings;
 
-        masterSlider.UnregisterValueChangedCallback(OnMasterSliderChanged);
-        bgmSlider.UnregisterValueChangedCallback(OnBgmSliderChanged);
-        sfxSlider.UnregisterValueChangedCallback(OnSfxSliderChanged);
+        if (btnOpenSound != null)
+            btnOpenSound.clicked -= ShowSoundPanel;
+
+        if (btnCloseSound != null)
+            btnCloseSound.clicked -= CloseSettings;
+
+        if (btnBackFromSound != null)
+            btnBackFromSound.clicked -= ShowMainPanel;
+
+        if (masterSlider != null)
+            masterSlider.UnregisterValueChangedCallback(OnMasterSliderChanged);
+
+        if (bgmSlider != null)
+            bgmSlider.UnregisterValueChangedCallback(OnBgmSliderChanged);
+
+        if (sfxSlider != null)
+            sfxSlider.UnregisterValueChangedCallback(OnSfxSliderChanged);
+
+        isBound = false;
     }
 
     public void OpenSettings()
@@ -186,9 +213,17 @@ public class SettingsOverlayController : MonoBehaviour
         if (!isBound || isOpen)
             return;
 
+        // 중요:
+        // BlocksInput이 true가 되기 전에 기존 UI들을 먼저 닫는다.
+        // 그래야 인벤토리 닫기, NPC UI 닫기가 입력 차단 상태에 영향받지 않는다.
+        CloseOtherSceneUIsBeforeOpeningSettings();
+
         isOpen = true;
 
         RefreshFromGlobal();
+
+        if (uguiInputBlockerCanvas != null)
+            uguiInputBlockerCanvas.SetActive(true);
 
         settingsOverlay.RemoveFromClassList("hidden");
         ShowMainPanel();
@@ -209,11 +244,63 @@ public class SettingsOverlayController : MonoBehaviour
 
         ForceClosedVisual();
 
+        if (uguiInputBlockerCanvas != null)
+            uguiInputBlockerCanvas.SetActive(false);
+
         if (PauseService.Instance != null)
             PauseService.Instance.Pop(PauseReason);
 
         if (InputBlockService.Instance != null)
             InputBlockService.Instance.SetBlocked(false);
+    }
+
+    private void CloseOtherSceneUIsBeforeOpeningSettings()
+    {
+        CloseNpcUIIfNeeded();
+        CloseInventoryIfNeeded();
+    }
+
+    private void CloseNpcUIIfNeeded()
+    {
+        if (!closeNpcUIOnOpen)
+            return;
+
+        // NpcUIManager는 싱글톤 구조이므로 Instance를 우선 사용.
+        // CloseAllFromDimmer는 열린 직후 무시 시간이 있어서 ESC 강제 닫기에는 CloseAll이 더 적합함.
+        if (NpcUIManager.Instance != null)
+        {
+            NpcUIManager.Instance.CloseAll();
+            return;
+        }
+
+        // 혹시 Instance가 아직 없거나 씬 구조가 꼬였을 때를 위한 보조 탐색.
+        var managers = FindObjectsByType<NpcUIManager>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+
+        for (int i = 0; i < managers.Length; i++)
+        {
+            if (managers[i] != null)
+                managers[i].CloseAll();
+        }
+    }
+
+    private void CloseInventoryIfNeeded()
+    {
+        if (!closeInventoryOnOpen)
+            return;
+
+        var controllers = FindObjectsByType<InventoryToggleController>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+
+        for (int i = 0; i < controllers.Length; i++)
+        {
+            if (controllers[i] != null)
+                controllers[i].CloseInventory();
+        }
     }
 
     private void ForceClosedVisual()
@@ -225,12 +312,18 @@ public class SettingsOverlayController : MonoBehaviour
 
     private void ShowMainPanel()
     {
+        if (settingsMainPanel == null || soundPanel == null)
+            return;
+
         settingsMainPanel.RemoveFromClassList("hidden");
         soundPanel.AddToClassList("hidden");
     }
 
     private void ShowSoundPanel()
     {
+        if (settingsMainPanel == null || soundPanel == null)
+            return;
+
         settingsMainPanel.AddToClassList("hidden");
         soundPanel.RemoveFromClassList("hidden");
     }
@@ -240,8 +333,8 @@ public class SettingsOverlayController : MonoBehaviour
         if (!TryGetGlobalData(out var data))
             return;
 
-        data.masterVolume = evt.newValue;
-        UpdatePercentLabel(masterValue, evt.newValue);
+        data.masterVolume = Mathf.Clamp01(evt.newValue);
+        UpdatePercentLabel(masterValue, data.masterVolume);
         SaveGlobal();
     }
 
@@ -250,8 +343,8 @@ public class SettingsOverlayController : MonoBehaviour
         if (!TryGetGlobalData(out var data))
             return;
 
-        data.bgmVolume = evt.newValue;
-        UpdatePercentLabel(bgmValue, evt.newValue);
+        data.bgmVolume = Mathf.Clamp01(evt.newValue);
+        UpdatePercentLabel(bgmValue, data.bgmVolume);
         SaveGlobal();
     }
 
@@ -260,8 +353,8 @@ public class SettingsOverlayController : MonoBehaviour
         if (!TryGetGlobalData(out var data))
             return;
 
-        data.sfxVolume = evt.newValue;
-        UpdatePercentLabel(sfxValue, evt.newValue);
+        data.sfxVolume = Mathf.Clamp01(evt.newValue);
+        UpdatePercentLabel(sfxValue, data.sfxVolume);
         SaveGlobal();
     }
 
@@ -283,6 +376,10 @@ public class SettingsOverlayController : MonoBehaviour
     {
         if (!TryGetGlobalData(out var data))
             return;
+
+        data.masterVolume = Mathf.Clamp01(data.masterVolume);
+        data.bgmVolume = Mathf.Clamp01(data.bgmVolume);
+        data.sfxVolume = Mathf.Clamp01(data.sfxVolume);
 
         masterSlider.SetValueWithoutNotify(data.masterVolume);
         bgmSlider.SetValueWithoutNotify(data.bgmVolume);

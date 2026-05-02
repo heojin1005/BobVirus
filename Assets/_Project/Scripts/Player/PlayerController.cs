@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
+        if (SettingsOverlayController.BlocksInput)
+        return; //입력 막기
         HandleAiming();
         HandleShooting();
     }
