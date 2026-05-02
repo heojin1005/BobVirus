@@ -4,11 +4,6 @@ using System;
 
 public class WeaponSystem : MonoBehaviour
 {
-    [Header("Melee Polish")] // [추가] 타격감 관련 변수
-    [SerializeField] private TrailRenderer meleeTrail; // 검기 이펙트
-    [SerializeField] private float hitStopDuration = 0.05f; // 역경직 시간
-
-
     [Header("Settings")]
     public WeaponData weaponData; // 데이터 파일 넣는 곳
     public Transform muzzlePoint; // 총구 위치 넣는 곳
@@ -183,8 +178,6 @@ public class WeaponSystem : MonoBehaviour
         IsSwinging = true;
         IsAltSwing = !IsAltSwing;
 
-        if (meleeTrail != null) meleeTrail.emitting = true;
-
         // 1. 소리 & 카메라 쉐이크
         NoiseManager.MakeNoise(transform.position, weaponData.noiseRange);
         if (CameraFollow.Instance != null) CameraFollow.Instance.Shake(0.05f, 0.1f);
@@ -239,7 +232,7 @@ public class WeaponSystem : MonoBehaviour
             // [핵심 변경] muzzlePoint.right 대신 aimDir(마우스 방향) 사용
             if (Vector2.Angle(aimDir, dirToTarget) < weaponData.attackArc / 2)
             {
-                IDamageable target = hit.GetComponent<IDamageable>();
+                IDamageable target = hit.GetComponentInParent<IDamageable>();                
                 if (target != null)
                 {
                     // 넉백도 마우스 방향으로
@@ -252,9 +245,8 @@ public class WeaponSystem : MonoBehaviour
         if (hasHit)
         {
             // 0.05초 동안 게임이 멈춤 (타격감 극대화)
-            StartCoroutine(HitStopRoutine(0.05f)); 
+            StartCoroutine(HitStopRoutine(0f)); // 일단 없애 안쓸거같긴한데  
         }
-        if (meleeTrail != null) meleeTrail.emitting = false;
 
         IsSwinging = false;
     }

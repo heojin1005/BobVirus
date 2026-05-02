@@ -65,7 +65,8 @@ public class Projectile : MonoBehaviour
         transform.position = hitPoint; // 총알을 충돌 지점으로 이동 (맞기 전에 사라지는거 방지)
         
         // 데미지 처리
-        IDamageable damageable = collider.GetComponent<IDamageable>();
+        IDamageable damageable = collider.GetComponentInParent<IDamageable>();
+
         if (damageable != null)
         {
             damageable.TakeDamage(damage, hitPoint, hitNormal);

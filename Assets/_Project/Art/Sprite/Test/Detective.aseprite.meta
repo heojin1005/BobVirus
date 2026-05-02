@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c2d8ab1aafe288347a8b45d8a6970da5
+guid: 505c4f9e8c926eb4eb05304a7b02921e
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,9 +123,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Rifle
+  - name: Detective
     originalName: 
-    pivot: {x: 0.3181817, y: 0.52602893}
+    pivot: {x: 0.44444445, y: -0.071428575}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -133,9 +133,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 32
-      height: 13
-    spriteID: a66ee8d668234a2429c9b0e2d937f7a9
+      width: 9
+      height: 14
+    spriteID: 4e0077a3fa60b4d48b682011ecb41639
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -148,25 +148,25 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 2435269204
+      value0: 1825783997
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: Rifle
+    name: Detective
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Rifle
+    - name: Detective
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 0
-        y: 9
-        width: 32
-        height: 13
-      spriteId: a66ee8d668234a2429c9b0e2d937f7a9
+        x: 4
+        y: 1
+        width: 9
+        height: 14
+      spriteId: 4e0077a3fa60b4d48b682011ecb41639
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -185,5 +185,5 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 32, y: 32}
-  previousTextureSize: {x: 64, y: 32}
+  canvasSize: {x: 16, y: 16}
+  previousTextureSize: {x: 32, y: 32}
