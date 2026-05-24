@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI;
 
 public class NpcUIManager : MonoBehaviour
 {
@@ -17,11 +18,14 @@ public class NpcUIManager : MonoBehaviour
     [SerializeField] private DialoguePanelUI dialoguePanel;
 
     [Header("Runner")]
-    [SerializeField] private MonoBehaviour graphRunnerBehaviour; // IDialogueGraphRunner 구현체
+    [SerializeField] private MonoBehaviour graphRunnerBehaviour;
     private IDialogueGraphRunner graphRunner;
 
     [Header("Store UI")]
     [SerializeField] private NpcStorePanelUI storePanel;
+
+    [Header("Trade Runtime")]
+    [SerializeField] private InventoryUIController inventoryUI;
 
     [Header("Dimmer")]
     [SerializeField] private CanvasGroup dimmerCanvasGroup;
@@ -31,6 +35,15 @@ public class NpcUIManager : MonoBehaviour
     private Coroutine dimmerRoutine;
     private float openedAtUnscaled;
 
+    private class TradeEntryRuntime
+    {
+        public string takeItemId;
+        public int takeCount;
+        public string giveItemId;
+        public int giveCount;
+        public string buttonLabel;
+    }
+
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -39,17 +52,16 @@ public class NpcUIManager : MonoBehaviour
         if (npcInteractionRoot != null)
             npcInteractionRoot.SetActive(false);
 
-        // Runner 캐스팅
         graphRunner = graphRunnerBehaviour as IDialogueGraphRunner;
         if (graphRunner == null && graphRunnerBehaviour != null)
             Debug.LogError("[NpcUIManager] graphRunnerBehaviour는 IDialogueGraphRunner를 구현해야 합니다.");
 
+        if (inventoryUI == null)
+            inventoryUI = FindFirstObjectByType<InventoryUIController>(FindObjectsInactive.Include);
+
         ResetPanels();
     }
 
-    // =========================
-    // Public UI Entry
-    // =========================
     public void OpenTopic(string npcId, string npcDisplayName, System.Action onTalk, System.Action onTrade, System.Action onQuest)
     {
         PauseService.Instance?.Push(PauseReason);
@@ -86,9 +98,6 @@ public class NpcUIManager : MonoBehaviour
         CloseAll();
     }
 
-    // =========================
-    // Resolver (Definition + Save Override)
-    // =========================
     private SaveGameData GetData()
     {
         return GameManager.Instance != null ? GameManager.Instance.CurrentData : null;
@@ -110,38 +119,50 @@ public class NpcUIManager : MonoBehaviour
         return defaultGraph;
     }
 
-    private List<StorePanelUI.Row> ResolveStoreRows(NpcDefinitionSO def, SaveGameData data, string npcId)
+    private List<TradeEntryRuntime> ResolveStoreRows(NpcDefinitionSO def, SaveGameData data, string npcId)
     {
-        var rows = new List<StorePanelUI.Row>();
+        var rows = new List<TradeEntryRuntime>();
 
-        // 기본
         if (def != null && def.storeList != null)
         {
             foreach (var e in def.storeList)
             {
                 if (e == null) continue;
-                rows.Add(new StorePanelUI.Row { itemId = e.itemId, price = e.price });
+
+                rows.Add(new TradeEntryRuntime
+                {
+                    takeItemId = e.takeItemId,
+                    takeCount = Mathf.Max(1, e.takeCount),
+                    giveItemId = e.giveItemId,
+                    giveCount = Mathf.Max(1, e.giveCount),
+                    buttonLabel = string.IsNullOrEmpty(e.buttonLabel) ? "교환" : e.buttonLabel
+                });
             }
         }
 
-        // override 있으면 교체
         var o = data != null ? data.GetNpcOverride(npcId) : null;
         if (o != null && o.storeList != null)
         {
             rows.Clear();
+
             foreach (var e in o.storeList)
             {
                 if (e == null) continue;
-                rows.Add(new StorePanelUI.Row { itemId = e.itemId, price = e.price });
+
+                rows.Add(new TradeEntryRuntime
+                {
+                    takeItemId = e.takeItemId,
+                    takeCount = Mathf.Max(1, e.takeCount),
+                    giveItemId = e.giveItemId,
+                    giveCount = Mathf.Max(1, e.giveCount),
+                    buttonLabel = string.IsNullOrEmpty(e.buttonLabel) ? "교환" : e.buttonLabel
+                });
             }
         }
 
         return rows;
     }
 
-    // =========================
-    // Interaction Entry Points
-    // =========================
     public void StartTalk(string npcId)
     {
         var def = GetNpcDef(npcId);
@@ -158,7 +179,7 @@ public class NpcUIManager : MonoBehaviour
 
         if (graphRunner == null)
         {
-            Debug.LogError("[Talk] graphRunner is not assigned/invalid. (IDialogueGraphRunner 필요)");
+            Debug.LogError("[Talk] graphRunner is not assigned/invalid.");
             return;
         }
 
@@ -185,7 +206,7 @@ public class NpcUIManager : MonoBehaviour
 
         if (graphRunner == null)
         {
-            Debug.LogError("[Quest] graphRunner is not assigned/invalid. (IDialogueGraphRunner 필요)");
+            Debug.LogError("[Quest] graphRunner is not assigned/invalid.");
             return;
         }
 
@@ -206,12 +227,14 @@ public class NpcUIManager : MonoBehaviour
         if (topicPanelObject != null)
             topicPanelObject.SetActive(false);
 
-        // ✅ storePanel이 null이면 자동으로 씬에서 찾아보기(안전망)
         if (storePanel == null)
         {
-            storePanel = FindObjectOfType<NpcStorePanelUI>(true);
+            storePanel = FindFirstObjectByType<NpcStorePanelUI>(FindObjectsInactive.Include);
             Debug.LogWarning($"[Trade] storePanel was null -> auto find result: {(storePanel != null ? storePanel.name : "null")}");
         }
+
+        if (inventoryUI == null)
+            inventoryUI = FindFirstObjectByType<InventoryUIController>(FindObjectsInactive.Include);
 
         if (storePanel == null)
         {
@@ -219,18 +242,55 @@ public class NpcUIManager : MonoBehaviour
             return;
         }
 
-        // ✅ 패널이 뒤에 깔리는 경우 방지
+        if (inventoryUI == null)
+        {
+            Debug.LogError("[Trade] inventoryUI is null. Assign InventoryUIController in inspector.");
+            return;
+        }
+
         storePanel.transform.SetAsLastSibling();
 
         var npcName = def != null ? def.displayName : npcId;
-
-        // ResolveStoreRows가 기존 StorePanelUI.Row를 반환하는 구조면 변환 필요
         var finalStore = ResolveStoreRows(def, data, npcId);
 
         var rows = new List<NpcStorePanelUI.RowData>();
+
         foreach (var r in finalStore)
         {
-            rows.Add(new NpcStorePanelUI.RowData { itemId = r.itemId, price = r.price });
+            string takeItemId = r.takeItemId;
+            int takeCount = r.takeCount;
+            string giveItemId = r.giveItemId;
+            int giveCount = r.giveCount;
+            string buttonLabel = r.buttonLabel;
+
+            rows.Add(new NpcStorePanelUI.RowData
+            {
+                takeItemId = takeItemId,
+                takeCount = takeCount,
+                giveItemId = giveItemId,
+                giveCount = giveCount,
+                buttonLabel = buttonLabel,
+                onClick = () =>
+                {
+                    bool success = inventoryUI.TryTradeInventoryItems(
+                        takeItemId,
+                        takeCount,
+                        giveItemId,
+                        giveCount
+                    );
+
+                    if (success)
+                    {
+                        Debug.Log($"[Trade] success: {takeItemId} x{takeCount} -> {giveItemId} x{giveCount}");
+                        if (GameManager.Instance != null)
+                            GameManager.Instance.SaveNow();
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[Trade] failed: {takeItemId} x{takeCount} -> {giveItemId} x{giveCount}");
+                    }
+                }
+            });
         }
 
         Debug.Log($"[Trade] Opening store panel. rows={rows.Count}, npcName={npcName}");
@@ -238,14 +298,10 @@ public class NpcUIManager : MonoBehaviour
         storePanel.Open(npcName, rows, () =>
         {
             Debug.Log("[Trade] Store panel closed.");
-            storePanel.Close();
             CloseAll();
         });
     }
 
-    // =========================
-    // Effects apply
-    // =========================
     private void ApplyEffects(List<DialogueEffect> effects)
     {
         var data = GetData();
@@ -257,9 +313,6 @@ public class NpcUIManager : MonoBehaviour
         Debug.Log($"[DialogueEffect] storyProgress={data.storyProgress}, test={data.test}");
     }
 
-    // =========================
-    // UI plumbing
-    // =========================
     private void ArmDimmerClickNextFrame()
     {
         if (dimmerCanvasGroup == null) return;

@@ -8,8 +8,14 @@ public class NpcStorePanelUI : MonoBehaviour
     [System.Serializable]
     public class RowData
     {
-        public string itemId;
-        public int price;
+        public string takeItemId;
+        public int takeCount;
+
+        public string giveItemId;
+        public int giveCount;
+
+        public string buttonLabel;
+        public System.Action onClick;
     }
 
     [Header("Refs")]
@@ -24,7 +30,8 @@ public class NpcStorePanelUI : MonoBehaviour
 
     private void Awake()
     {
-        if (root != null) root.SetActive(false);
+        if (root != null)
+            root.SetActive(false);
 
         if (closeButton != null)
         {
@@ -35,47 +42,74 @@ public class NpcStorePanelUI : MonoBehaviour
 
     public void Open(string npcDisplayName, List<RowData> rows, System.Action onClose)
     {
-        if (root != null) root.SetActive(true);
+        if (root != null)
+            root.SetActive(true);
 
         if (titleText != null)
             titleText.text = npcDisplayName + " Store";
 
-        // Clear old
+        if (contentRoot == null)
+        {
+            Debug.LogError("[NpcStorePanelUI] contentRoot is null.");
+            return;
+        }
+
         for (int i = contentRoot.childCount - 1; i >= 0; i--)
             Destroy(contentRoot.GetChild(i).gameObject);
 
+        if (itemDatabase != null)
+            itemDatabase.BuildCacheIfNeeded();
+
         if (rows != null && rowPrefab != null)
         {
-            if (itemDatabase != null)
-                itemDatabase.BuildCacheIfNeeded();
-
             foreach (var r in rows)
             {
                 var row = Instantiate(rowPrefab, contentRoot);
 
-                string displayName = r.itemId;
-                Sprite icon = null;
+                string giveDisplayName = r.giveItemId;
+                Sprite giveIcon = null;
+                Sprite takeIcon = null;
 
                 if (itemDatabase != null)
                 {
-                    var def = itemDatabase.GetOrNull(r.itemId);
-                    if (def != null)
+                    var giveDef = itemDatabase.GetOrNull(r.giveItemId);
+                    if (giveDef != null)
                     {
-                        displayName = string.IsNullOrEmpty(def.displayName)
-                            ? r.itemId
-                            : def.displayName;
+                        giveDisplayName = string.IsNullOrEmpty(giveDef.displayName)
+                            ? r.giveItemId
+                            : giveDef.displayName;
 
-                        icon = def.icon != null
-                            ? def.icon
+                        giveIcon = giveDef.icon != null
+                            ? giveDef.icon
                             : itemDatabase.defaultItemIcon;
                     }
                     else
                     {
-                        icon = itemDatabase.defaultItemIcon;
+                        giveIcon = itemDatabase.defaultItemIcon;
+                    }
+
+                    var takeDef = itemDatabase.GetOrNull(r.takeItemId);
+                    if (takeDef != null)
+                    {
+                        takeIcon = takeDef.icon != null
+                            ? takeDef.icon
+                            : itemDatabase.defaultItemIcon;
+                    }
+                    else
+                    {
+                        takeIcon = itemDatabase.defaultItemIcon;
                     }
                 }
 
-                row.Bind(icon, displayName, r.price, null);
+                row.Bind(
+                    giveIcon,
+                    giveDisplayName,
+                    r.giveCount,
+                    takeIcon,
+                    r.takeCount,
+                    r.buttonLabel,
+                    r.onClick
+                );
             }
         }
 

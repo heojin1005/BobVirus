@@ -4,33 +4,28 @@ using UnityEngine.InputSystem;
 public class PlayerInteractor : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float interactRange = 1.5f; // 상호작용 탐색 반경
-    [SerializeField] private LayerMask interactLayer;    // NPC, Item 등
+    [SerializeField] private float interactRange = 1.5f;
+    [SerializeField] private LayerMask interactLayer;
 
     public void OnInteract(InputValue value)
     {
-        if (value.isPressed)
-        {
-            PerformInteraction();
-        }
+        if (SettingsOverlayController.BlocksInput)
+        return; //입력 막기
+        if (!value.isPressed)
+            return;
+        PerformInteraction();
     }
 
     private void PerformInteraction()
     {
         Vector2 playerPos = transform.position;
 
-        // [우선순위 1] 타일맵 '문' 근처 탐색
         if (DoorTileManager.Instance != null)
         {
-            // 마우스 방향 무시! 플레이어 위치에서 interactRange 반경 내 가장 가까운 문을 찾음
             if (DoorTileManager.Instance.TryToggleNearbyDoor(playerPos, interactRange))
-            {
-                //Debug.Log("[PlayerInteractor] 근처 문 상호작용 성공!");
                 return;
-            }
         }
 
-        // [우선순위 2] NPC 및 파밍 아이템 탐색
         Collider2D[] hits = Physics2D.OverlapCircleAll(playerPos, interactRange, interactLayer);
 
         Collider2D closestCollider = null;
