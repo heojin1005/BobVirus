@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
@@ -73,20 +72,6 @@ public class SettingsOverlayController : MonoBehaviour
         ApplyStyleSheet(root);
         BindUI(root);
         ForceClosedVisual();
-    }
-
-    private void Update()
-    {
-        if (!isBound || Keyboard.current == null)
-            return;
-
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            if (isOpen)
-                CloseSettings();
-            else
-                OpenSettings();
-        }
     }
 
     private void OnDestroy()
