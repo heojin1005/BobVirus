@@ -42,7 +42,7 @@ public class InventoryToggleController : MonoBehaviour
     {
         if (!enableKeyboardToggle) return;
 
-        if (SettingsOverlayController.BlocksInput)
+        if (SettingsOverlayController.BlocksInput || ReturnButton.BlocksInput || InputBlockService.IsBlocked)
         return;
 
         if (Keyboard.current != null && Keyboard.current[toggleKey].wasPressedThisFrame)
@@ -51,6 +51,7 @@ public class InventoryToggleController : MonoBehaviour
 
     public void Toggle()
     {
+        if (ReturnButton.BlocksInput || InputBlockService.IsBlocked) return;
         if (inventoryUI == null) return;
 
         if (inventoryUI.IsOpen) CloseInventory();
@@ -59,6 +60,7 @@ public class InventoryToggleController : MonoBehaviour
 
     public void OpenInventory()
     {
+        if (ReturnButton.BlocksInput || InputBlockService.IsBlocked) return;
         if (inventoryUI == null) return;
         SwitchToUI();
         inventoryUI.Open();

@@ -281,7 +281,9 @@ public class SaveGameData
                 new ItemSlotData("Rifle", 1),
                 new ItemSlotData("Grenade", 1),
                 new ItemSlotData("Small_Potion", 3),
-                new ItemSlotData("Small_Potion", 3)
+                new ItemSlotData("Small_Potion", 3),
+                new ItemSlotData("Leather_Boots", 1),
+                new ItemSlotData("Iron_helmet", 1)
             },
 
             rescuedNpcs = new HashSet<string>(),

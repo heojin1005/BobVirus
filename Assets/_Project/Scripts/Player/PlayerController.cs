@@ -31,6 +31,11 @@ public class PlayerController : MonoBehaviour
         if (mainCam == null) mainCam = Camera.main;
     }
 
+    private static bool IsGameplayInputBlocked()
+    {
+        return SettingsOverlayController.BlocksInput || ReturnButton.BlocksInput || InputBlockService.IsBlocked;
+    }
+
     // Input System: Move (WASD)
     public void OnMove(InputValue value)
     {
@@ -47,6 +52,12 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack(InputValue value)
     {
+        if (IsGameplayInputBlocked())
+        {
+            isFiring = false;
+            return;
+        }
+
         // Debug.Log($"클릭 입력 들어옴! 값: {value.isPressed}"); // 클릭 인식 되는지 디버그
         // 버튼을 누르면 true, 떼면 false가 됨
         isFiring = value.isPressed;
@@ -54,6 +65,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnReload(InputValue value)
     {
+        if (IsGameplayInputBlocked())
+            return;
+
         if (value.isPressed && weaponSystem != null)
         {
             StartCoroutine(weaponSystem.Reload());
@@ -62,14 +76,26 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
-        if (SettingsOverlayController.BlocksInput)
-        return; //입력 막기
+        if (IsGameplayInputBlocked())
+        {
+            isFiring = false;
+            return;
+        }
+
         HandleAiming();
         HandleShooting();
     }
 
     private void FixedUpdate()
     {
+        if (IsGameplayInputBlocked())
+        {
+            if (rb != null)
+                rb.linearVelocity = Vector2.zero;
+
+            return;
+        }
+
         HandleMovement();
         HandleFootsteps();
     }

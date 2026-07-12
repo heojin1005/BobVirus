@@ -2,27 +2,33 @@
     <Style src="project://database/Assets/_Project/UI/USS/TitleView.uss?fileID=7433441132597879392&amp;guid=ed6a1dc2d35555a4ca75f883163ce0d8&amp;type=3#TitleView" />
     <ui:VisualElement name="root" class="root">
         <ui:Label text="Escape From Eternal ZombieCov" class="title" />
+
         <ui:VisualElement class="menu">
-            <ui:Button name="btnNewGame" text="새 게임" class="btn" />
-            <ui:Button name="btnLoadGame" text="불러오기" class="btn" />
+            <ui:Button name="btnContinue" text="계속하기" class="btn" />
+            <ui:Button name="btnNewGame" text="새로 시작" class="btn" />
+            <ui:Button name="btnGuide" text="조작 가이드" class="btn" />
+            <ui:Button name="btnSettings" text="설정" class="btn" />
             <ui:Button name="btnQuit" text="종료" class="btn" />
         </ui:VisualElement>
-        <ui:Label name="lblHint" class="hint" />
-        <ui:VisualElement name="slotOverlay" class="overlay hidden">
-    <ui:VisualElement class="popup">
-        <ui:Label name="slotTitle" text="슬롯 선택" class="popupTitle" />
 
-        <ui:VisualElement name="slotList" class="slotList">
-            <!-- 슬롯 버튼은 코드에서 생성해도 되고, 4개 고정으로 만들어도 됨 -->
+        <ui:VisualElement name="guideOverlay" class="overlay hidden">
+            <ui:VisualElement class="guide-panel">
+                <ui:VisualElement class="panel-header">
+                    <ui:Label text="조작 가이드" class="panel-title" />
+                    <ui:Button name="btnCloseGuide" text="X" class="icon-btn" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="guide-frame">
+                    <ui:VisualElement name="guideImage" class="guide-image" />
+                    <ui:Label name="guideEmptyLabel" text="등록된 가이드 이미지가 없습니다." class="guide-empty" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="guide-footer">
+                    <ui:Button name="btnPrevGuide" text="이전" class="small-btn" />
+                    <ui:Label name="guidePageLabel" text="0 / 0" class="page-label" />
+                    <ui:Button name="btnNextGuide" text="다음" class="small-btn" />
+                </ui:VisualElement>
+            </ui:VisualElement>
         </ui:VisualElement>
-
-        <ui:VisualElement class="popupRow">
-            <ui:Button name="btnCloseSlots" text="닫기" class="btn small" />
-        </ui:VisualElement>
-
-        <ui:Label name="slotMessage" text="" class="popupMsg" />
-    </ui:VisualElement>
-</ui:VisualElement>
-
     </ui:VisualElement>
 </ui:UXML>

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public const int DefaultProfileSlot = 0;
+
     public static GameManager Instance { get; private set; }
 
     public int CurrentSlot { get; private set; } = -1;
@@ -23,6 +25,17 @@ public class GameManager : MonoBehaviour
 
         // ✅ 게임 실행 시 전역 세이브 1회 로드
         GlobalData = GlobalSaveSystem.LoadOrCreate();
+    }
+
+    public void ContinueDefaultProfile()
+    {
+        if (!LoadGame(DefaultProfileSlot))
+            StartNewGame(DefaultProfileSlot);
+    }
+
+    public void RestartDefaultProfile()
+    {
+        StartNewGame(DefaultProfileSlot);
     }
 
     public void StartNewGame(int slotIndex)
