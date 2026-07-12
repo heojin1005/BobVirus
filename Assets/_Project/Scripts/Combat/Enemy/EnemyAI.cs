@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     // FSM 상태 정의
-    public enum State { Idle, Investigate, Chase, Attack }
+    public enum State { Idle, Investigate, Chase, Attack, Panic }
     
     [Header("State Info")]
     [SerializeField] private State currentState; // 현재 상태 (인스펙터 확인용)
@@ -14,6 +14,7 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent agent;
     private Vector3 startPos;       // 원래 있던 자리 (복귀용, 혹은 배회 기준점)
     private float wanderRadius = 3f; // 배회 반경
+    private float footstepTimer = 0f; // 발소리 타이머
 
     [Header("Wander Settings")]
     [SerializeField] private float minWanderWaitTime = 2f; // 배회 시 멈춰있는 최소 시간
@@ -62,9 +63,9 @@ public class EnemyAI : MonoBehaviour
         }
 
         startPos = transform.position;
-        // 태그로 찾은 플레이어는 '추적 대상'이 아니라 '참조용'임
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null) target = playerObj.transform;
+        // 태그로 찾은 플레이어는 '추적 대상'이 아니라 '참조용'임 -> 팩션 체계 도입 삭제
+        //GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        //if (playerObj != null) target = playerObj.transform;
     }
 
     private void OnEnable()
@@ -84,7 +85,6 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        if (target == null) return;
 
         // 상태 머신 실행
         switch (currentState)
@@ -101,16 +101,40 @@ public class EnemyAI : MonoBehaviour
             case State.Attack:
                 AttackUpdate();
                 break;
+            case State.Panic:
+                // 패닉(발악) 중에도 시야 레이더는 계속 돌아갑니다!
+                Transform visibleTargetInPanic = perception.GetVisibleTarget();
+                if (visibleTargetInPanic != null)
+                {
+                    target = visibleTargetInPanic; // 놈을 찾았다!
+                    StopAllCoroutines();           // 뛰고 있던 PanicRoutine을 즉시 멈춤
+                    ChangeState(State.Chase);      // 즉각 추격 개시
+                }
+                break;
         }
 
         // 시각적 회전 (Flip) 처리
         HandleSpriteFlip();
+
+        if (agent.velocity.sqrMagnitude > 0.1f)
+        {
+            footstepTimer += Time.deltaTime;
+            if (footstepTimer >= 0.5f) // 발소리 간격 (0.5초마다)
+            {
+                NoiseManager.MakeNoise(transform.position, 5f, this.gameObject); // 걷는 소리 알림
+                footstepTimer = 0f;
+            }
+        }
+        
     }
 
     // --- State Logic ---
 
     private void ChangeState(State newState)
     {
+        Debug.Log($"<color=orange>[상태 변경]</color> {currentState} -> {newState}");
+
+        State previousState = currentState;
         currentState = newState;
         
         // 상태 진입 시 초기화 로직
@@ -119,6 +143,7 @@ public class EnemyAI : MonoBehaviour
             case State.Idle:
                 agent.ResetPath();
                 agent.speed = patrolSpeed; // 느리게 걷기
+                startPos = transform.position; // 배회 기준점 갱신 (도착한 곳에서 다시 배회) -> 원래 위치로 고정하고 싶으면 이 줄 제거
                 currentWaitTime = Random.Range(minWanderWaitTime, maxWanderWaitTime);
                 WaitTimer = 0f;
                 break;
@@ -127,14 +152,33 @@ public class EnemyAI : MonoBehaviour
                 agent.speed = chaseSpeed; // 빠르게 뛰기
                 agent.SetDestination(noiseLocation);
                 WaitTimer = 0f;
+                if (previousState != State.Chase)
+                {
+                    NoiseManager.MakeNoise(transform.position, 10f, this.gameObject); // 추적 시 적에게 알림
+                }
                 break;
             case State.Chase:
                 agent.isStopped = false;
                 agent.speed = chaseSpeed; // 빠르게 뛰기
                 timeSinceLastSawPlayer = 0f; // 기억력 타이머 리셋
+
+                // [개선점 2] 방금 전까지 평화로웠는데(Idle/Investigate), 방금 플레이어를 발견했다면?
+                if (previousState != State.Chase)
+                {
+                    // 괴성을 질러 반경 10f 내의 다른 좀비들을 수색(Investigate) 모드로 깨움!
+                    // (주의: NoiseManager의 실제 이벤트 발생 함수명에 맞춰 수정해주세요. ex: GenerateNoise)
+                    NoiseManager.MakeNoise(transform.position, 10f, this.gameObject);
+                }
                 break;
             case State.Attack:
                 agent.ResetPath(); // 공격할 땐 멈춤
+                break;
+            case State.Panic:
+                 Debug.Log("<color=red>==== [패닉 진입 확인] 패닉 상태가 시작되었습니다! ====</color>");    
+                // 0.1초마다 상태 추적하는 코루틴 실행
+                StartCoroutine(PanicStateTracker());
+            
+                StartCoroutine(PanicRoutine());
                 break;
         }
     }
@@ -143,8 +187,10 @@ public class EnemyAI : MonoBehaviour
     private void IdleUpdate()
     {
         // 시각 체크: 플레이어가 눈에 보이면 추적 시작
-        if (perception.CanSeePlayer())
+        Transform visibleTarget = perception.GetVisibleTarget();
+        if (visibleTarget != null)
         {
+            target = visibleTarget; // 타겟 갱신
             ChangeState(State.Chase);
             return;
         }
@@ -202,8 +248,10 @@ public class EnemyAI : MonoBehaviour
     private void InvestigateUpdate()
     {
         // 1. 이동 중에라도 플레이어를 눈으로 보면 -> 즉시 추적
-        if (perception.CanSeePlayer())
+        Transform visibleTarget = perception.GetVisibleTarget();
+        if (visibleTarget != null)
         {
+            target = visibleTarget;
             ChangeState(State.Chase);
             return;
         }
@@ -225,7 +273,12 @@ public class EnemyAI : MonoBehaviour
     // 2. 추적 상태: 플레이어를 향해 뛰어감
     private void ChaseUpdate()
     {
-        // 공격 사거리 안에 들어왔나?
+        if (target == null || !target.gameObject.activeInHierarchy)
+        {
+            ChangeState(State.Investigate);
+            return;
+        }
+
         if (IsTargetInAttackRange())
         {
             ChangeState(State.Attack);
@@ -233,9 +286,11 @@ public class EnemyAI : MonoBehaviour
         }
 
         // 시야에서 놓쳤는가?
-        if (perception.CanSeePlayer())
+        Transform visibleTarget = perception.GetVisibleTarget();
+        if (visibleTarget != null)
         {
             // 보이면 기억력 리셋하고 계속 쫓음
+            target = visibleTarget; // 타겟 갱신
             timeSinceLastSawPlayer = 0f;
             agent.SetDestination(target.position);
         }
@@ -263,29 +318,53 @@ public class EnemyAI : MonoBehaviour
 
     // 3. 공격 상태: 때림
     private void AttackUpdate()
+{
+    // [핵심 추가] 팔을 휘두르는 중이 아닐 때는, 눈앞의 시체를 버리고 더 가깝고 '살아있는' 적을 찾습니다.
+    if (!isAttacking)
     {
-        // 사거리 밖으로 나가면 다시 추적
-        if (!IsTargetInAttackRange())
+        Transform visibleTarget = perception.GetVisibleTarget();
+        if (visibleTarget != null)
         {
-            // 공격 중이 아닐 때만 전환 (공격 모션 캔슬 방지)
-            if (!isAttacking) ChangeState(State.Chase);
+            target = visibleTarget; // 새 타겟 갱신!
+        }
+        
+        // 타겟이 죽었거나(비활성화) 사라졌다면 미련 없이 수색 모드로 돌아감
+        if (target == null || !target.gameObject.activeInHierarchy)
+        {
+            ChangeState(State.Investigate);
             return;
         }
-
-        // 쿨타임 체크 후 공격
-        if (Time.time >= nextAttackTime && !isAttacking)
-        {
-            StartCoroutine(AttackRoutine());
-        }
     }
+
+    // 사거리 밖으로 나가면 다시 쫓아갑니다.
+    if (!IsTargetInAttackRange())
+    {
+        if (!isAttacking) ChangeState(State.Chase);
+        return;
+    }
+
+    // 쿨타임 체크 후 공격
+    if (Time.time >= nextAttackTime && !isAttacking)
+    {
+        StartCoroutine(AttackRoutine());
+    }
+}
 
     // --- Events & Helpers ---
 
     // 소리를 들었을 때 호출됨 (이벤트)
-    private void OnHeardNoise(Vector3 noisePos, float range)
+    private void OnHeardNoise(Vector3 noisePos, float range, GameObject source)
     {
         // 이미 쫓고 있거나 공격 중이면 무시
         if (currentState == State.Chase || currentState == State.Attack) return;
+
+        if (source != null)
+        {
+            if (source.CompareTag("Zombie") || source.transform.root.CompareTag("Zombie"))
+            {
+                return; // 소스가 좀비이면 무시
+            }
+        }
 
         // 소리가 내 귀에 들리는 거리인가?
         float dist = Vector3.Distance(transform.position, noisePos);
@@ -299,26 +378,61 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void OnAttacked(GameObject attacker)
+    {
+        if (attacker.CompareTag("Zombie") || attacker.transform.root.CompareTag("Zombie")) return;
+
+        // 공격자와의 거리 계산
+        float dist = Vector2.Distance(transform.position, attacker.transform.position);
+
+        // 공격자가 시야에 안 보였다면 패닉 상태로!
+        if (perception.GetVisibleTarget() == null)
+        {
+            // 이미 쫓고 있거나 공격 중이 아닐 때만 패닉
+            if (currentState != State.Chase && currentState != State.Attack)
+            {
+                ChangeState(State.Panic);
+            }
+        }
+        else
+        {
+            // 가까우면 맞은 즉시 타겟으로 삼고 뜀
+            target = attacker.transform;
+            ChangeState(State.Chase);
+        }
+    }
+
     private IEnumerator AttackRoutine()
     {
         isAttacking = true;
         if (spriteRenderer) spriteRenderer.color = attackColor;
+
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
 
         yield return new WaitForSeconds(attackWindup);
 
         // 공격 판정 시점
         if (IsTargetInAttackRange())
         {
-            var damageable = target.GetComponent<IDamageable>();
+         // [수정 핵심] 타겟 본인뿐만 아니라 부모 오브젝트의 IDamageable도 찾습니다!
+            var damageable = target.GetComponentInParent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(attackDamage, transform.position, Vector2.zero);
+                damageable.TakeDamage(attackDamage, transform.position, Vector2.zero, this.gameObject);
+                //Debug.Log($"[좀비] {target.name}에게 {attackDamage} 데미지 적중!"); // 성공 로그
+            }
+            else
+            {
+                //Debug.LogWarning($"[버그] {target.name}이(가) 사거리에 있지만 IDamageable 스크립트가 없습니다!"); // 실패 로그
             }
         }
 
         if (spriteRenderer) spriteRenderer.color = originalColor;
         nextAttackTime = Time.time + attackRate;
         isAttacking = false;
+
+        if (currentState == State.Attack) agent.isStopped = false;
     }
 
     private bool IsTargetInAttackRange()
@@ -333,33 +447,74 @@ public class EnemyAI : MonoBehaviour
         return (dx <= attackRangeX && dy <= attackRangeY);
     }
 
+    private IEnumerator PanicRoutine()
+    {
+        agent.speed = chaseSpeed;
+    
+        // 랜덤하게 1번 ~ 3번 발악합니다.
+        int panicCount = UnityEngine.Random.Range(1, 4); 
+
+        for (int i = 0; i < panicCount; i++)
+        {
+            // 랜덤 방향으로 1f ~ 3f 사이의 짧은 거리 계산
+            Vector2 randomDir = UnityEngine.Random.insideUnitCircle.normalized;
+            float randomDist = UnityEngine.Random.Range(1f, 3f);
+            Vector3 targetPos = transform.position + (Vector3)(randomDir * randomDist);
+
+            // [안전장치] 벽 안으로 들어가지 않게 NavMesh 위인지 검사!
+            UnityEngine.AI.NavMeshHit hit;
+            if (UnityEngine.AI.NavMesh.SamplePosition(targetPos, out hit, 3f, UnityEngine.AI.NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+        }
+
+            // 아주 짧은 시간(0.2초 ~ 0.5초) 동안 무작정 뛰고 다음 방향으로 틉니다.
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0.2f, 0.5f));
+        }
+
+        // 발악이 끝나면 멍청하게 다시 배회(Idle) 모드로 돌아갑니다.
+        ChangeState(State.Idle);
+    }
+
     private void HandleSpriteFlip()
     {
-        // NavMeshAgent가 이동 중이면 이동 방향, 아니면 타겟 방향
         Vector3 targetDir = Vector3.zero;
-        
+
         // 1. 움직이는 중이면 -> 이동 방향을 봄
         if (agent.velocity.sqrMagnitude > 0.1f) 
         {
             targetDir = agent.velocity;
         }
-        // 2. 멈춰있는데 추적(Chase)이나 공격(Attack) 상태면 -> 플레이어를 봄
+        // 2. 멈춰있고 + 추적/공격 상태이고 + 타겟이 존재할 때만 -> 타겟을 봄
         else if ((currentState == State.Chase || currentState == State.Attack) && target != null)
         {
             targetDir = target.position - transform.position;
         }
-        // (Idle 상태일 때는 targetDir가 0이므로 아무것도 안 함 -> 마지막 보던 방향 유지)
 
-        // 방향 전환 적용
+        // 방향 전환 적용 (스프라이트가 아닌 Transform 스케일 뒤집기)
         if (targetDir.x != 0)
         {
             Vector3 scale = transform.localScale;
-            // Sign: 양수면 1, 음수면 -1 반환
-            // 절대값(Abs)을 써서 꼬임 방지
+            // 절대값을 사용하여 꼬임 방지 (왼쪽이면 -1, 오른쪽이면 1 곱하기)
             scale.x = Mathf.Abs(scale.x) * (targetDir.x < 0 ? -1 : 1);
             transform.localScale = scale;
         }
     }
+
+    private IEnumerator PanicStateTracker()
+{
+    float timer = 0f;
+    
+    // 2초 동안 0.1초 간격으로 계속 로그 찍기
+    while (timer <= 2.0f)
+    {
+        Debug.Log($"[패닉 추적] {timer:F1}초 경과 | 현재 상태: {currentState} | 이동 속도: {agent.velocity.magnitude}");
+        yield return new WaitForSeconds(0.1f);
+        timer += 0.1f;
+    }
+}
+
+
     
     // 공격 범위 기즈모
     private void OnDrawGizmosSelected()

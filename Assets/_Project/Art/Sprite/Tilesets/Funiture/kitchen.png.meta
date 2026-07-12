@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 505b1f3efc92aab478a8bd215846c161
+guid: ff9ca3cfd552c2e45a5df12daf09e946
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -70,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -108,7 +108,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -129,19 +129,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -149,21 +136,17 @@ TextureImporter:
       name: kitchen_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 7
+        y: 19
+        width: 18
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: 8}
-        - {x: -8, y: 8}
-        - {x: -8, y: -4}
-        - {x: 8, y: -4}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 009bffff59fa522a0800000000000000
       internalID: -6762806206646994688
@@ -175,21 +158,17 @@ TextureImporter:
       name: kitchen_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 39
+        y: 19
+        width: 18
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: 8}
-        - {x: -8, y: 8}
-        - {x: -8, y: -4}
-        - {x: 8, y: -4}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: c1805f93479094ff0800000000000000
       internalID: -51499525944834020
@@ -201,21 +180,17 @@ TextureImporter:
       name: kitchen_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 71
+        y: 19
+        width: 18
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: 8}
-        - {x: -8, y: 8}
-        - {x: -8, y: -4}
-        - {x: 8, y: -4}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 72e8dc2059b1b0b80800000000000000
       internalID: -8427611950882648537
@@ -228,20 +203,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        y: 7
+        width: 14
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: -3, y: 0}
-        - {x: -15, y: 0}
-        - {x: -15, y: -16}
-        - {x: -3, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: abb27b70292b0ad80800000000000000
       internalID: -8241390977823593542
@@ -254,20 +225,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        y: 7
+        width: 14
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: -3, y: 0}
-        - {x: -15, y: 0}
-        - {x: -15, y: -16}
-        - {x: -3, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 9724e197319a2bd50800000000000000
       internalID: 6751644692483293817
@@ -280,20 +247,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 160
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        y: 7
+        width: 14
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: -3, y: 0}
-        - {x: -15, y: 0}
-        - {x: -15, y: -16}
-        - {x: -3, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 9f1d41052770a84f0800000000000000
       internalID: -825839394117856775
@@ -305,21 +268,17 @@ TextureImporter:
       name: kitchen_6
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 210
+        y: 7
+        width: 14
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 15, y: 0}
-        - {x: 3, y: 0}
-        - {x: 3, y: -16}
-        - {x: 15, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 5ecd53410ad253c60800000000000000
       internalID: 7797188495418973413
@@ -331,21 +290,17 @@ TextureImporter:
       name: kitchen_7
       rect:
         serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 242
+        y: 7
+        width: 14
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 15, y: 0}
-        - {x: 3, y: 0}
-        - {x: 3, y: -16}
-        - {x: 15, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: fc8a8e8d8e1274b50800000000000000
       internalID: 6577263064753154255
@@ -357,21 +312,17 @@ TextureImporter:
       name: kitchen_8
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 274
+        y: 7
+        width: 14
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 15, y: 0}
-        - {x: 3, y: 0}
-        - {x: 3, y: -16}
-        - {x: 15, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 0fb553aa095280750800000000000000
       internalID: 6271303784374557680
@@ -383,21 +334,17 @@ TextureImporter:
       name: kitchen_9
       rect:
         serializedVersion: 2
-        x: 288
+        x: 295
         y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        width: 18
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: -11}
-        - {x: -8, y: -11}
-        - {x: -8, y: -23}
-        - {x: 8, y: -23}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 1c24a036531c5a670800000000000000
       internalID: 8549451902671798977
@@ -409,21 +356,17 @@ TextureImporter:
       name: kitchen_10
       rect:
         serializedVersion: 2
-        x: 320
+        x: 327
         y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        width: 18
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: -11}
-        - {x: -8, y: -11}
-        - {x: -8, y: -23}
-        - {x: 8, y: -23}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 54baf233df561e0a0800000000000000
       internalID: -6854085019721290939
@@ -435,21 +378,17 @@ TextureImporter:
       name: kitchen_11
       rect:
         serializedVersion: 2
-        x: 352
+        x: 359
         y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        width: 18
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: -11}
-        - {x: -8, y: -11}
-        - {x: -8, y: -23}
-        - {x: 8, y: -23}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: f48c001c7ad70c9d0800000000000000
       internalID: -2756064812499679153
@@ -461,7 +400,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: eafb56d29ca44b749ace8d31d3fb427b
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 

@@ -10,14 +10,16 @@ public class Projectile : MonoBehaviour
     private LayerMask targetLayer;
     private TrailRenderer trail;
     private SpriteRenderer spriteRenderer; 
+    private GameObject shooter; 
 
     // 무기 시스템에서 생성할 때 호출하여 정보를 넘겨주는 함수
-    public void Initialize(float damageAmount, LayerMask layer, float bulletSpeed, float lifeTime)
+    public void Initialize(float damageAmount, LayerMask layer, float bulletSpeed, float lifeTime, GameObject shooterObj = null)
     {
         this.damage = damageAmount;
         this.lifeTime = lifeTime;
         this.speed = bulletSpeed;
         this.targetLayer = layer;
+        this.shooter = shooterObj;
 
         trail = GetComponent<TrailRenderer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -65,10 +67,23 @@ public class Projectile : MonoBehaviour
         transform.position = hitPoint; // 총알을 충돌 지점으로 이동 (맞기 전에 사라지는거 방지)
         
         // 데미지 처리
-        IDamageable damageable = collider.GetComponent<IDamageable>();
+        IDamageable damageable = collider.GetComponentInParent<IDamageable>();
+
         if (damageable != null)
         {
-            damageable.TakeDamage(damage, hitPoint, hitNormal);
+            damageable.TakeDamage(damage, hitPoint, hitNormal, shooter);
+        }
+
+        EnemyAI ai = collider.GetComponentInParent<EnemyAI>();
+        if (ai != null)
+        {
+            ai.OnAttacked(shooter); // 여기서 비로소 패닉 조건이 검사됩니다!
+        }
+        
+        EnemyShooterAI shooterAI = collider.GetComponentInParent<EnemyShooterAI>();
+        if (shooterAI != null)
+        {
+            shooterAI.OnAttacked(shooter);
         }
         
 

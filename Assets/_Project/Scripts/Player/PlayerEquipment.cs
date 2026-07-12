@@ -46,8 +46,8 @@ public class PlayerEquipment : MonoBehaviour
         // 빈 칸을 눌렀을 경우 (선택: 맨손으로 만들고 싶다면 아래 로직 활성화)
         if (string.IsNullOrEmpty(itemId))
         {
-            // data.weaponId = "";
-            // UpdateWeaponEquipment();
+            data.weaponId = "";
+            UpdateWeaponEquipment();
             return;
         }
 

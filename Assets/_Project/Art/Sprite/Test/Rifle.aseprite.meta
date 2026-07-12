@@ -125,7 +125,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Rifle
     originalName: 
-    pivot: {x: 0.5, y: -0.6923077}
+    pivot: {x: 0.3308078, y: 0.4949484}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 

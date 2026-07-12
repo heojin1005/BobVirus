@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: cbf1460f5d8d3be4594dfd9aaa8253b9
+guid: a21e503de2090ee4abd5229ad8af04a7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4731004299617863668
-    second: AroundDoor_creamWallpaper_side_0
+      213: 4103712611339190332
+    second: AroundDoor_dirtyWallpaper_side_0
   - first:
-      213: -697185407563045055
-    second: AroundDoor_creamWallpaper_side_1
+      213: -8854996838852767960
+    second: AroundDoor_dirtyWallpaper_side_1
   - first:
-      213: -1303708860653572864
-    second: AroundDoor_creamWallpaper_side_2
+      213: -1590020462346661966
+    second: AroundDoor_dirtyWallpaper_side_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -43,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -57,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -81,7 +81,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -102,174 +102,71 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: AroundDoor_creamWallpaper_side_0
+      name: AroundDoor_dirtyWallpaper_side_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        x: 6
+        y: 67
+        width: 20
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: -1, y: -16}
-        - {x: 8, y: -16}
-        - {x: 8, y: 0}
-        - {x: -1, y: 0}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
-      spriteID: c087e6ac7a8185eb0800000000000000
-      internalID: -4731004299617863668
+      spriteID: c30c92ba0e053f830800000000000000
+      internalID: 4103712611339190332
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AroundDoor_creamWallpaper_side_1
+      name: AroundDoor_dirtyWallpaper_side_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 64
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        x: 13
+        y: 47
+        width: 6
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: -8, y: -16}
-        - {x: 1, y: -16}
-        - {x: 1, y: 0}
-        - {x: -8, y: 0}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
-      spriteID: 1476e9fc0991356f0800000000000000
-      internalID: -697185407563045055
+      spriteID: 82f49f47a4bbc1580800000000000000
+      internalID: -8854996838852767960
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AroundDoor_creamWallpaper_side_2
+      name: AroundDoor_dirtyWallpaper_side_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: -1, y: -16}
-        - {x: 8, y: -16}
-        - {x: 8, y: 0}
-        - {x: -1, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 00de636d2bb48ede0800000000000000
-      internalID: -1303708860653572864
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AroundDoor_creamWallpaper_side_3
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 32
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: -8, y: -16}
-        - {x: 1, y: -16}
-        - {x: 1, y: 0}
-        - {x: -8, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 912b1bc9a2efffa498092dd18fdf2121
-      internalID: -1040407334
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AroundDoor_creamWallpaper_side_4
-      rect:
-        serializedVersion: 2
-        x: 0
+        x: 5
         y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        width: 22
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: -1, y: -16}
-        - {x: 8, y: -16}
-        - {x: 8, y: 0}
-        - {x: -1, y: 0}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
-      spriteID: 4673a20fd4940f443923354afeb991da
-      internalID: -106553231
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AroundDoor_creamWallpaper_side_5
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: -8, y: -16}
-        - {x: 1, y: -16}
-        - {x: 1, y: 0}
-        - {x: -8, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 84f33e1cc16cbe84281967b2015ad097
-      internalID: -279882114
+      spriteID: 2bf893450dc1fe9e0800000000000000
+      internalID: -1590020462346661966
       vertices: []
       indices: 
       edges: []
@@ -278,7 +175,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3faf0d7eeac75eb49945e267a172bd1d
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -288,12 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      AroundDoor_creamWallpaper_side_0: -4731004299617863668
-      AroundDoor_creamWallpaper_side_1: -697185407563045055
-      AroundDoor_creamWallpaper_side_2: -1303708860653572864
-      AroundDoor_creamWallpaper_side_3: -1040407334
-      AroundDoor_creamWallpaper_side_4: -106553231
-      AroundDoor_creamWallpaper_side_5: -279882114
+      AroundDoor_dirtyWallpaper_side_0: 4103712611339190332
+      AroundDoor_dirtyWallpaper_side_1: -8854996838852767960
+      AroundDoor_dirtyWallpaper_side_2: -1590020462346661966
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4940752bb11c8d04eb8feee4786e61e3
+guid: d5078c97bc6b5de448eefe2ddb1fa12a
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -70,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -108,7 +108,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -129,19 +129,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -149,21 +136,17 @@ TextureImporter:
       name: bookcase_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 8
+        y: 24
+        width: 17
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: 1}
-        - {x: 8, y: 6}
-        - {x: -7, y: 6}
-        - {x: -7, y: 1}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: ed96b06d966e4fa70800000000000000
       internalID: 8859959709181635038
@@ -175,21 +158,17 @@ TextureImporter:
       name: bookcase_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 39
+        y: 24
+        width: 18
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: 1}
-        - {x: 8, y: 6}
-        - {x: -8, y: 6}
-        - {x: -8, y: 1}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: f573ea71830b43b80800000000000000
       internalID: -8415908048686663841
@@ -201,21 +180,17 @@ TextureImporter:
       name: bookcase_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 71
+        y: 24
+        width: 17
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 7, y: 1}
-        - {x: 7, y: 6}
-        - {x: -8, y: 6}
-        - {x: -8, y: 1}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: a5d558510df403290800000000000000
       internalID: -7912736790157107878
@@ -228,20 +203,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        y: 8
+        width: 8
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: -9, y: 0}
-        - {x: -15, y: 0}
-        - {x: -15, y: -15}
-        - {x: -9, y: -15}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 24aa3df2ebffaec80800000000000000
       internalID: -8292534571538077118
@@ -254,20 +225,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        y: 7
+        width: 8
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: -9, y: 0}
-        - {x: -15, y: 0}
-        - {x: -15, y: -16}
-        - {x: -9, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 59c893511574312d0800000000000000
       internalID: -3309222887613166443
@@ -280,20 +247,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 160
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        y: 7
+        width: 8
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: -9, y: -1}
-        - {x: -15, y: -1}
-        - {x: -15, y: -16}
-        - {x: -9, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 236e9edf91445de90800000000000000
       internalID: -7001615167252732366
@@ -305,21 +268,17 @@ TextureImporter:
       name: bookcase_6
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 216
+        y: 8
+        width: 8
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 15, y: 0}
-        - {x: 9, y: 0}
-        - {x: 9, y: -15}
-        - {x: 15, y: -15}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: d0392e88ee2aeb330800000000000000
       internalID: 3728596686891815693
@@ -331,21 +290,17 @@ TextureImporter:
       name: bookcase_7
       rect:
         serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 248
+        y: 7
+        width: 8
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 15, y: 0}
-        - {x: 9, y: 0}
-        - {x: 9, y: -16}
-        - {x: 15, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 019096d73ff989380800000000000000
       internalID: -8964239190151067376
@@ -357,21 +312,17 @@ TextureImporter:
       name: bookcase_8
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        x: 280
+        y: 7
+        width: 8
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 15, y: -1}
-        - {x: 9, y: -1}
-        - {x: 9, y: -16}
-        - {x: 15, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 492bada8121ff3480800000000000000
       internalID: -8917143610804489580
@@ -383,21 +334,17 @@ TextureImporter:
       name: bookcase_9
       rect:
         serializedVersion: 2
-        x: 288
+        x: 296
         y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        width: 17
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: -23}
-        - {x: 8, y: -18}
-        - {x: -7, y: -18}
-        - {x: -7, y: -23}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: b31c0e7b534255f50800000000000000
       internalID: 6869436619760386363
@@ -409,21 +356,17 @@ TextureImporter:
       name: bookcase_10
       rect:
         serializedVersion: 2
-        x: 320
+        x: 327
         y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        width: 18
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: -23}
-        - {x: 8, y: -18}
-        - {x: -8, y: -18}
-        - {x: -8, y: -23}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 9ea52ad651e4be080800000000000000
       internalID: -9157139563387135255
@@ -435,21 +378,17 @@ TextureImporter:
       name: bookcase_11
       rect:
         serializedVersion: 2
-        x: 352
+        x: 359
         y: 0
-        width: 32
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.33333334}
+        width: 17
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 7, y: -23}
-        - {x: 7, y: -18}
-        - {x: -8, y: -18}
-        - {x: -8, y: -23}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 97c3ceb9c0173e130800000000000000
       internalID: 3594841226541284473
@@ -461,7 +400,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3318adae2a1a6a34c90f531c3a6855a1
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 

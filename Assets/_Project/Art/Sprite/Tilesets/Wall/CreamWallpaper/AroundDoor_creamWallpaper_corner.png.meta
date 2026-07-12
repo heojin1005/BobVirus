@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0c8c53fd7489e1e4192d4685f13741a4
+guid: d6f9c0ec360521e4b863824f9bb728db
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -43,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -57,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -81,7 +81,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -102,19 +102,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -123,22 +110,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        y: 47
+        width: 32
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: -7}
-        - {x: 1, y: -7}
-        - {x: 1, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -16}
-        - {x: 8, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 1bef647d9b7c65450800000000000000
       internalID: 6077264348177694385
@@ -150,23 +131,17 @@ TextureImporter:
       name: AroundDoor_creamWallpaper_corner_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 32
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        x: 0
+        y: 0
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: 0}
-        - {x: -1, y: 0}
-        - {x: -1, y: -7}
-        - {x: -8, y: -7}
-        - {x: -8, y: -16}
-        - {x: 8, y: -16}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: 4fd78a8efa7b71de0800000000000000
       internalID: -1362418396105769484
@@ -178,54 +153,20 @@ TextureImporter:
       name: AroundDoor_creamWallpaper_corner_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        x: 11
+        y: 33
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: -9}
-        - {x: 8, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -16}
-        - {x: 1, y: -16}
-        - {x: 1, y: -9}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: ca6eb50f8a09bd060800000000000000
       internalID: 6979331102802175660
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AroundDoor_creamWallpaper_corner_3
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: -16}
-        - {x: 8, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -9}
-        - {x: -1, y: -9}
-        - {x: -1, y: -16}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 67b3367760d6dd340986b6aae849abd2
-      internalID: -2140550938
       vertices: []
       indices: 
       edges: []
@@ -234,7 +175,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: f2acde3f8c58a134fa94458c4aa82844
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -247,7 +188,6 @@ TextureImporter:
       AroundDoor_creamWallpaper_corner_0: 6077264348177694385
       AroundDoor_creamWallpaper_corner_1: -1362418396105769484
       AroundDoor_creamWallpaper_corner_2: 6979331102802175660
-      AroundDoor_creamWallpaper_corner_3: -2140550938
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

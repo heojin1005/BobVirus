@@ -18,6 +18,11 @@ public class Grenade : MonoBehaviour
 
     public void Initialize(float damage, float radius, float fuseTime, LayerMask targetLayer, Vector3 targetPos, float height, bool explodeOnContact)
     {
+        if (GetComponent<UnityEngine.Rendering.SortingGroup>() == null)
+        {
+            gameObject.AddComponent<UnityEngine.Rendering.SortingGroup>();
+        }
+
         this.damage = damage;
         this.explosionRadius = radius;
         this.targetLayer = targetLayer;
@@ -58,15 +63,16 @@ public class Grenade : MonoBehaviour
             Vector3 direction = (nextPos - transform.position).normalized;
             float moveDist = Vector3.Distance(transform.position, nextPos);
 
-            // 2. [핵심] 벽 충돌 감지 (Raycast)
+            // 2. [핵심] 벽 충돌 감지 (Circlecast)
             // 현재 위치에서 다음 위치까지만 레이를 쏴서 벽이 있는지 검사
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, moveDist, wallLayer);
-            
+            float grenadeRadius = 0.25f; // 수류탄의 반경 (적절히 조절)
+            Vector3 centerOffset = new Vector3(0.05f, 0, 0); // 레이 시작점을 약간 오른쪽으로 (스프라이트에서 수류탄 알맹이가 오른쪽에 있으니)
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position + centerOffset, grenadeRadius, direction, moveDist, wallLayer);
+
             if (hit.collider != null)
             {
-                // 벽에 맞았다!
-                transform.position = hit.point; // 벽 앞에서 멈춤
-                
+                // 벽에 맞음
+                transform.position = transform.position + (direction * hit.distance);                
                 // 시각적 처리: 공중에 떠 있던 스프라이트 바닥으로 떨구기
                 if (spriteObject != null)
                 {
@@ -129,8 +135,19 @@ public class Grenade : MonoBehaviour
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius, targetLayer);
         foreach (var hit in hitColliders)
         {
-            hit.GetComponent<IDamageable>()?.TakeDamage(damage, transform.position, Vector2.zero);
-        }
+            // 1. 수류탄 중심에서 타겟까지의 방향과 거리를 계산
+            Vector2 dir = hit.transform.position - transform.position;
+            float distance = dir.magnitude;
+
+            // 2. 수류탄과 타겟 사이에 벽(wallLayer)이 가로막고 있는지 레이캐스트 발사!
+            RaycastHit2D wallHit = Physics2D.Raycast(transform.position, dir.normalized, distance, wallLayer);
+
+            // 3. 벽에 부딪히지 않았을 때(wallHit.collider == null)만 데미지 적용!
+            if (wallHit.collider == null)
+            {
+                hit.GetComponent<IDamageable>()?.TakeDamage(damage, transform.position, Vector2.zero, this.gameObject);
+            }
+        }        
 
         // 소리 및 카메라 쉐이크
         NoiseManager.MakeNoise(transform.position, 30f);

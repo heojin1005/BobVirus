@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a9006e527e01e9e499043b9789f7ea92
+guid: b336d86787c2b804c907fdf94a9229fd
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -96,19 +96,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -117,205 +104,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        y: 5
+        width: 128
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 8, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -9}
-        - {x: 8, y: -9}
-      tessellationDetail: 0
+      physicsShape: []
+      tessellationDetail: -1
       bones: []
       spriteID: faaa1d9c388a47730800000000000000
       internalID: 3996004053364615855
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedBrick_vol1_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -9}
-        - {x: 8, y: -9}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1e0770613037a3841a36364316b1e364
-      internalID: 1247997354
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedBrick_vol1_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -9}
-        - {x: 8, y: -9}
-      tessellationDetail: 0
-      bones: []
-      spriteID: e0774e0e7f1614143867625c42580431
-      internalID: -977299758
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedBrick_vol1_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -9}
-        - {x: 8, y: -9}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7d788d7e0550efd47ad4bf23a480b51f
-      internalID: 1256369074
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedBrick_vol1_4
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -9}
-        - {x: 8, y: -9}
-      tessellationDetail: 0
-      bones: []
-      spriteID: d339b4bc9c679ed47a27fb9676482610
-      internalID: -679732052
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedBrick_vol1_5
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -9}
-        - {x: 8, y: -9}
-      tessellationDetail: 0
-      bones: []
-      spriteID: c7ce1c2642b214a48bdc7d21159309e8
-      internalID: -792577951
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedBrick_vol1_6
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -9}
-        - {x: 8, y: -9}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 48d35b8edb91f7f4e9ac838845b54c5f
-      internalID: 591906747
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RedBrick_vol1_7
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 16
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: 0}
-        - {x: -8, y: 0}
-        - {x: -8, y: -9}
-        - {x: 8, y: -9}
-      tessellationDetail: 0
-      bones: []
-      spriteID: beef278b50965e346bc14b66256f893d
-      internalID: -211677802
       vertices: []
       indices: 
       edges: []
@@ -324,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 078f89753c8ff6c46b55c8fba766f683
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -335,13 +136,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       RedBrick_vol1_0: 3996004053364615855
-      RedBrick_vol1_1: 1247997354
-      RedBrick_vol1_2: -977299758
-      RedBrick_vol1_3: 1256369074
-      RedBrick_vol1_4: -679732052
-      RedBrick_vol1_5: -792577951
-      RedBrick_vol1_6: 591906747
-      RedBrick_vol1_7: -211677802
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
