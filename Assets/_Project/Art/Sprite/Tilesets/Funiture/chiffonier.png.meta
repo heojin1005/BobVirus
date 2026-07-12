@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1dc71d814a96b5f40b51a8c28ff11a89
+guid: fe1eef329156a6541b1f7dbb7617b145
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -60,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -105,6 +105,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -112,17 +125,21 @@ TextureImporter:
       name: chiffonier_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 22
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 7, y: 6}
+        - {x: -7, y: 6}
+        - {x: -7, y: -1}
+        - {x: 7, y: -1}
+      tessellationDetail: 0
       bones: []
       spriteID: 4e3b4d9fbf481ec20800000000000000
       internalID: 3234012225191850980
@@ -135,16 +152,20 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 8
-        width: 11
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: -7, y: -1}
+        - {x: -15, y: -1}
+        - {x: -15, y: -15}
+        - {x: -7, y: -15}
+      tessellationDetail: 0
       bones: []
       spriteID: d4c1a343636436e80800000000000000
       internalID: -8186622499011027891
@@ -156,17 +177,21 @@ TextureImporter:
       name: chiffonier_2
       rect:
         serializedVersion: 2
-        x: 85
-        y: 8
-        width: 11
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 64
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 15, y: -1}
+        - {x: 7, y: -1}
+        - {x: 7, y: -15}
+        - {x: 15, y: -15}
+      tessellationDetail: 0
       bones: []
       spriteID: ab25402048988f620800000000000000
       internalID: 2808145567728030394
@@ -178,17 +203,21 @@ TextureImporter:
       name: chiffonier_3
       rect:
         serializedVersion: 2
-        x: 104
+        x: 96
         y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 7, y: -16}
+        - {x: -7, y: -16}
+        - {x: -7, y: -23}
+        - {x: 7, y: -23}
+      tessellationDetail: 0
       bones: []
       spriteID: 4365da8c91415c400800000000000000
       internalID: 343703047537251892
@@ -200,7 +229,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1d671505bb995e44283139b44eef4c3f
     internalID: 0
     vertices: []
     indices: 

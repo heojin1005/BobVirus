@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c594495e7fe05ef4c9897fe68d8783c6
+guid: d9b0a84faa96ba54ab491882def0a899
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -60,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -105,6 +105,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -112,17 +125,21 @@ TextureImporter:
       name: refrigerator_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 15
-        width: 16
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 7, y: 6}
+        - {x: -7, y: 6}
+        - {x: -7, y: -8}
+        - {x: 7, y: -8}
+      tessellationDetail: 0
       bones: []
       spriteID: 82cc56a88931068d0800000000000000
       internalID: -2855260617875010520
@@ -135,16 +152,20 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 8
-        width: 18
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 0, y: -1}
+        - {x: -15, y: -1}
+        - {x: -15, y: -15}
+        - {x: 0, y: -15}
+      tessellationDetail: 0
       bones: []
       spriteID: ab619d95faad84f70800000000000000
       internalID: 9171821087801546426
@@ -156,17 +177,21 @@ TextureImporter:
       name: refrigerator_2
       rect:
         serializedVersion: 2
-        x: 78
-        y: 8
-        width: 18
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 64
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 15, y: -1}
+        - {x: 0, y: -1}
+        - {x: 0, y: -15}
+        - {x: 15, y: -15}
+      tessellationDetail: 0
       bones: []
       spriteID: ee71fe113568d3ff0800000000000000
       internalID: -54739929117288466
@@ -178,17 +203,21 @@ TextureImporter:
       name: refrigerator_3
       rect:
         serializedVersion: 2
-        x: 104
+        x: 96
         y: 0
-        width: 16
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 7, y: -9}
+        - {x: -7, y: -9}
+        - {x: -7, y: -23}
+        - {x: 7, y: -23}
+      tessellationDetail: 0
       bones: []
       spriteID: 36dbb6215027ca8f0800000000000000
       internalID: -527921690199736989
@@ -200,7 +229,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e1e24a1838b4f374dac98cbaa25e90e1
     internalID: 0
     vertices: []
     indices: 
