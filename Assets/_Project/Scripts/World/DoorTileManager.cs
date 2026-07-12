@@ -77,13 +77,13 @@ public class DoorTileManager : MonoBehaviour
         {
             if (closestDoorTile == closedRuleTile)
             {
-                List<Vector3Int> doorParts = GetConnectedDoorTiles(closestDoorCell, closedRuleTile);
+                List<Vector3Int> doorParts = GetConnectedDoorTiles(closestDoorCell);
                 StartCoroutine(DoorRoutine(doorParts, openingAnimTile, openRuleTile));
                 return true;
             }
             else if (closestDoorTile == openRuleTile)
             {
-                List<Vector3Int> doorParts = GetConnectedDoorTiles(closestDoorCell, openRuleTile);
+                List<Vector3Int> doorParts = GetConnectedDoorTiles(closestDoorCell);
                 StartCoroutine(DoorRoutine(doorParts, closingAnimTile, closedRuleTile));
                 return true;
             }
@@ -113,20 +113,40 @@ public class DoorTileManager : MonoBehaviour
         }
     }
 
-    private List<Vector3Int> GetConnectedDoorTiles(Vector3Int startPos, TileBase targetTile)
+    private List<Vector3Int> GetConnectedDoorTiles(Vector3Int startPos)
     {
-        List<Vector3Int> connectedTiles = new List<Vector3Int> { startPos };
+        List<Vector3Int> connectedTiles = new List<Vector3Int>();
+        Queue<Vector3Int> pendingTiles = new Queue<Vector3Int>();
+        HashSet<Vector3Int> visitedTiles = new HashSet<Vector3Int>();
         Vector3Int[] directions = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
 
-        foreach (var dir in directions)
+        pendingTiles.Enqueue(startPos);
+        visitedTiles.Add(startPos);
+
+        while (pendingTiles.Count > 0)
         {
-            Vector3Int neighborPos = startPos + dir;
-            if (doorTilemap.GetTile(neighborPos) == targetTile)
+            Vector3Int currentPos = pendingTiles.Dequeue();
+            connectedTiles.Add(currentPos);
+
+            foreach (var dir in directions)
             {
-                connectedTiles.Add(neighborPos);
+                Vector3Int neighborPos = currentPos + dir;
+                if (visitedTiles.Contains(neighborPos) || !IsDoorTile(doorTilemap.GetTile(neighborPos)))
+                    continue;
+
+                visitedTiles.Add(neighborPos);
+                pendingTiles.Enqueue(neighborPos);
             }
         }
 
         return connectedTiles;
+    }
+
+    private bool IsDoorTile(TileBase tile)
+    {
+        return tile == closedRuleTile
+            || tile == openRuleTile
+            || tile == openingAnimTile
+            || tile == closingAnimTile;
     }
 }

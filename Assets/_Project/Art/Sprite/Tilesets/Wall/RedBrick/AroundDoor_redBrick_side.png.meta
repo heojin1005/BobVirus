@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: afa8dd40704c3994a92c2dab444fd943
+guid: 2a874f893326ff54a98b249073c7b067
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -43,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -57,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -81,7 +81,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -102,6 +102,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -109,17 +122,21 @@ TextureImporter:
       name: AroundDoor_redBrick_side_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 66
-        width: 22
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: -1, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -1, y: 0}
+      tessellationDetail: 0
       bones: []
       spriteID: 47b0268a74c047c20800000000000000
       internalID: 3203198736874474356
@@ -131,17 +148,21 @@ TextureImporter:
       name: AroundDoor_redBrick_side_1
       rect:
         serializedVersion: 2
-        x: 13
-        y: 47
-        width: 6
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 16
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 1, y: -16}
+        - {x: 1, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
       bones: []
       spriteID: 641d38c7796544f20800000000000000
       internalID: 3405942426828001606
@@ -153,20 +174,102 @@ TextureImporter:
       name: AroundDoor_redBrick_side_2
       rect:
         serializedVersion: 2
-        x: 5
-        y: 0
-        width: 22
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: -1, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -1, y: 0}
+      tessellationDetail: 0
       bones: []
       spriteID: 49e6bbd7f993e8570800000000000000
       internalID: 8470771306302500500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AroundDoor_redBrick_side_3
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 1, y: -16}
+        - {x: 1, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fdb425f567715941824651dd9cf8cd3
+      internalID: -1029077403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AroundDoor_redBrick_side_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -1, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 0}
+        - {x: -1, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1757d40ffcdcc740b791b52b5f97053
+      internalID: 425316554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AroundDoor_redBrick_side_5
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -8, y: -16}
+        - {x: 1, y: -16}
+        - {x: 1, y: 0}
+        - {x: -8, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 241d1334d020ee047ade75b5b2ad44e6
+      internalID: 1246429687
       vertices: []
       indices: 
       edges: []
@@ -175,7 +278,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 456a31f30f79af449b710a06512a2ada
     internalID: 0
     vertices: []
     indices: 
@@ -188,6 +291,9 @@ TextureImporter:
       AroundDoor_redBrick_side_0: 3203198736874474356
       AroundDoor_redBrick_side_1: 3405942426828001606
       AroundDoor_redBrick_side_2: 8470771306302500500
+      AroundDoor_redBrick_side_3: -1029077403
+      AroundDoor_redBrick_side_4: 425316554
+      AroundDoor_redBrick_side_5: 1246429687
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

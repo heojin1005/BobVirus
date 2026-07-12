@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: 46f5ab91a7350cd4fa84709cad073871
+guid: 0edb5eea7d6fce44aaacbf685aad5056
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5026195921935430033
-    second: DirtyWallpaper_0
-  - first:
-      213: -1390838576288187000
-    second: DirtyWallpaper_1
-  - first:
-      213: 1902210715926488718
-    second: DirtyWallpaper_2
-  - first:
-      213: 7634046565370006698
-    second: DirtyWallpaper_3
-  - first:
-      213: -4478075858194558833
-    second: DirtyWallpaper_4
+      213: -5439789746269403088
+    second: woodFloor to creamWallpaper_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -63,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -87,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -108,115 +96,364 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DirtyWallpaper_0
+      name: woodFloor to creamWallpaper_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 79
-        width: 36
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 8, y: -7}
+        - {x: 1, y: -7}
+        - {x: -1, y: -9}
+        - {x: -1, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
       bones: []
-      spriteID: f6e858d507d5f3ab0800000000000000
-      internalID: -5026195921935430033
+      spriteID: 038ccc80c0cf184b0800000000000000
+      internalID: -5439789746269403088
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtyWallpaper_1
+      name: woodFloor to creamWallpaper_1
       rect:
         serializedVersion: 2
-        x: 47
-        y: 47
-        width: 33
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 16
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 8, y: -7}
+        - {x: -8, y: -7}
+        - {x: -8, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
       bones: []
-      spriteID: 88dbe601fafb2bce0800000000000000
-      internalID: -1390838576288187000
+      spriteID: 048a40b9b387ee847b39ca6edb521ab5
+      internalID: 1165090773
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtyWallpaper_2
+      name: woodFloor to creamWallpaper_2
       rect:
         serializedVersion: 2
-        x: 6
-        y: 47
-        width: 11
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 32
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 1, y: -9}
+        - {x: -1, y: -7}
+        - {x: -8, y: -7}
+        - {x: -8, y: -16}
+        - {x: 1, y: -16}
+      tessellationDetail: 0
       bones: []
-      spriteID: e866dba5192066a10800000000000000
-      internalID: 1902210715926488718
+      spriteID: 2d4b29a7104bf8b4cbb376639645bc9a
+      internalID: 1500863646
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtyWallpaper_3
+      name: woodFloor to creamWallpaper_3
       rect:
         serializedVersion: 2
-        x: 31
-        y: 47
-        width: 11
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 48
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
-      tessellationDetail: -1
+      physicsShape:
+      - - {x: 8, y: -9}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -16}
+        - {x: 1, y: -16}
+        - {x: 1, y: -9}
+      tessellationDetail: 0
       bones: []
-      spriteID: aac8baf77e491f960800000000000000
-      internalID: 7634046565370006698
+      spriteID: c46b1c6f9b4d762429c532a0848a31f2
+      internalID: -1976830369
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DirtyWallpaper_4
+      name: woodFloor to creamWallpaper_4
       rect:
         serializedVersion: 2
-        x: 6
-        y: 6
-        width: 36
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 64
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -9}
+        - {x: -1, y: -9}
+        - {x: -1, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e81d2f6e65f32f4ca8b16716e129a09
+      internalID: -656809007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodFloor to creamWallpaper_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: -1, y: 0}
+        - {x: -1, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 720c4a6e5d21c08409284ec820b910ea
+      internalID: 4752012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodFloor to creamWallpaper_6
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 1, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -16}
+        - {x: 1, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08fe4b15345e1f34ca27c0826dbd5cd0
+      internalID: 977914137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodFloor to creamWallpaper_7
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -7}
+        - {x: 1, y: -7}
+        - {x: 1, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78831995045ecaf47a0ae2d3e73b4400
+      internalID: 222570598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodFloor to creamWallpaper_8
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: -1, y: 0}
+        - {x: -1, y: -7}
+        - {x: -8, y: -7}
+        - {x: -8, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4af16a8a55b7be44d85f611c50454390
+      internalID: -1462056443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodFloor to creamWallpaper_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: -1, y: 0}
+        - {x: -1, y: -7}
+        - {x: 1, y: -9}
+        - {x: 8, y: -9}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65a5fd49e71ac324aa95fbe78c5214f3
+      internalID: -107419574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodFloor to creamWallpaper_10
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -9}
+        - {x: 8, y: -9}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2206fd7cd862f174888231df77eba143
+      internalID: -615151856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodFloor to creamWallpaper_11
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 1, y: -7}
+        - {x: 1, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -9}
+        - {x: -1, y: -9}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f5d13275e7aabf4fb5ef7d27b331184
+      internalID: -369508540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodFloor to creamWallpaper_12
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f809f0b9bbdaad1c0800000000000000
-      internalID: -4478075858194558833
+      spriteID: deea6b82925a59c4493e4f9530f30d59
+      internalID: -1902958297
       vertices: []
       indices: 
       edges: []
@@ -225,7 +462,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 3492e7e0e0ae803498945d065fd4aea2
     internalID: 0
     vertices: []
     indices: 
@@ -235,11 +472,19 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DirtyWallpaper_0: -5026195921935430033
-      DirtyWallpaper_1: -1390838576288187000
-      DirtyWallpaper_2: 1902210715926488718
-      DirtyWallpaper_3: 7634046565370006698
-      DirtyWallpaper_4: -4478075858194558833
+      woodFloor to creamWallpaper_0: -5439789746269403088
+      woodFloor to creamWallpaper_1: 1165090773
+      woodFloor to creamWallpaper_10: -615151856
+      woodFloor to creamWallpaper_11: -369508540
+      woodFloor to creamWallpaper_12: -1902958297
+      woodFloor to creamWallpaper_2: 1500863646
+      woodFloor to creamWallpaper_3: -1976830369
+      woodFloor to creamWallpaper_4: -656809007
+      woodFloor to creamWallpaper_5: 4752012
+      woodFloor to creamWallpaper_6: 977914137
+      woodFloor to creamWallpaper_7: 222570598
+      woodFloor to creamWallpaper_8: -1462056443
+      woodFloor to creamWallpaper_9: -107419574
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
