@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-
+using UnityEngine;
 [Serializable]
 public class SaveGameData
 {
@@ -62,8 +62,13 @@ public class SaveGameData
     [Serializable]
     public class NpcStoreEntryData
     {
-        public string itemId;
-        public int price;
+        public string takeItemId;
+        public int takeCount = 1;
+
+        public string giveItemId;
+        public int giveCount = 1;
+
+        public string buttonLabel = "교환";
     }
 
     [Serializable]
@@ -276,7 +281,9 @@ public class SaveGameData
                 new ItemSlotData("Rifle", 1),
                 new ItemSlotData("Grenade", 1),
                 new ItemSlotData("Small_Potion", 3),
-                new ItemSlotData("Small_Potion", 3)
+                new ItemSlotData("Small_Potion", 3),
+                new ItemSlotData("Leather_Boots", 1),
+                new ItemSlotData("Iron_helmet", 1)
             },
 
             rescuedNpcs = new HashSet<string>(),

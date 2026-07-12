@@ -1,0 +1,136 @@
+.hidden {
+    display: none;
+}
+
+.settings-button-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.settings-open-btn {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+    color: rgb(245, 245, 245);
+    -unity-font-style: bold;
+    background-color: rgb(46, 55, 70);
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgba(255,255,255,0.10);
+    border-right-color: rgba(255,255,255,0.10);
+    border-top-color: rgba(255,255,255,0.14);
+    border-bottom-color: rgba(0,0,0,0.35);
+}
+
+.overlay-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.60);
+}
+
+.popup-panel {
+    flex-direction: column;
+    width: 92%;
+    max-width: 520px;
+    background-color: rgb(28, 28, 34);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 18px;
+    padding-bottom: 16px;
+}
+
+.panel-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.panel-title {
+    font-size: 24px;
+    color: rgb(245, 245, 245);
+    -unity-font-style: bold;
+}
+
+.icon-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    color: rgb(245, 245, 245);
+    -unity-font-style: bold;
+    background-color: rgb(46, 55, 70);
+}
+
+.menu-btn {
+    height: 64px;
+    margin-top: 8px;
+    font-size: 22px;
+    color: rgb(245, 245, 245);
+    -unity-font-style: bold;
+    background-color: rgb(46, 55, 70);
+}
+
+.slider-group {
+    flex-direction: column;
+    margin-top: 14px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.slider-title {
+    font-size: 18px;
+    color: rgb(245, 245, 245);
+    -unity-font-style: bold;
+    margin-bottom: 6px;
+}
+
+.slider-value {
+    margin-top: 6px;
+    font-size: 14px;
+    color: rgb(210, 210, 210);
+    -unity-text-align: middle-right;
+}
+
+.bottom-row {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 18px;
+}
+
+.small-btn {
+    width: 100px;
+    height: 42px;
+    font-size: 16px;
+    color: rgb(245, 245, 245);
+    -unity-font-style: bold;
+    background-color: rgb(46, 55, 70);
+}

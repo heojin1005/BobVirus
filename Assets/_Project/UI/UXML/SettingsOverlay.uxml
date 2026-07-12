@@ -1,0 +1,43 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="overlayRoot" class="overlay-root">
+        <ui:VisualElement name="settingsOverlay" class="overlay hidden">
+            <ui:VisualElement name="settingsMainPanel" class="popup-panel">
+                <ui:VisualElement class="panel-header">
+                    <ui:Label text="설정" class="panel-title" />
+                    <ui:Button name="btnCloseSettings" text="X" class="icon-btn" />
+                </ui:VisualElement>
+
+                <ui:Button name="btnOpenSound" text="사운드" class="menu-btn" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="soundPanel" class="popup-panel hidden">
+                <ui:VisualElement class="panel-header">
+                    <ui:Label text="사운드" class="panel-title" />
+                    <ui:Button name="btnCloseSound" text="X" class="icon-btn" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="slider-group">
+                    <ui:Label text="Master" class="slider-title" />
+                    <ui:Slider name="masterSlider" low-value="0" high-value="1" />
+                    <ui:Label name="masterValue" text="100" class="slider-value" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="slider-group">
+                    <ui:Label text="BGM" class="slider-title" />
+                    <ui:Slider name="bgmSlider" low-value="0" high-value="1" />
+                    <ui:Label name="bgmValue" text="100" class="slider-value" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="slider-group">
+                    <ui:Label text="SFX" class="slider-title" />
+                    <ui:Slider name="sfxSlider" low-value="0" high-value="1" />
+                    <ui:Label name="sfxValue" text="100" class="slider-value" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="bottom-row">
+                    <ui:Button name="btnBackFromSound" text="뒤로" class="small-btn" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

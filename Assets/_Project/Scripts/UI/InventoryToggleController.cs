@@ -42,12 +42,16 @@ public class InventoryToggleController : MonoBehaviour
     {
         if (!enableKeyboardToggle) return;
 
+        if (SettingsOverlayController.BlocksInput || ReturnButton.BlocksInput || InputBlockService.IsBlocked)
+        return;
+
         if (Keyboard.current != null && Keyboard.current[toggleKey].wasPressedThisFrame)
             Toggle();
     }
 
     public void Toggle()
     {
+        if (ReturnButton.BlocksInput || InputBlockService.IsBlocked) return;
         if (inventoryUI == null) return;
 
         if (inventoryUI.IsOpen) CloseInventory();
@@ -56,23 +60,25 @@ public class InventoryToggleController : MonoBehaviour
 
     public void OpenInventory()
     {
+        if (ReturnButton.BlocksInput || InputBlockService.IsBlocked) return;
         if (inventoryUI == null) return;
         SwitchToUI();
         inventoryUI.Open();
 
         if (pauseTimeWhenOpen)
             Time.timeScale = 0f;
-        Debug.Log($"[InventoryToggle] OpenInventory | time={Time.unscaledTime:F3}");
     }
 
     public void CloseInventory()
     {
         if (inventoryUI == null) return;
 
+        // 먼저 닫으면서 pending split 복구
+        inventoryUI.Close();
+
+        // 그 다음 최종 정상 상태 저장
         if (saveOnClose && GameManager.Instance != null)
             GameManager.Instance.SaveNow();
-
-        inventoryUI.Close();
 
         if (pauseTimeWhenOpen)
             Time.timeScale = 1f;

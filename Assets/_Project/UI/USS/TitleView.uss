@@ -12,7 +12,7 @@
 .title {
     font-size: 44px;
     -unity-font-style: bold;
-    color: rgb(245,245,245);
+    color: rgb(245, 245, 245);
     margin-bottom: 18px;
 }
 
@@ -23,108 +23,150 @@
     margin-top: 8px;
 }
 
-/* 공통 버튼 스타일 */
 .btn {
-    height: 68px;
-    margin-top: 14px;
-
-    /* 텍스트 */
+    height: 60px;
+    margin-top: 12px;
     font-size: 22px;
     -unity-font-style: bold;
-    color: rgb(245,245,245);
-
-    /* 박스 */
+    color: rgb(245, 245, 245);
     background-color: rgb(46, 55, 70);
-    border-top-left-radius: 18px;
-    border-top-right-radius: 18px;
-    border-bottom-left-radius: 18px;
-    border-bottom-right-radius: 18px;
-
-    /* 안쪽 여백 */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
     padding-left: 18px;
     padding-right: 18px;
-
-    /* 테두리/그림자 흉내 */
     border-left-width: 2px;
     border-right-width: 2px;
     border-top-width: 2px;
     border-bottom-width: 2px;
-    border-left-color: rgba(255,255,255,0.10);
-    border-right-color: rgba(255,255,255,0.10);
-    border-top-color: rgba(255,255,255,0.14);
-    border-bottom-color: rgba(0,0,0,0.35);
+    border-left-color: rgba(255, 255, 255, 0.10);
+    border-right-color: rgba(255, 255, 255, 0.10);
+    border-top-color: rgba(255, 255, 255, 0.14);
+    border-bottom-color: rgba(0, 0, 0, 0.35);
 }
 
-/* PC에서 hover */
 .btn:hover {
     background-color: rgb(60, 72, 92);
 }
 
-/* 눌림 */
 .btn:active {
     background-color: rgb(36, 45, 58);
     translate: 0px 1px;
 }
 
-.hint {
-    margin-top: 18px;
-    font-size: 14px;
-    color: rgb(200,200,200);
-    opacity: 0.85;
+.hidden {
+    display: none;
 }
-.hidden { display: none; }
 
 .overlay {
     position: absolute;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0, 0, 0, 0.68);
 }
 
-.popup {
-    width: 92%;
-    max-width: 520px;
-    background-color: rgb(28,28,34);
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    border-bottom-left-radius: 16px;
-    border-bottom-right-radius: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 16px;
-    padding-bottom: 12px;
-}
-
-.popupTitle {
-    font-size: 22px;
-    -unity-font-style: bold;
-    color: rgb(245,245,245);
-    margin-bottom: 10px;
-}
-
-.slotList {
+.guide-panel {
+    width: 88%;
+    max-width: 920px;
+    height: 82%;
+    max-height: 720px;
     flex-direction: column;
+    background-color: rgb(28, 28, 34);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 18px;
+    padding-bottom: 16px;
 }
 
-.slotBtn {
-    height: 58px;
-    margin-top: 10px;
+.panel-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.panel-title {
+    font-size: 24px;
+    color: rgb(245, 245, 245);
     -unity-font-style: bold;
 }
 
-.popupRow {
+.icon-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    color: rgb(245, 245, 245);
+    -unity-font-style: bold;
+    background-color: rgb(46, 55, 70);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.guide-frame {
+    flex-grow: 1;
+    min-height: 240px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(16, 16, 20);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgba(255, 255, 255, 0.08);
+    border-right-color: rgba(255, 255, 255, 0.08);
+    border-top-color: rgba(255, 255, 255, 0.08);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.guide-image {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.guide-empty {
+    font-size: 18px;
+    color: rgb(210, 210, 210);
+    -unity-text-align: middle-center;
+}
+
+.guide-footer {
+    height: 56px;
     margin-top: 14px;
     flex-direction: row;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.small { height: 44px; font-size: 16px; }
+.small-btn {
+    width: 112px;
+    height: 44px;
+    font-size: 16px;
+    color: rgb(245, 245, 245);
+    -unity-font-style: bold;
+    background-color: rgb(46, 55, 70);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
 
-.popupMsg {
-    margin-top: 10px;
-    font-size: 14px;
-    color: rgb(210,210,210);
-    opacity: 0.9;
+.page-label {
+    width: 120px;
+    font-size: 16px;
+    color: rgb(230, 230, 230);
+    -unity-text-align: middle-center;
 }

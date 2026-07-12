@@ -18,6 +18,9 @@ public class PlayerEquipment : MonoBehaviour
 
     private void Update()
     {
+        if (SettingsOverlayController.BlocksInput || ReturnButton.BlocksInput || InputBlockService.IsBlocked)
+            return;
+
         // 마우스/키보드가 연결되어 있지 않으면 리턴
         if (Keyboard.current == null) return;
 

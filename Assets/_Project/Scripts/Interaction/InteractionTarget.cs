@@ -6,11 +6,23 @@ public enum InteractionKind
     Encyclopedia,
     DeployTerminal,
     Chest,
-    Generic
+    Generic,
+    Tutorial
+}
+
+public enum NpcDirectAction
+{
+    None,
+    Talk,
+    Trade,
+    Quest
 }
 
 public class InteractionTarget : MonoBehaviour
 {
     public InteractionKind kind = InteractionKind.Generic;
     public string targetId = "id_undefined";
+
+    [Header("NPC Only")]
+    public NpcDirectAction npcDirectAction = NpcDirectAction.None;
 }

@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public const int DefaultProfileSlot = 0;
+
     public static GameManager Instance { get; private set; }
 
-    // 나중에 세이브 슬롯, 옵션, 상태값 전부 여기서 관리
     public int CurrentSlot { get; private set; } = -1;
-    public SaveGameData CurrentData {get; private set;}
+    public SaveGameData CurrentData { get; private set; }
+
+    // ✅ 전역 세이브
+    public GlobalSaveData GlobalData { get; private set; }
 
     private void Awake()
     {
@@ -18,9 +22,23 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // ✅ 게임 실행 시 전역 세이브 1회 로드
+        GlobalData = GlobalSaveSystem.LoadOrCreate();
     }
 
-        public void StartNewGame(int slotIndex)
+    public void ContinueDefaultProfile()
+    {
+        if (!LoadGame(DefaultProfileSlot))
+            StartNewGame(DefaultProfileSlot);
+    }
+
+    public void RestartDefaultProfile()
+    {
+        StartNewGame(DefaultProfileSlot);
+    }
+
+    public void StartNewGame(int slotIndex)
     {
         CurrentSlot = slotIndex;
         CurrentData = SaveGameData.CreateDefault(slotIndex);
@@ -41,5 +59,42 @@ public class GameManager : MonoBehaviour
     {
         if (CurrentSlot < 0 || CurrentData == null) return;
         SaveSystem.Save(CurrentSlot, CurrentData);
+    }
+
+    // =========================
+    // Global Save API
+    // =========================
+    public void SaveGlobalNow()
+    {
+        if (GlobalData == null)
+            GlobalData = GlobalSaveSystem.LoadOrCreate();
+
+        GlobalSaveSystem.Save(GlobalData);
+    }
+
+    public void ReloadGlobal()
+    {
+        GlobalData = GlobalSaveSystem.LoadOrCreate();
+    }
+
+    public void ResetTutorialFlagForDev()
+    {
+        if (GlobalData == null)
+            GlobalData = GlobalSaveSystem.LoadOrCreate();
+
+        GlobalData.tutorialCompleted = false;
+        SaveGlobalNow();
+    }
+
+    public void MarkTutorialCompleted()
+    {
+        if (GlobalData == null)
+            GlobalData = GlobalSaveSystem.LoadOrCreate();
+
+        if (!GlobalData.tutorialCompleted)
+        {
+            GlobalData.tutorialCompleted = true;
+            SaveGlobalNow();
+        }
     }
 }

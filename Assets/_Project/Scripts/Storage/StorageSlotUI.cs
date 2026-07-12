@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ namespace UI
     {
         [Header("UI")]
         [SerializeField] private Image iconImage;
-        [SerializeField] private Text countText; // 수량 표시(선택)
+        [SerializeField] private TextMeshProUGUI countText; // 수량 표시(선택)
         [SerializeField] private GameObject highlight;
 
         [Header("Long Press Drag")]
