@@ -36,7 +36,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         OnHealthChanged?.Invoke(currentHp, maxHp);
     }
 
-    public void TakeDamage(float amount, Vector2 hitPoint, Vector2 hitNormal)
+    public void TakeDamage(float amount, Vector2 hitPoint, Vector2 hitNormal, GameObject attacker)
     {
         if (isDead) return;
         currentHp -= amount;

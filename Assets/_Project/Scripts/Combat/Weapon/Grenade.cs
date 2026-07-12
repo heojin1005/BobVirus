@@ -145,7 +145,7 @@ public class Grenade : MonoBehaviour
             // 3. 벽에 부딪히지 않았을 때(wallHit.collider == null)만 데미지 적용!
             if (wallHit.collider == null)
             {
-                hit.GetComponent<IDamageable>()?.TakeDamage(damage, transform.position, Vector2.zero);
+                hit.GetComponent<IDamageable>()?.TakeDamage(damage, transform.position, Vector2.zero, this.gameObject);
             }
         }        
 

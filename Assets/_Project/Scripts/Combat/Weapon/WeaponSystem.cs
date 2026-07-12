@@ -134,7 +134,7 @@ public class WeaponSystem : MonoBehaviour
             Projectile projectile = bulletObj.GetComponent<Projectile>();
             if (projectile != null)
             {
-                projectile.Initialize(weaponData.damage, weaponData.targetLayers, weaponData.projectileSpeed, weaponData.bulletLifeTime);
+                projectile.Initialize(weaponData.damage, weaponData.targetLayers, weaponData.projectileSpeed, weaponData.bulletLifeTime, this.gameObject);
             }
         }
         else
@@ -236,7 +236,7 @@ public class WeaponSystem : MonoBehaviour
                 if (target != null)
                 {
                     // 넉백도 마우스 방향으로
-                    target.TakeDamage(weaponData.damage, hit.transform.position, aimDir);
+                    target.TakeDamage(weaponData.damage, hit.transform.position, aimDir, this.gameObject);
                     hasHit = true; // 적중 성공!
                 }
             }

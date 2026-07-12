@@ -1,13 +1,13 @@
 using UnityEngine;
 using System;
 
-public static class NoiseManager
+public class NoiseManager : MonoBehaviour
 {
     // 소리가 났을 때 구독자(좀비들)에게 알리는 이벤트
-    // 파라미터: 소리 발생 위치, 소리 크기(반경)
-    public static event Action<Vector3, float> OnNoiseGenerated;
+    // 파라미터: 소리 발생 위치, 소리 크기(반경), 소리의 강함
+    public static event Action<Vector3, float, GameObject> OnNoiseGenerated;
 
-    public static void MakeNoise(Vector3 position, float range)
+    public static void MakeNoise(Vector3 position, float range, GameObject source = null)
     {
         // 1. 디버그용: 씬 뷰에 소리 범위를 잠깐 그려줌
         int segments = 20;
@@ -28,6 +28,6 @@ public static class NoiseManager
         }
 
         // 2. 이벤트 발생! 듣고 있는 모든 좀비에게 알림
-        OnNoiseGenerated?.Invoke(position, range);
+        OnNoiseGenerated?.Invoke(position, range, source);
     }
 }

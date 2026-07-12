@@ -222,8 +222,8 @@ public class PlayerController : MonoBehaviour
         if (weaponRenderer != null && bodySprite != null)
         {
             // 근접무기는 몸에 가려지게, 아니면 뒤에/앞에 상황따라
-            //bool isMelee = (weaponSystem.weaponData.type == WeaponType.Melee);
-            //weaponRenderer.sortingOrder = bodySprite.sortingOrder + (isMelee ? -1 : (isLookingLeft ? -1 : 1));
+            bool isMelee = (weaponSystem.weaponData.type == WeaponType.Melee);
+            weaponRenderer.sortingOrder = bodySprite.sortingOrder + (isMelee ? -1 : (isLookingLeft ? -1 : 1));
         }
     }
 

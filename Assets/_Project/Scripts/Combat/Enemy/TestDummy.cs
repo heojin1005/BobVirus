@@ -20,7 +20,7 @@ public class TestDummy : MonoBehaviour, IDamageable
         }
     }
 
-    public void TakeDamage(float amount, Vector2 hitPoint, Vector2 hitNormal)
+    public void TakeDamage(float amount, Vector2 hitPoint, Vector2 hitNormal, GameObject attacker)
     {
         currentHp -= amount;
         //Debug.Log($"[샌드백] {amount} 데미지! (남은 체력: {currentHp}/{maxHp})");

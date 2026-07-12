@@ -18,7 +18,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if (spriteRenderer != null) originalColor = spriteRenderer.color;
     }
 
-    public void TakeDamage(float amount, Vector2 hitPoint, Vector2 hitNormal)
+    public void TakeDamage(float amount, Vector2 hitPoint, Vector2 hitNormal, GameObject attacker)
     {
         currentHp -= amount;
 
@@ -30,6 +30,15 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         {
             spriteRenderer.color = Color.red;
             Invoke(nameof(ResetColor), 0.1f);
+        }
+
+        if (attacker != null)
+        {
+            var zombieAI = GetComponent<EnemyAI>();
+            if (zombieAI != null) zombieAI.OnAttacked(attacker);
+
+            var shooterAI = GetComponent<EnemyShooterAI>();
+            if (shooterAI != null) shooterAI.OnAttacked(attacker);
         }
 
         if (currentHp <= 0) Die();
