@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: d88da6689c644934ea01ec8886e261d9
+guid: 8dfda205240d91147a76a12cc1223ae5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1941829611456326964
-    second: inventory2_0
+      213: 8941824329152667755
+    second: brute-idle,walking_0
+  - first:
+      213: 583539219522288104
+    second: brute-idle,walking_1
+  - first:
+      213: -4661897441905263446
+    second: brute-idle,walking_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,9 +52,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -75,7 +81,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,23 +119,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: inventory2_0
+      name: brute-idle,walking_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 7
-        width: 206
-        height: 185
+        x: 0
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 43d603d4eb3c2fa10800000000000000
-      internalID: 1941829611456326964
+      spriteID: b60271ff9ddb71c70800000000000000
+      internalID: 8941824329152667755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: brute-idle,walking_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e9722414d5291800800000000000000
+      internalID: 583539219522288104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: brute-idle,walking_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aac3fe3f9fc9d4fb0800000000000000
+      internalID: -4661897441905263446
       vertices: []
       indices: 
       edges: []
@@ -138,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: d4f8a0c119bc59b4ca5aa49a5ce53d04
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      inventory2_0: 1941829611456326964
+      brute-idle,walking_0: 8941824329152667755
+      brute-idle,walking_1: 583539219522288104
+      brute-idle,walking_2: -4661897441905263446
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

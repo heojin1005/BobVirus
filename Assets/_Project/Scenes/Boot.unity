@@ -815,6 +815,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsStyleSheet: {fileID: 7433441132597879392, guid: 5684d277d289c0a4a8cb9dd27697a59e, type: 3}
   uguiInputBlockerCanvas: {fileID: 1113124100}
+  closeNpcUIOnOpen: 1
+  closeInventoryOnOpen: 1
 --- !u!114 &1989101223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -879,7 +881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3534c3f6c7790b44dbc121729ac1c43a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsStyleSheet: {fileID: 7433441132597879392, guid: 5684d277d289c0a4a8cb9dd27697a59e, type: 3}
 --- !u!114 &2010841181
 MonoBehaviour:
   m_ObjectHideFlags: 0
