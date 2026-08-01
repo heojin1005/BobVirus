@@ -1522,6 +1522,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8514089357874762086, guid: efbab48f9f96198469a06d7b62476d8d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8983101652967188496, guid: efbab48f9f96198469a06d7b62476d8d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1809,6 +1813,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 811361615}
+    - target: {fileID: 3198381661910752811, guid: a898a4224722e8d4eaec63c3974308a3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198381661910752811, guid: a898a4224722e8d4eaec63c3974308a3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 3576917141970988282, guid: a898a4224722e8d4eaec63c3974308a3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1824,6 +1836,10 @@ PrefabInstance:
     - target: {fileID: 3576917141970988282, guid: a898a4224722e8d4eaec63c3974308a3, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635091926881198593, guid: a898a4224722e8d4eaec63c3974308a3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 3872072576182427827, guid: a898a4224722e8d4eaec63c3974308a3, type: 3}
       propertyPath: inventoryToggle
@@ -2004,7 +2020,7 @@ PrefabInstance:
     - target: {fileID: 8545794249051175785, guid: a898a4224722e8d4eaec63c3974308a3, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 7893082189868150305, guid: 6b8606acfc6b8a341bcd7655e19a4feb, type: 3}
+      objectReference: {fileID: 21300000, guid: 73ef6d5e3a6342a40a37db98cc3f1156, type: 3}
     - target: {fileID: 8634420451375637634, guid: a898a4224722e8d4eaec63c3974308a3, type: 3}
       propertyPath: m_Name
       value: Canvas_NPC
@@ -2013,6 +2029,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8825602135358609349, guid: a898a4224722e8d4eaec63c3974308a3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: edd2fc1da8df2ed44a50c50c23cb669c, type: 3}
     - target: {fileID: 8956697372624368410, guid: a898a4224722e8d4eaec63c3974308a3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

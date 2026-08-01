@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IZombieAlertReceiver
 {
     // FSM 상태 정의
     public enum State { Idle, Investigate, Chase, Attack, Panic }
@@ -400,6 +400,22 @@ public class EnemyAI : MonoBehaviour
             target = attacker.transform;
             ChangeState(State.Chase);
         }
+    }
+
+    public void ReceiveZombieAlert(Vector3 alertPosition, Transform targetHint)
+    {
+        if (!enabled || currentState == State.Attack) return;
+
+        if (targetHint != null && targetHint.gameObject.activeInHierarchy)
+        {
+            target = targetHint;
+            timeSinceLastSawPlayer = 0f;
+            ChangeState(State.Chase);
+            return;
+        }
+
+        noiseLocation = alertPosition;
+        if (currentState != State.Chase) ChangeState(State.Investigate);
     }
 
     private IEnumerator AttackRoutine()

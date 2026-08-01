@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: d88da6689c644934ea01ec8886e261d9
+guid: aca9b51eeda6b624aa424f8f3f07436b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1941829611456326964
-    second: inventory2_0
+      213: -6663345561819379955
+    second: brute-running_0
+  - first:
+      213: -8104094542992729061
+    second: brute-running_1
+  - first:
+      213: 270052474213422068
+    second: brute-running_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,9 +52,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -75,7 +81,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,23 +119,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: inventory2_0
+      name: brute-running_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 7
-        width: 206
-        height: 185
+        x: 0
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 43d603d4eb3c2fa10800000000000000
-      internalID: 1941829611456326964
+      spriteID: d078414f38a0783a0800000000000000
+      internalID: -6663345561819379955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: brute-running_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1c9cb253f8788f80800000000000000
+      internalID: -8104094542992729061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: brute-running_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f3d4346b4b6fb300800000000000000
+      internalID: 270052474213422068
       vertices: []
       indices: 
       edges: []
@@ -138,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 36799036506ca464da7ad59c7088737d
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      inventory2_0: 1941829611456326964
+      brute-running_0: -6663345561819379955
+      brute-running_1: -8104094542992729061
+      brute-running_2: 270052474213422068
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
