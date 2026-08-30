@@ -1,0 +1,490 @@
+fileFormatVersion: 2
+guid: 0601c5187ba4455a9b7080a4c4755b09
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8859959709181635038
+    second: fireGearLocker_0
+  - first:
+      213: -8415908048686663841
+    second: fireGearLocker_1
+  - first:
+      213: -7912736790157107878
+    second: fireGearLocker_2
+  - first:
+      213: -8292534571538077118
+    second: fireGearLocker_3
+  - first:
+      213: -3309222887613166443
+    second: fireGearLocker_4
+  - first:
+      213: -7001615167252732366
+    second: fireGearLocker_5
+  - first:
+      213: 3728596686891815693
+    second: fireGearLocker_6
+  - first:
+      213: -8964239190151067376
+    second: fireGearLocker_7
+  - first:
+      213: -8917143610804489580
+    second: fireGearLocker_8
+  - first:
+      213: 6869436619760386363
+    second: fireGearLocker_9
+  - first:
+      213: -9157139563387135255
+    second: fireGearLocker_10
+  - first:
+      213: 3594841226541284473
+    second: fireGearLocker_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fireGearLocker_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 1}
+        - {x: 8, y: 6}
+        - {x: -7, y: 6}
+        - {x: -7, y: 1}
+      tessellationDetail: 0
+      bones: []
+      spriteID: edc48d7a98e346e4b3605b36e3dc30f2
+      internalID: 8859959709181635038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 1}
+        - {x: 8, y: 6}
+        - {x: -8, y: 6}
+        - {x: -8, y: 1}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9164bab9d33b4a73995f74e2373d39c5
+      internalID: -8415908048686663841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 7, y: 1}
+        - {x: 7, y: 6}
+        - {x: -8, y: 6}
+        - {x: -8, y: 1}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f9f14ae24f44f9eb1e10edf4b39e2a7
+      internalID: -7912736790157107878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -9, y: 0}
+        - {x: -15, y: 0}
+        - {x: -15, y: -15}
+        - {x: -9, y: -15}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56bf2c2fe2ad40e19d96febb26dc48d2
+      internalID: -8292534571538077118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -9, y: 0}
+        - {x: -15, y: 0}
+        - {x: -15, y: -16}
+        - {x: -9, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0444ab11fb542209c31edc5f73aecd9
+      internalID: -3309222887613166443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -9, y: -1}
+        - {x: -15, y: -1}
+        - {x: -15, y: -16}
+        - {x: -9, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8e09c9793b94a9a9f91772c8ca4fde5
+      internalID: -7001615167252732366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 15, y: 0}
+        - {x: 9, y: 0}
+        - {x: 9, y: -15}
+        - {x: 15, y: -15}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f9955c374cb4ba9a65a1fa5a9b6b98b
+      internalID: 3728596686891815693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 15, y: 0}
+        - {x: 9, y: 0}
+        - {x: 9, y: -16}
+        - {x: 15, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ed7cde6aba04aba9872bf65079f602f
+      internalID: -8964239190151067376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 15, y: -1}
+        - {x: 9, y: -1}
+        - {x: 9, y: -16}
+        - {x: 15, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4d7ddb1376942a1b27666908de36275
+      internalID: -8917143610804489580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -23}
+        - {x: 8, y: -18}
+        - {x: -7, y: -18}
+        - {x: -7, y: -23}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44b1ac1d48a54f2d8be8253d3b89522b
+      internalID: 6869436619760386363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -23}
+        - {x: 8, y: -18}
+        - {x: -8, y: -18}
+        - {x: -8, y: -23}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11e0c8c35399451baf26c5458f8cef6d
+      internalID: -9157139563387135255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireGearLocker_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.33333334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 7, y: -23}
+        - {x: 7, y: -18}
+        - {x: -8, y: -18}
+        - {x: -8, y: -23}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9213f9b4b7ea4b9183605a9702231244
+      internalID: 3594841226541284473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 9f063a37aeb24e19838acdb4163a2955
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fireGearLocker_0: 8859959709181635038
+      fireGearLocker_1: -8415908048686663841
+      fireGearLocker_10: -9157139563387135255
+      fireGearLocker_11: 3594841226541284473
+      fireGearLocker_2: -7912736790157107878
+      fireGearLocker_3: -8292534571538077118
+      fireGearLocker_4: -3309222887613166443
+      fireGearLocker_5: -7001615167252732366
+      fireGearLocker_6: 3728596686891815693
+      fireGearLocker_7: -8964239190151067376
+      fireGearLocker_8: -8917143610804489580
+      fireGearLocker_9: 6869436619760386363
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

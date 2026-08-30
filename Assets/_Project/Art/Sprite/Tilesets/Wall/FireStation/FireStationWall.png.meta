@@ -1,0 +1,492 @@
+fileFormatVersion: 2
+guid: bda06cb2d74f459384b2732b30d1d877
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5439789746269403088
+    second: fireStationWall_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fireStationWall_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -7}
+        - {x: 1, y: -7}
+        - {x: -1, y: -9}
+        - {x: -1, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32445fed774444c5b0173938f04a3ce9
+      internalID: -5439789746269403088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -7}
+        - {x: -8, y: -7}
+        - {x: -8, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce5a30bc32b847d1ac08d02e29b235f0
+      internalID: 1165090773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 1, y: -9}
+        - {x: -1, y: -7}
+        - {x: -8, y: -7}
+        - {x: -8, y: -16}
+        - {x: 1, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36e826b3bb6a4f5698d5dae40931cac1
+      internalID: 1500863646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -9}
+        - {x: 8, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -16}
+        - {x: 1, y: -16}
+        - {x: 1, y: -9}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dff625fb87649d2b15e1d515f6f076f
+      internalID: -1976830369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -9}
+        - {x: -1, y: -9}
+        - {x: -1, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66b2f0d3013446d3802d950b4153a3a9
+      internalID: -656809007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: -1, y: 0}
+        - {x: -1, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4530c33e678b4e19a8f80da37f7d164a
+      internalID: 4752012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_6
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 1, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -16}
+        - {x: 1, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36a39a9a115d418bbbed831c4758b6a7
+      internalID: 977914137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_7
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -7}
+        - {x: 1, y: -7}
+        - {x: 1, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35283e91d7d6439ebc1bf90208401646
+      internalID: 222570598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_8
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: -1, y: 0}
+        - {x: -1, y: -7}
+        - {x: -8, y: -7}
+        - {x: -8, y: -16}
+        - {x: 8, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12f73bd5da4f4c208e4d34d571acc028
+      internalID: -1462056443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: -1, y: 0}
+        - {x: -1, y: -7}
+        - {x: 1, y: -9}
+        - {x: 8, y: -9}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c125f45fffe748ddbf143eabcec04640
+      internalID: -107419574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_10
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -9}
+        - {x: 8, y: -9}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78302ee70e76492fbedba7ed70685e9e
+      internalID: -615151856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_11
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 1, y: -7}
+        - {x: 1, y: 0}
+        - {x: -8, y: 0}
+        - {x: -8, y: -9}
+        - {x: -1, y: -9}
+      tessellationDetail: 0
+      bones: []
+      spriteID: f74750b5e36242d09e14c5843220fcff
+      internalID: -369508540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireStationWall_12
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7208c9bad174f97884e69bdea0f8923
+      internalID: -1902958297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 915a5fc78d1347c280e385f2ebf96a39
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      fireStationWall_0: -5439789746269403088
+      fireStationWall_1: 1165090773
+      fireStationWall_10: -615151856
+      fireStationWall_11: -369508540
+      fireStationWall_12: -1902958297
+      fireStationWall_2: 1500863646
+      fireStationWall_3: -1976830369
+      fireStationWall_4: -656809007
+      fireStationWall_5: 4752012
+      fireStationWall_6: 977914137
+      fireStationWall_7: 222570598
+      fireStationWall_8: -1462056443
+      fireStationWall_9: -107419574
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
